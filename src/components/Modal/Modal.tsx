@@ -6,7 +6,6 @@ interface ModalProps {
   onOpen?: () => void;
   onClose?: () => void;
   formContent: React.ReactNode;
-  
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -21,11 +20,13 @@ const Modal: React.FC<ModalProps> = ({
     <div className={modalClassName}>
       <div className="modal-content">
         <div className="white-modal-content">
-          {/* <span className="close" onClick={onClose}>
+          <span style={{ display: "none" }} className="close" onClick={onOpen}>
             &times;
-          </span> */}
+          </span>
           <div>{formContent}</div>
-          {/* <button onClick={onClose}>Close</button> */}
+          <button style={{ display: "none" }} onClick={onClose}>
+            Close
+          </button>
         </div>
       </div>
     </div>

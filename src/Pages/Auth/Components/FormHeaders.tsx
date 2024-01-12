@@ -80,7 +80,7 @@ const FormHeaders: React.FC<FormHeadersProps> = ({
       >
         {accountText}
       </p>
-      {/* {warningText ? (
+   {warningText ? (
         <div
           className="create-account-container"
           style={{
@@ -97,41 +97,44 @@ const FormHeaders: React.FC<FormHeadersProps> = ({
         </div>
       ) : null}
       {errorText ? (
-        <div
-          className="create-account-container"
-          style={{
-            width: "auto",
-            backgroundColor: " #ff000012",
-            borderColor: "red",
-            borderWidth: 1,
-            borderStyle: "solid",
-            borderRadius: 8,
-            color: "red",
-            margin: 0,
-            marginTop: 12,
-          }}
-        >
-          <p className="password-warning-fonts">{errorText}</p>
-        </div>
+        null
+        // <div
+        //   className="create-account-container"
+        //   style={{
+        //     width: "auto",
+        //     backgroundColor: " #ff000012",
+        //     borderColor: "red",
+        //     borderWidth: 1,
+        //     borderStyle: "solid",
+        //     borderRadius: 8,
+        //     color: "red",
+        //     margin: 0,
+        //     marginTop: 12,
+        //   }}
+        // >
+        //   <p className="password-warning-fonts">{errorText}</p>
+        // </div>
       ) : null}
-      {success ? (
-        <div
-          className="create-account-container"
-          style={{
-            width: "100%",
-            backgroundColor: "#00800022",
-            borderColor: "green",
-            borderWidth: 1,
-            borderStyle: "solid",
-            borderRadius: 8,
-            color: "green",
-            margin: 0,
-            marginTop: 12,
-          }}
-        >
-          <p className="password-warning-fonts">{success}</p>
-        </div>
-      ) : null} */}
+      {success ? ( null
+        // <div
+        //   className="create-account-container"
+        //   style={{
+        //     width: "100%",
+        //     backgroundColor: "#00800022",
+        //     borderColor: "green",
+        //     borderWidth: 1,
+        //     borderStyle: "solid",
+        //     borderRadius: 8,
+        //     color: "green",
+        //     margin: 0,
+        //     marginTop: 12,
+        //   }}
+        // >
+        //   <p className="password-warning-fonts">{success}</p>
+        // </div>
+      ) : null} 
+
+
       {errorText ? (
         <div
           style={{

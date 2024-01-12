@@ -1,7 +1,6 @@
 import React from "react";
 import "./Filter.css";
 import "./HomeNavbar/HomeNavBar.css";
-import { MdSearch } from "react-icons/md";
 
 const FilterBar: React.FC = () => {
   return (

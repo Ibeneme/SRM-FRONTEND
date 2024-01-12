@@ -23,10 +23,9 @@ import YourComponent from "./Pages/Home/Testing";
 //   const access_token = localStorage.getItem("access_token");
 //   const isLoggedIn = !!access_token;
 const App: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+  const [isLoggedIn] = useState(() => {
     const access_token = localStorage.getItem("access_token");
     return !!access_token;
-    //Use !! to convert to boolean
   });
   return (
     <Router>

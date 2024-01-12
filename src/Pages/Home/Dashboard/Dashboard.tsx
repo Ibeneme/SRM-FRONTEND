@@ -18,7 +18,7 @@ import {
   updateOrganizationProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import FormHeaders from "../../Auth/Components/FormHeaders";
 import TextInputDashboard from "../../Auth/Components/TextInouts/TextInputDashboard";
 import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
@@ -59,7 +59,7 @@ interface FormData {
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
-  const navigate = useNavigate();
+ // const navigate = useNavigate();
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
@@ -107,17 +107,17 @@ const Dashboard: React.FC = () => {
     }
   }, [profile]);
 
-  const [errors, setErrors] = useState<{
-    email?: string;
-    first_name?: string;
-    last_name?: string;
-    company_name?: string;
-  }>({});
+  // const [errors, setErrors] = useState<{
+  //   email?: string;
+  //   first_name?: string;
+  //   last_name?: string;
+  //   company_name?: string;
+  // }>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
+   // setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
   };
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
