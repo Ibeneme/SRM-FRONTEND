@@ -1,0 +1,105 @@
+/* Navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 93%;
+  border-radius: 2000px;
+  margin: 0;
+  padding: 0px 15px;
+  height: 82px;
+  transition: ease-in 0.2s;
+}
+
+.navbar-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px 10px;
+}
+
+.navbar.scrolled {
+  transform: translateY(-100%);
+}
+
+.nav-left-content {
+  width: auto;
+  border: 2px solid #fff;
+  padding: 14px;
+  border-radius: 200px;
+  background-color: var(--darkBlue);
+}
+.nav-logo-text {
+  font-size: 14px;
+  margin: 0;
+  color: #fff;
+  font-weight: 900;
+}
+
+.nav-button {
+  background-color: #fff;
+  height: 38px;
+  border-radius: 200px;
+  border: none;
+  width: auto;
+  margin: 0;
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  transition: background-color 0.4s ease;
+}
+
+.scrolledNavbtn{
+  background-color: var(--darkOrange);
+  height: 38px;
+  border-radius: 200px;
+  border: none;
+  width: auto;
+  margin: 0;
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  transition: background-color 0.4s ease;
+  color: #fff;
+  border: 1.8px solid #fff ;
+}
+.nav-button:hover {
+  background-color: var(--darkOrange);
+  color: #fff;
+  border: 2px solid #fff;
+}
+.nav {
+  width: 100vw;
+  padding-top: 16px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: fit-content;
+  position: fixed;
+  top: 0;
+  z-index: 24;
+}
+.scrolledNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 93%;
+  border-radius: 2000px;
+  margin: 0;
+  padding: 0px 15px;
+  height: 82px;
+  background-color: #ffffff15;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Add backdrop blur effect */
+  transition: ease-out 0.2s;
+}

@@ -1,0 +1,150 @@
+/* SectionB.css */
+
+.sectionB {
+  background-color: var(--darkOrange);
+  padding: 50px 16px;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.sectionB-content-container {
+  max-width: 1200px;
+  gap: 24px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.SectionB-left-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.landing-page-scrolling-image {
+  width: 250px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.right-content {
+  max-width: 600px;
+  color: white;
+}
+
+.right-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.right-content p {
+  font-size: 1rem;
+}
+
+/* Additional styling for the scrolling animation */
+@keyframes scrollAnimation {
+  0%,
+  100% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-500px); /* Scroll up by 500px */
+  }
+  100% {
+    transform: translateY(-1000px); /* Scroll up by 1000px */
+  }
+}
+
+.SectionB-left-content {
+  animation: scrollAnimation 12s linear infinite; /* Half the duration for smooth continuous scrolling */
+}
+
+/* SectionB.css */
+
+/* ... (previous styles) */
+
+.additional-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  align-items: center;
+}
+
+.additional-scrolling-image {
+  width: 250px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Additional styling for the scrolling animation */
+@keyframes additionalScrollAnimation {
+  0%,
+  100% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-700px); /* Scroll down by 500px */
+  }
+  100% {
+    transform: translateY(50px); /* Scroll down by 1000px */
+  }
+}
+
+.additional-content-container {
+  animation: additionalScrollAnimation 24s linear infinite; /* Half the duration for smooth continuous scrolling */
+}
+
+.btn-section-b {
+  background-color: #fff;
+  height: 38px;
+  border-radius: 200px;
+  border: none;
+  width: auto;
+  margin: 0;
+  margin-right: 12px;
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-family);
+  font-size: 15px;
+  transition: background-color 0.4s ease;
+}
+
+.btn-section-b:hover {
+  background-color: var(--darkBlue);
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+@media (max-width: 726px) {
+  .sectionB {
+    background-color: var(--darkOrange);
+    padding: 50px 16px;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+  }
+
+  .sectionB-content-container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .landing-page-scrolling-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .additional-scrolling-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+}

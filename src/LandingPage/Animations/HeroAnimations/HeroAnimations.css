@@ -1,0 +1,217 @@
+/* HeroAnimation.css */
+
+.hero-animation {
+  display: flex;
+}
+
+.hero-animation h1 {
+  font-size: 2rem;
+  color: #333; /* Adjust text color as needed */
+}
+
+/* HeroAnimation.css */
+
+.hero-images {
+  width: 212px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
+}
+
+.hero-images.flip-down {
+  transform: perspective(800px) rotateX(0deg);
+  transform-origin: top;
+  transition: transform 0.5s ease-in-out;
+}
+
+.flip-up {
+  transform: perspective(800px) rotateX(0deg);
+  transform-origin: right;
+  transition: transform 0.5s ease-in-out;
+}
+
+.flip-down {
+  transform: perspective(800px) rotateX(0deg);
+  transform-origin: top;
+  transition: transform 0.5s ease-in-out;
+}
+
+@keyframes flipDownAnimation {
+  from {
+    transform: perspective(800px) rotateX(0deg);
+  }
+  to {
+    transform: perspective(800px) rotateX(-90deg);
+  }
+}
+
+.icon {
+  font-size: 16px;
+}
+
+.outlined {
+  color: #00000096;
+  width: 16px;
+}
+
+.filled {
+  color: #ff0000; 
+  width: 16px;
+}
+.hero-animations-icons-container {
+  background-color: #fff;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  gap: 38px;
+  height: auto;
+  padding-bottom: 36px;
+  padding-top: 36px;
+  border-radius: 200px;
+}
+.hero-animation-white-card {
+  background-color: #fff;
+  width: 200px;
+  border-radius: 24px;
+  padding: 0px;
+}
+.color-div-animations {
+  background-color: #11c860;
+  padding: 6px;
+  height: 50px;
+  width: auto;
+  border-radius: 6px;
+  align-items: center;
+  display: flex;
+}
+/* Add these styles to your stylesheet */
+
+.hero-animation {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.hero-animation-white-card {
+  position: relative;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+}
+
+.color-div-animations {
+  position: relative;
+}
+
+.HeroImage {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.animations-for-stakeholders {
+  position: absolute;
+  padding: 10px;
+  border-radius: 5px;
+  align-items: center;
+  height: auto;
+  flex-direction: row;
+  display: flex;
+  width: auto;
+  justify-content: space-between;
+  gap: 92px;
+}
+
+.animations-texts {
+  color: #fff;
+  font-size: 12px;
+}
+
+.hero-animation-flex-content {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  margin: 12px 0px;
+}
+.hero-animation-flex-content-p {
+  font-size: 12px;
+  color: #808080;
+}
+.hero-animation-flex-content-header {
+  font-size: 24px;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 24px;
+  color: #000;
+}
+.hero-animation-flex-content-percentage {
+  font-size: 12px;
+  color: #11c860;
+  margin-top: -6px;
+}
+.hero-animation-flex-content-image {
+  padding-top: 28px;
+}
+
+.logo-animated {
+  width: 200px;
+}
+
+@media (max-width: 768px) {
+  .hero-animation {
+    display: flex;
+    width: 100%;
+  }
+  .outlined {
+    color: #00000096;
+    width: 14px;
+    margin: 5px
+
+  }
+
+  .filled {
+    color: #ff0000;
+    width: 14px;
+    margin: 5px
+  }
+
+  .hero-animations-icons-container {
+    background-color: #fff;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 24px;
+    gap: 4px;
+    height: auto;
+    padding-top: 8px;
+    border-radius: 200px;
+    padding-bottom: 8px;
+  }
+  .icon {
+    font-size: 10px;
+  }
+
+  .hero-images-recent {
+    width: 180px;
+    border-radius: 24px;
+  }
+  /* HeroAnimation.css */
+
+  .hero-images {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: height 0.5s ease-in-out;
+  }
+
+  .hero-images {
+    width: 100%;
+    height: auto;
+  }
+}

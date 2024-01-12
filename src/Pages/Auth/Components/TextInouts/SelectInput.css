@@ -1,0 +1,23 @@
+.select-dashboard {
+  color: #808080;
+  border: 1.5px solid #80808065;
+  border-radius: 8px;
+  font-family: var(--font-family);
+  margin-top: 4px;
+  outline: none;
+}
+
+.error-select-input {
+  color: #ff0000;
+  border: 1.5px solid #ff0000;
+  border-radius: 8px;
+  font-family: var(--font-family);
+  margin-top: 4px;
+  outline: none;
+}
+
+.error-select-label {
+    color: #ff0000;
+    outline: none;
+  }
+  

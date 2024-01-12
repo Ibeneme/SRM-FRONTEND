@@ -1,0 +1,123 @@
+.homeNavbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  color: #fff;
+  padding: 0 10px;
+  padding-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  margin-left: 300px;
+  color: red;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: #fff;
+  margin-right: 30px;
+  margin-top: 16px;
+  border-radius: 824px;
+
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding: 12px;
+}
+
+.home-navabr-searchInput {
+  width: 100%;
+  padding: 12px;
+  margin-left: -10px;
+  background-color: #80808015;
+  border-radius: 329px;
+  border: none;
+  height: 20px;
+  font-size: 14px;
+  font-family: var(--font-family);
+  padding-left: 48px;
+}
+.home-navabr-searchInput:focus {
+  width: 100%;
+  padding: 12px;
+  margin-left: -10px;
+  background-color: #80808015;
+  border-radius: 329px;
+  outline: none;
+  height: 18px;
+  border: 1px solid var(--darkOrange);
+  font-size: 14px;
+  font-family: var(--font-family);
+  padding-left: 48px;
+}
+.home-navabr-searchInput-relative {
+  position: relative;
+  top: 0;
+  width: 94%;
+}
+.home-navabr-searchInput-icon {
+  position: absolute;
+  left: 5px;
+  transform: translateY(-125%);
+  color: #808080;
+  font-size: 20px;
+}
+.home-nav-bar-div-profile-content {
+  background-color: var(--darkBlue);
+  display: flex;
+  border-radius: 240px;
+  color: #fff;
+  gap: 8px;
+  align-items: center;
+  padding: 2px 8px;
+  width: fit-content;
+}
+.home-nav-bar-div-profile-content-img {
+  width: 40px;
+  height: 40px;
+}
+
+.home-nav-bar-div-profile-content-div {
+  margin-right: 48px;
+}
+
+.home-nav-bar-div-profile-content-div-h2 {
+  font-size: 12px;
+  margin-bottom: -4px;
+}
+
+.home-nav-bar-div-profile-content-div-p {
+  font-size: 9px;
+}
+.home-nav-bar-right-content-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 50%;
+  gap: 16px;
+}
+.home-navbar-bell-icon-div {
+  background-color: #ff734220;
+  color: #ff7342;
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 120px;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}

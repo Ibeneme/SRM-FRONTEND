@@ -1,0 +1,151 @@
+.create-account-container {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  margin: 36px 12px;
+}
+
+.create-account {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 120px;
+}
+
+.auth-title {
+  font-size: 20px;
+  margin: 0;
+  margin-bottom: -8px;
+  margin-top: 48px;
+}
+
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.auth-forms-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-text {
+  font-size: 14px;
+}
+
+.auth-image {
+  width: 64%;
+  background-color: var(--darkOrange);
+  height: 100vh;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-auth-box {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.password-warning-fonts {
+  padding: 0px 12px;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media (max-width: 1400px) {
+  .auth-image,
+  .auth-image {
+    width: 100%;
+    background-color: var(--darkOrange);
+    height: 100vh;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .auth-image,
+  .auth-image {
+    display: none;
+  }
+}
+
+@media (max-width: 465px) {
+  .auth-image,
+  .auth-image {
+    display: none;
+  }
+  .flex-auth-box {
+    display: flex;
+    flex-direction: column;
+    width: 92vw;
+  }
+}
+
+/* MODAL..... */
+
+.form_content_display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.form_content-orange-background {
+  background-color: #ff734212;
+  height: auto;
+  padding: 12px;
+  border-radius: 12px;
+}
+.form_content-orange-background-image {
+  width: 400px;
+}
+.form_content-h2{
+    font-size: 18px;
+    margin-top: 36px;
+    margin-bottom: -6px;
+}
+
+.form_content-p{
+    font-size: 14px;
+    margin-bottom: 36px;
+    color: #808080;
+    line-height: 16px;
+}
+
+.form_content_button{
+    background-color: var(--darkBlue);
+    color: #fff;
+    font-size: 14px;
+    font-family: var(--font-family);
+    padding: 18px 24px;
+    border-radius: 490px;
+    border: none;
+    margin-bottom: 18px;
+    transition: 0.4s ease-out;
+}
+.form_content_button:hover{
+    background-color: var(--darkOrange);
+    color: #fff;
+    font-size: 14px;
+    font-family: var(--font-family);
+    padding: 18px 24px;
+    border-radius: 490px;
+    border: none;
+    margin-bottom: 18px;
+}

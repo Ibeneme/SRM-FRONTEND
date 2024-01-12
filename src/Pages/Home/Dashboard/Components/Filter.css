@@ -1,0 +1,122 @@
+/* Your CSS file */
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: #fff;
+  flex-wrap: wrap;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.dropdowns-dashboard {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px 5px;
+  background-color: #fff;
+  flex-wrap: wrap;
+  width: auto;
+}
+.filter-item label {
+  font-weight: bold;
+}
+
+.dashboard-select {
+  padding: 12px 20px;
+  border-radius: 8px;
+  min-width: 160px;
+  border: 1px solid #80808065;
+  font-family: var(--font-family);
+  /* -webkit-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 15l-5-5 1.41-1.41L12 12.17l4.59-4.58L17 10z" fill="%2380808065"/></svg>'); /* MdKeyboardArrowDown icon as background image with color 
+  background-repeat: no-repeat;
+  background-position: right center; */
+}
+
+.dashboard-select::-webkit-select-arrow {
+  display: none;
+}
+
+option {
+  font-family: var(--font-family);
+}
+
+/* HistoryLog.css */
+.history-log {
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: -16px;
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.log-table th,
+.log-table td {
+  padding: 14px;
+  text-align: left;
+}
+
+.log-table th {
+  color: #000;
+  font-size: 14px;
+}
+
+.log-item td {
+  vertical-align: middle;
+  color: #808080;
+  font-size: 14px;
+  margin: 0;
+}
+.log-item tr {
+  align-items: center;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+.logs-header {
+  font-size: 16px;
+}
+
+.center-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.center-column-p {
+  font-size: 12px;
+  margin: 0;
+  margin-top: 2px;
+  color: #808080;
+  font-family: var(--font-family);
+}
+
+.center-column-title {
+  font-size: 16px;
+  margin: 0;
+  color: #121212;
+  font-family: var(--font-family);
+}
+
+.center-column-span {
+  display: flex;
+  align-items: center;
+  gap: 8px
+}
+
+.center-column-image {
+  width: 48px;
+}

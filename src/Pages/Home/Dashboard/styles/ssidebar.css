@@ -1,0 +1,98 @@
+.active-link {
+  color: white;
+}
+/* ssidebar.css */
+.sidebar {
+  width: 250px;
+  background: #fff;
+  color: #000;
+  padding: 20px;
+  z-index: 12;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 16px;
+  padding: 16px 24px;
+  color: orangered;
+  background-color: #ff5f0515;
+  border-radius: 122px;
+  width: fit-content;
+  margin: 6px 0px;
+  /* ff7342 */
+}
+.width {
+  width: 100vw;
+}
+.sidebar-title-div {
+  position: fixed;
+  background-color: #fff;
+  width: 200px;
+}
+.sidebar-headers a:hover {
+  color: orangered;
+  background-color: #ff5f0515;
+}
+.sidebar-headers .active {
+  color: orangered;
+  background-color: #ff5f0515;
+}
+.sidebar-headers a {
+  color: #121212;
+  text-decoration: none;
+}
+
+.title-sidebar-p {
+  font-size: 12px;
+  color: #808080;
+  margin-top: 32px;
+  margin-bottom: 6px;
+}
+
+.sidebar {
+  width: 250px;
+}
+
+.sidebar a {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center content vertically */
+  text-decoration: none;
+  color: inherit; /* Inherit color from parent */
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  gap: 10px;
+  transition: 0.4s ease-in;
+}
+
+.sidebar-div-profile-content-div {
+  background-color: var(--darkOrange);
+  width: 250px;
+  position: fixed;
+  bottom: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-div-profile-content-div-h2 {
+  margin: 0;
+  padding-top: 12px
+}
+.sidebar-div-profile-content-img {
+  width: 32px;
+  height: 32px;
+}
+/* Add a media query to adjust styles for smaller screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Make the sidebar full width on smaller screens */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    display: none;
+  }
+}

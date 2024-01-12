@@ -1,0 +1,120 @@
+/* YourStyles.css */
+
+/* YourStyles.css */
+
+.faqs-accordion {
+  margin: 0 auto;
+  background-image: url("../../../assets/Landingpage/Map/BackgroundImage.png"); /* Replace 'your-image-url.jpg' with your actual image URL */
+  background-size: cover; /* Adjust the background-size property as needed */
+  background-position: center; /* Adjust the background-position property as needed */
+  color: #fff; /* Set the text color to white or any color that contrasts well with the background image */
+  padding: 20px; /* Adjust padding as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+}
+
+.h2-faqs {
+  font-size: 24px;
+  text-align: center;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+.faq-item {
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  height: 32px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-bottom: 1px solid #808080;
+  transition: ease 0.8s;
+}
+
+.faq-question:not(:last-child) {
+  border-bottom: none; /* Remove the bottom border for the last .faq-question */
+}
+
+.faq-answer {
+  padding: 0px;
+  display: none;
+  background-color: #fff;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 22px;
+  transition: ease 0.8s;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+.faqs-div {
+  background-color: #fff;
+  border-radius: 24px;
+  color: #000;
+  padding: 16px;
+  width: 700px;
+  padding-bottom: 64px;
+  border: 3px solid var(--darkOrange);
+}
+
+.span-icons-faqs {
+  background-color: #ff5f0525;
+  color: #ff5f05;
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 120px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media(max-width: 726px){
+
+.faqs-div {
+    background-color: #fff;
+    border-radius: 24px;
+    color: #000;
+    padding: 1px;
+    width: auto;
+    margin: 0;
+    padding-bottom: 64px;
+    border: 3px solid var(--darkOrange);
+  }
+
+.faq-question {
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    height: 32px;
+    font-size: 13px;
+    line-height: 21px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 1px solid #808080;
+    transition: ease 0.4s;
+  }
+  .h2-faqs{
+    font-size: 18px;
+  }
+  .faq-answer {
+    padding: 0px;
+    display: none;
+    background-color: #fff;
+    padding-left: 16px;
+    padding-right: 16px;
+    line-height: 22px;
+    font-size: 13px;
+  }
+}

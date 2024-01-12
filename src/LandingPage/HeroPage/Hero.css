@@ -1,0 +1,219 @@
+.hero {
+  gap: 24px;
+  background-color: var(--darkBlue);
+  color: #fff;
+  padding: 150px 100px;
+  padding-bottom: 100px;
+  transition: border-radius 0.3s ease-in-out;
+  z-index: -1;
+}
+
+.scrolled {
+  gap: 24px;
+  background-color: var(--darkBlue);
+  color: #fff;
+  padding: 150px 100px;
+  padding-bottom: 150px;
+}
+
+.hero-main {
+  display: flex;
+  flex-direction: row;
+}
+.hero-left-content {
+  gap: 24px;
+  flex-direction: row;
+  width: 50%;
+}
+.header-span {
+  color: var(--darkOrange);
+}
+.hero-header {
+  font-family: var(--font-family);
+  color: var(--mainWhite);
+  font-size: 48px;
+  line-height: 50px;
+  margin-bottom: 0px;
+}
+
+.hero-right-content {
+  width: 100%;
+}
+
+.hero-smaller-text {
+  font-family: var(--font-family);
+  color: var(--mainWhite);
+  font-size: 16px;
+  line-height: 22px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 38px;
+}
+
+@media (max-width: 768px) {
+  .hero-main {
+    flex-direction: column;
+    padding: 200px 24px;
+    gap: 120px;
+  }
+  .hero-left-content {
+    gap: 24px;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+    /* background-color: red; */
+  }
+  .hero {
+    gap: 24px;
+    background-color: var(--darkBlue);
+    color: #fff;
+    padding: 24px 0px;
+    padding-bottom: 100px;
+
+    transition: border-radius 0.3s ease-in-out;
+    z-index: -1;
+    gap: 120px;
+  }
+
+  .scrolled {
+    background-color: var(--darkBlue);
+    color: #fff;
+    padding: 24px 0px;
+    padding-bottom: 150px;
+    gap: 120px;
+    /* border-bottom-left-radius: 12%;
+    border-bottom-right-radius: 12%; */
+  }
+  .hero-animation-container {
+    width: 100%;
+  }
+  .overflow-future-integration-p {
+    margin-top: 120px;
+  }
+}
+@media (max-width: 1157px) {
+  .hero-main {
+    flex-direction: column;
+    gap: 120px;
+  }
+}
+.hero-right-content {
+  flex: 1;
+}
+
+.right-content {
+  flex: 1;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.scrollable-logos-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+.overflow-logos-container-div {
+  display: flex;
+  animation: scrollAnimations 8s linear infinite;
+}
+
+.overflow-logos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 136px;
+}
+.overflow-logos-container-div {
+  display: flex;
+  flex-direction: row;
+  gap: 120px;
+  padding: 16px;
+}
+.overflow-logo {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Hero.css */
+
+@keyframes scrollAnimations {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.overflow-logos-container-div {
+  display: flex;
+  animation: scrollAnimations 24s linear infinite;
+}
+
+.overflow-logo-image {
+  width: 32px;
+  height: auto;
+}
+
+.overflow-logo-name {
+  font-size: 16px;
+}
+.overflow-future-integration {
+  margin-bottom: -0px;
+  margin-top: 24px;
+  width: 200px;
+  height: 24px;
+  padding: 16px 28px;
+  border-radius: 222px;
+  border: 1.2px solid #ffffff75;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: flex-end;
+  font-size: 16px;
+}
+
+.overflow-future-integration-p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.span-logos {
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: -60px;
+}
+
+/* Add these styles to your stylesheet */
+
+.hero-right-content {
+  position: relative;
+  display: flex;
+}
+
+.map-image-container {
+  position: absolute;
+  top: -100px;
+}
+
+.map-image {
+  width: 0; /* Adjust as needed */
+  height: auto;
+  opacity: 0.3;
+}
+
+.hero-animation-container {
+  position: absolute;
+  top: 0;
+  width: 100%; /* Adjust as needed */
+}

@@ -1,0 +1,124 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.main-content-container {
+  flex: 1;
+  background-color: #f4f4f4;
+  padding: 20px;
+  gap: 12;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-wrap: wrap;
+}
+
+.dashboard-cards-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.dashboard-content {
+  background-color: transparent;
+  flex: 1;
+  box-sizing: border-box;
+  overflow-y: hidden;
+}
+.flex-dashboard-cards {
+  display: flex;
+  gap: 8px;
+}
+
+.main-content-dashboard-h2 {
+  margin-bottom: -10px;
+}
+.main-content-dashboard-p {
+  color: #808080;
+  font-size: 14px;
+}
+
+.dashboard-overdue-tickets {
+  background-color: #fff;
+  padding: 12px;
+  width: fit-content;
+  border-radius: 16px;
+}
+
+.main-content-dashboard-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-bell-search-icons {
+  font-size: 18px;
+  display: flex;
+  gap: 24px;
+  color: #808080;
+}
+.div-dashboard-overdue {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+/* Adjust styles for large screens and above */
+.div-split-tickets {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  width: auto;
+}
+
+/* Apply responsive styles for screens below a certain width (e.g., 768px) */
+@media (max-width: 1111px) {
+  .div-split-tickets {
+    flex-wrap: wrap;
+  }
+}
+
+.div-overdue-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -12px;
+  border-bottom: 0.6px solid #80808020;
+}
+.div-main-overdue-image {
+  background-color: #ff000023;
+  border-radius: 8px;
+}
+.image-main-overdue-image {
+  border-radius: 8px;
+  width: 100%;
+  background-size: cover;
+}
+
+.overdue-texts-dashboard {
+  font-family: var(--font-family);
+  font-size: 16px;
+}
+.form_content_display-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+}
+
+.business-name-label {
+  font-size: 12px;
+  color: #808080;
+}
+.business-name-div {
+  margin: 16px 0px;
+}
+.business-name-fetched {
+  margin-top: -7px;
+}

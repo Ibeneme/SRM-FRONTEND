@@ -1,0 +1,72 @@
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 7px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+  0% {
+    box-shadow: 16px 0 #fff, -16px 0 #fff2;
+    background: #fff;
+  }
+  33% {
+    box-shadow: 16px 0 #fff, -16px 0 #fff2;
+    background: #fff2;
+  }
+  66% {
+    box-shadow: 16px 0 #fff2, -16px 0 #fff;
+    background: #fff2;
+  }
+  100% {
+    box-shadow: 16px 0 #fff2, -16px 0 #fff;
+    background: #fff;
+  }
+}
+
+.custom-container {
+  height: 48px;
+  background-color: var(--darkOrange);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: 14px;
+  transition: 0.4s ease-in;
+}
+
+.loading {
+  height: 48px;
+  background-color: #ff5c0075;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+}
+.custom-container:hover {
+  background-color: var(--darkBlue);
+  transition: 0.4s ease-in;
+}
+@media (max-width: 465px) {
+  .loading,
+  .custom-container {
+    width: 92vw;
+  }
+}
+.loading-half {
+  height: 48px;
+  background-color: #ff5c0075;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  padding: 0px 32px;
+}

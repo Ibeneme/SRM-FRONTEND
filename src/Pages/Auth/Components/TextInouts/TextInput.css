@@ -1,0 +1,62 @@
+.div-for-auth-text-input {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin-bottom: 16px;
+}
+.div-for-auth-text-input-label,
+.error-auth-label {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.div-for-auth-text-input-input,
+.error-auth-input {
+  padding: 12px;
+  padding-left: 16px;
+  border-radius: 8px;
+  border: 1.5px solid #80808065;
+  color: #121212;
+  font-size: 14px;
+  height: 24px;
+  width: auto;
+  font-family: var(--font-family);
+}
+
+.div-for-auth-text-input-input-error {
+  color: red;
+  font-size: 13px;
+  margin-top: 7px;
+}
+.error-auth-label {
+  color: red;
+}
+.error-auth-input {
+  border: 1px solid red;
+  color: red;
+}
+.div-for-auth-text-input-input:focus,
+.error-auth-input:focus {
+  background-color: #fff;
+  transition: 0.1s;
+  width: auto;
+  border: 1.5px solid #ffca95; /* Set the desired color when focused */
+  outline: none; /* Remove the default outline */
+}
+
+@media (max-width: 465px) {
+  .div-for-auth-text-input {
+    display: flex;
+    flex-direction: column;
+    width: 92vw;
+    margin-bottom: 12px;
+  }
+
+
+}
+
+.div-for-auth-text-input-div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
+}

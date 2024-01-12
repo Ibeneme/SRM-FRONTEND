@@ -1,0 +1,141 @@
+/* SectionC.css */
+
+.review-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px; 
+  height: auto; /* Add some padding for better aesthetics */
+}
+
+.review-card {
+  flex: 0 0 auto; /* Ensure cards won't grow, shrink, or basis */
+  width: 325px; /* Set the fixed width of your cards */
+  height: auto; 
+  background-color: #fff;
+  border-radius: 24px;
+  border: 2.3px solid var(--darkOrange);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+  font-size: 14px;
+  color: #808080;
+  padding: 16px;
+}
+.review-card:hover {
+  background-color: #f4f4f4;
+}
+
+.arrow-reviews {
+  cursor: pointer;
+  color: var(--darkOrange);
+  font-size: 24px;
+  border: 1.4px solid var(--darkOrange);
+  padding: 8px;
+  border-radius: 120px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+}
+
+.arrow-reviews:hover {
+  background-color: var(--darkOrange);
+  color: #fff;
+}
+.reviews-container {
+  display: flex;
+
+}
+
+.teexts-reviews {
+  font-size: 14px;
+  line-height: 18px;
+}
+.review-image-name {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  align-items: center;
+}
+.review-text-name {
+  font-size: 14px;
+  color: #ff5f05;
+  background-color: #ff5f0525;
+  padding: 12px 24px;
+  border-radius: 24px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+}
+
+.thinking-reviews {
+  font-size: 36px;
+  color: #ff5f05;
+  background-color: #ff5f0525;
+  padding: 1.5px 8px;
+  border-radius: 24px;
+  opacity: 0.2;
+  animation: pulse 2.2s infinite; /* Adjust the duration as needed */
+}
+.btn-arrows-reviews {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 24px;
+  padding-bottom: 48px;
+  padding-top: 48px;
+}
+@media (max-width: 1157px) {
+  .reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: -8px;
+    width: 100%;
+  }
+  .review-card {
+    width: auto;
+    margin: 12px;
+  }
+}
+@media (max-width: 726px) {
+  .reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: -8px;
+    width: 100%;
+  }
+  .review-card {
+    width: auto;
+    margin: 12px;
+  }
+}
+
+.review-card {
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.review-card.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
