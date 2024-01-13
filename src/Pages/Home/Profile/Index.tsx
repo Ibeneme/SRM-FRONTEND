@@ -1,13 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import Sidebar from "./SideBar";
-import "./styles/cards.css";
-import "./Dashboard.css";
+import "../Dashboard/Dashboard.css";
 import Overdue from "../../../assets/Dashboard/NewOverDue.png";
 import Due from "../../../assets/Dashboard/NewDue.png";
 import Recent from "../../../assets/Dashboard/NewRecent.png";
 import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
-import FilterBar from "./Components/Filter";
-import HistoryLog from "./Components/HistoryLog";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +21,13 @@ import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
 import HalfButton from "../../Auth/Components/Buttons/HalfBtn";
 import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
-import NotificationListComponent from "./Components/Notifications/NotificationsList";
+import FilterBar from "../Dashboard/Components/Filter";
+import HistoryLog from "../Dashboard/Components/HistoryLog";
+import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
+import Sidebar from "../Dashboard/SideBar";
+import SettingsToggle from "./Components/SettingsToggle";
+import profileImage from "../../../assets/Dashboard/Profile.png";
+import "./Profile.css";
 
 const notificationsData = [
   {
@@ -77,7 +79,7 @@ interface FormData {
   company_name: string;
 }
 
-const Dashboard: React.FC = () => {
+const Profile: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
   // const navigate = useNavigate();
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
@@ -381,6 +383,53 @@ const Dashboard: React.FC = () => {
       </div>
     </div>
   );
+
+  const accountSettingsContent = (
+    <div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          backgroundColor: "#Fff",
+          borderRadius: 12,
+          flexDirection: "row-reverse",
+          justifyContent: "space-between",
+          paddingTop: 24,
+          paddingBottom: 24,
+        }}
+      >
+        <div className="account-settings-background">
+          <img src={profileImage} width="300" />
+        </div>
+        <div style={{ padding: 24 }}>
+          <div className="slides-settings">
+            <p className="slides-settings-p">First Name</p>
+            <p className="slides-settings-bold">First Name</p>
+          </div>
+          <div>
+            <p>Last Name</p>
+            <p>Last Name</p>
+          </div>
+          <div>
+            <p>Email Address</p>
+            <p>Email Address</p>
+          </div>
+          <div>
+            <p>Department Name</p>
+            <p>Department</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const orgSettingsContent = (
+    <div>
+      {/* Content for Org Settings */}
+      <p>Org Settings Content</p>
+    </div>
+  );
+
   return (
     <div className="dashboard-container">
       <Sidebar
@@ -412,35 +461,14 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="div-split-tickets">
-                {dashboardData.map((item, index) => (
-                  <div key={index} className="div-dashboard-overdue">
-                    <div className="div-overdue-icons">
-                      <p className="overdue-texts-dashboard">{item.title}</p>
-                      <span style={{ fontSize: 24, position: "relative" }}>
-                        <TbTicket style={{ marginLeft: -12 }} />
-                        {item?.number ? (
-                          <p className="tickets-number-unread">
-                            {item?.number}
-                          </p>
-                        ) : null}
-                      </span>
-                    </div>
-                    <div className="div-main-overdue-image">
-                      <img
-                        src={item.image}
-                        className="image-main-overdue-image"
-                        alt={item.title}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="div-split-tickets">
-                <FilterBar />
-              </div>
-              <div>
-                <HistoryLog data={historyLogData} />
+              <div
+                className="main-content-dashboard-div"
+                style={{ marginTop: 12 }}
+              >
+                <SettingsToggle
+                  accountSettingsContent={accountSettingsContent}
+                  orgSettingsContent={orgSettingsContent}
+                />
               </div>
             </div>
           </div>
@@ -480,4 +508,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;

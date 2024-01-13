@@ -27,9 +27,57 @@
   margin: 0;
   padding: 0;
   z-index: 12;
-  
 }
 
+/* Position fixed at top, left, and right */
+.side-modal-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  /* Column direction, align items to the end */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  /* Background color and blur effect */
+  background-color: #f48c0615;
+  height: 100%;
+  width: 100vw;
+  backdrop-filter: blur(2px);
+
+  /* Transition effect on open/close */
+  transition: 0.3s ease-in;
+
+  /* No margin and padding */
+  margin: 0;
+  padding: 0;
+
+  /* High z-index for visibility */
+  z-index: 12;
+  transition: 0.3s ease-in, 0.3s ease-out;
+  /* Slide in from the right with a zoom in effect */
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(50%) scale(0.7);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.side-modal-content {
+}
 .close {
   color: #aaaaaa;
   float: right;
@@ -45,9 +93,25 @@
   border: 3px solid var(--darkOrange);
   border-radius: 24px;
   height: auto;
-  margin: 16px;
   padding: 16px;
   max-width: 400px;
+}
+
+.side-white-modal-content {
+  background-color: #fff;
+  /* transform: translate(-50%, -50%);  */
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--darkOrange);
+  height: auto;
+  padding: 16px;
+  max-width: 400px;
+  min-height: 80vh;
+  overflow-y: auto;
+  margin-bottom: 24px;
+  border-radius: 48px;
+  margin-right: 24px;
+  animation: slideInFromRight 0.3s ease-in forwards;
 }
 .close:hover,
 .close:focus {
@@ -55,10 +119,42 @@
   text-decoration: none;
   cursor: pointer;
 }
-@media(max-width: 450px){
-  .white-modal-content{
-      width: 80%;
-      margin: 16px;
-   
+@media (max-width: 450px) {
+  .white-modal-content {
+    width: 80%;
+    margin: 16px;
   }
+  .side-white-modal-content {
+    width: 90vw;
+    margin: 0px;
+    padding: 16px;
+    display: inline-block;
+  }
+  .vw {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.close-modal-icon-div {
+  font-size: 24px;
+  color: var(--darkOrange);
+  display: flex;
+  justify-content: flex-end;
+  margin: 24px 0px;
+  cursor: pointer;
+  z-index: 999
+}
+
+.vw-text {
+  margin-bottom: 3px;
+  font-family: var(--darkOrange);
+  font-size: 18px;
+}
+.vw {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

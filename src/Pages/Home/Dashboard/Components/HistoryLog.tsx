@@ -17,6 +17,7 @@ interface HistoryLogProps {
 const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
   return (
     <div className="history-log">
+      <p className="history-log-p"> All Tickets </p>
       {/* <h2 className='logs-header'>Recent Tickets</h2> */}
       <table className="log-table">
         <thead>
@@ -43,6 +44,10 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                     <p className="center-column-p">{item.email}</p>
                   </span>
                 </span>
+                <p className="center-column-p-title">
+                  {" "}
+                  Ticket Title: {item.title}
+                </p>
               </td>
               <td>{item.ticketId}</td>
               <td>
@@ -51,10 +56,10 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                     color: item.status === "Overdue" ? "red" : "#0000ff",
                     backgroundColor:
                       item.status === "Overdue" ? "#ff000012" : "#0000ff12",
-                      width:100,
-                      textAlign:'center',
-                      padding:2,
-                      borderRadius: 30
+                    width: 100,
+                    textAlign: "center",
+                    padding: 2,
+                    borderRadius: 30,
                   }}
                 >
                   {" "}

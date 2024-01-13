@@ -18,6 +18,7 @@ import {
 } from "./Pages/Auth/Index.Auth";
 import Dashboard from "./Pages/Home/Dashboard/Dashboard";
 import YourComponent from "./Pages/Home/Testing";
+import Profile from "./Pages/Home/Profile/Index";
 
 // const App: React.FC = () => {
 //   const access_token = localStorage.getItem("access_token");
@@ -67,6 +68,7 @@ const App: React.FC = () => {
           element={isLoggedIn ? <Navigate to="/home" /> : <AuthOTPReset />}
         />
         <Route path="/home" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/test" element={<YourComponent />} />
       </Routes>
     </Router>

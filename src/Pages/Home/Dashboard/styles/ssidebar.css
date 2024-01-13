@@ -1,7 +1,7 @@
 .active-link {
   color: white;
 }
-/* ssidebar.css */
+/* ssidebar.css *//* ssidebar.css */
 .sidebar {
   width: 250px;
   background: #fff;
@@ -9,6 +9,28 @@
   padding: 20px;
   z-index: 12;
   overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 120px
+}
+
+/* Hide scrollbar for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Hide scrollbar for Firefox */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; /* handle and track color */
+}
+
+/* Optional: Provide a custom scrollbar style for Firefox */
+.sidebar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }
 
 .sidebar-title {
@@ -27,7 +49,9 @@
 .sidebar-title-div {
   position: fixed;
   background-color: #fff;
-  width: 200px;
+  width: 270px;
+  top: 0;
+  padding-top: 16px;
 }
 .sidebar-headers a:hover {
   color: orangered;
@@ -40,6 +64,13 @@
 .sidebar-headers a {
   color: #121212;
   text-decoration: none;
+  margin-top: -2px;
+}
+.mt {
+  margin-top: -0px;
+}
+.mtt {
+  margin-top: -21px;
 }
 
 .title-sidebar-p {
@@ -48,7 +79,25 @@
   margin-top: 32px;
   margin-bottom: 6px;
 }
-
+.bottom {
+  position: fixed;
+  background-color: rgb(253, 246, 243);
+  height: fit-content;
+  width: 245px;
+  bottom: 0;
+  padding-bottom: 24px;
+  padding-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: -6px;
+  margin-bottom: 0;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: -10px;
+  margin-bottom: 10px;
+}
 .sidebar {
   width: 250px;
 }
@@ -76,11 +125,35 @@
 }
 .sidebar-div-profile-content-div-h2 {
   margin: 0;
-  padding-top: 12px
+  padding-top: 12px;
 }
 .sidebar-div-profile-content-img {
   width: 32px;
   height: 32px;
+}
+.profile-pic-dashboard {
+  width: fit-content;
+  padding: 12px;
+  width: 12px;
+  height: 12px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: 234px;
+}
+
+.sidebar-names {
+  font-size: 14px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.sidebar-email {
+  font-size: 12px;
+  color: #808080;
+  margin: 0;
+}
+.border {
+  border: 2px solid red;
 }
 /* Add a media query to adjust styles for smaller screens */
 @media (max-width: 768px) {

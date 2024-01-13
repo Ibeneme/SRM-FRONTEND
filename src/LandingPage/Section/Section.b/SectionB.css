@@ -148,3 +148,14 @@
   }
 
 }
+
+@media (min-width: 1800px) {
+  .sectionB {
+    background-color: var(--darkOrange);
+    padding: 50px 16px;
+    overflow: hidden;
+    height: 800px;
+  }
+  }
+
+  

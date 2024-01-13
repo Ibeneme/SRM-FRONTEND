@@ -1,0 +1,39 @@
+.account-settings-toggle {
+  padding: 12px 32px;
+  border-radius: 24px;
+  border: none;
+  background-color: #ffff;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #ff5f05;
+  width: fit-content;
+}
+
+.top-settings-toggle {
+  background-color: #ff734220;
+  border-radius: 400px;
+  padding: 6px 8px;
+  width: fit-content;
+}
+
+.width-settings {
+  width: 100%;
+  border-radius: 12px;
+}
+.account-settings-background {
+  background-color: #ff5f0515;
+  margin-right: 24px;
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.slides-settings {
+}
+
+.slides-settings-bold {
+  font-size: 16px;
+}
+
+.slides-settings-p {
+    font-size: 14px;
+}

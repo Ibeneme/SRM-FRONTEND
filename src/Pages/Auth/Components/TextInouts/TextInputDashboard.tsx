@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import "./TextInput.css";
 
 interface TextInputDashboardProps {
-  label: string;
+  label?: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   type: string;

@@ -1,0 +1,55 @@
+.notification {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #cccccc95;
+  border-radius: 14px;
+  margin-bottom: 6px
+}
+
+.notification-content {
+  margin-left: 8px;
+}
+
+.notification-list {
+  position: relative;
+  width: 100%; /* Adjust the width as needed */
+}
+
+.notification-container {
+  position: absolute;
+  top: 50px; /* Adjust the top position to fit your layout */
+  right: 0;
+  background-color: #fff;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  /* border: 1px solid #ccc; */
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  color: #000;
+  margin-top: -44px;
+}
+
+.notification-toggle {
+  cursor: pointer;
+  padding: 12px;
+  width: fit-content;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 120px;
+  width: 20px;
+  height: 20px;
+}
+.notification-content-h{
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-top: 12px;
+}
+
+.notification-content-p{
+    font-size: 12px;
+    margin-top: 2px;
+}

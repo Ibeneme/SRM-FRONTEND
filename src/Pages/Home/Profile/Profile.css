@@ -1,0 +1,8 @@
+.accountSettingsContent {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+}

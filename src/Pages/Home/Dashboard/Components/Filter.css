@@ -55,6 +55,8 @@ option {
   padding: 12px;
   border-radius: 12px;
   margin-top: -16px;
+  font-family: var(--font-family);
+  font-size: 16px;
 }
 
 .log-table {
@@ -64,7 +66,7 @@ option {
 
 .log-table th,
 .log-table td {
-  padding: 14px;
+  padding: 12px;
   text-align: left;
 }
 
@@ -114,9 +116,48 @@ h2 {
 .center-column-span {
   display: flex;
   align-items: center;
-  gap: 8px
+  gap: 8px;
 }
 
 .center-column-image {
   width: 48px;
+}
+
+.center-column-p-title {
+  display: none; /* Initially hide */
+}
+
+@media (max-width: 589px) {
+  .log-table th:nth-child(4),
+  .log-table th:nth-child(1),
+  .log-table td:nth-child(4),
+  .log-table th:nth-child(2),
+  .log-table td:nth-child(2),
+  .log-table th:nth-child(3),
+  .log-table td:nth-child(3),
+  .log-table th:nth-child(5),
+  .log-table td:nth-child(5) {
+    display: none;
+  }
+  .filter-bar {
+    display: none;
+  }
+
+  .center-column-p-title {
+    display: flex;
+    font-size: 14px;
+    background-color: rgb(255, 233, 225);
+    color: orangered;
+    padding: 8px 14px;
+    border-radius: 120px;
+    width: fit-content;
+  }
+
+  .log-item:not(:last-child) {
+    border-bottom: 1px solid #80808045;
+  }
+  .log-table td {
+    padding: 4px;
+    text-align: left;
+  }
 }
