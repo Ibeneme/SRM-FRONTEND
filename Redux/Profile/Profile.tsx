@@ -7,9 +7,9 @@ interface ProfileState {
   error: string | null;
 }
 
-interface TestState {
-  first_name: string;
-}
+// interface TestState {
+//   first_name: string;
+// }
 
 const initialState: ProfileState = {
   profile: null,

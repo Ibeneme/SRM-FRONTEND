@@ -346,16 +346,16 @@ const Dashboard: React.FC = () => {
   //     <ShimmerLoader />
   //   )
   // }
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    // You can perform additional search-related logic here
-  };
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  // const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value);
+  //   // You can perform additional search-related logic here
+  // };
   const SearchContent = (
     <div className="FormHeader">
       <div className="vw">
         <h3 className="vw-text">Search</h3>
-        <p style={{ display: "none" }}>{searchTerm}</p>
+        {/* <p style={{ display: "none" }}>{searchTerm}</p> */}
         <TextInputDashboard
           value={formData.first_name}
           onChange={handleChange}
