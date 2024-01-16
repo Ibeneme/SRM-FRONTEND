@@ -27,7 +27,6 @@ import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
 import NotificationListComponent from "./Components/Notifications/NotificationsList";
 
-
 const notificationsData = [
   {
     title: "Assigned a Ticket",
@@ -45,7 +44,6 @@ const notificationsData = [
     titleColor: "#121212",
   },
 ];
-
 
 const dashboardData = [
   { title: "Overdue Tickets", image: Overdue, number: "50+" },
@@ -357,6 +355,7 @@ const Dashboard: React.FC = () => {
     <div className="FormHeader">
       <div className="vw">
         <h3 className="vw-text">Search</h3>
+        <p style={{ display: "none" }}>{searchTerm}</p>
         <TextInputDashboard
           value={formData.first_name}
           onChange={handleChange}

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
-import Overdue from "../../../assets/Dashboard/NewOverDue.png";
-import Due from "../../../assets/Dashboard/NewDue.png";
-import Recent from "../../../assets/Dashboard/NewRecent.png";
-import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
+// import Overdue from "../../../assets/Dashboard/NewOverDue.png";
+// import Due from "../../../assets/Dashboard/NewDue.png";
+// import Recent from "../../../assets/Dashboard/NewRecent.png";
+import { TbBell, TbSearch } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import { RootState } from "../../../../Redux/Store";
 import {
   getOrganizationProfile,
   getProfile,
-  getUserCSV,
+  // getUserCSV,
   importStaff,
   updateOrganizationProfile,
   updatePersonalProfile,
@@ -26,14 +26,14 @@ import ModalSearch from "../../../components/Modal/ModalSearch";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
 // import SettingsToggle from "./Components/SettingsToggle";
-import profileImage from "../../../assets/Dashboard/Profile.png";
-import orgImage from "../../../assets/Dashboard/Company.png";
+// import profileImage from "../../../assets/Dashboard/Profile.png";
+// import orgImage from "../../../assets/Dashboard/Company.png";
 import "../Profile/Profile.css";
-import { MdEdit } from "react-icons/md";
+// import { MdEdit } from "react-icons/md";
 import SettingsToggle from "./SettingsToggle";
 import { MdCloudUpload } from "react-icons/md";
 import "./settings.css";
-import Button from "../../Auth/Components/Buttons/Button";
+// import Button from "../../Auth/Components/Buttons/Button";
 const notificationsData = [
   {
     title: "Assigned a Ticket",
@@ -52,31 +52,31 @@ const notificationsData = [
   },
 ];
 
-const dashboardData = [
-  { title: "Overdue Tickets", image: Overdue, number: "50+" },
-  { title: "Due Tickets", image: Due },
-  { title: "Recently Created Tickets", image: Recent, number: 3 },
-];
-const historyLogData = [
-  {
-    assignedTo: "Ibeneme Ikenna",
-    ticketId: "T123ABS",
-    status: "Overdue",
-    date: "2022-01-01",
-    title: "Fixing Bugs",
-    email: "ib@gmail.com",
-    image: image,
-  },
-  {
-    assignedTo: "Ibeneme Ikenna",
-    ticketId: "T1SNDH23",
-    status: "Due",
-    date: "2022-01-01",
-    title: "Fixing Bugs",
-    email: "ib@gmail.com",
-    image: image,
-  },
-];
+// const dashboardData = [
+//   { title: "Overdue Tickets", image: Overdue, number: "50+" },
+//   { title: "Due Tickets", image: Due },
+//   { title: "Recently Created Tickets", image: Recent, number: 3 },
+// ];
+// const historyLogData = [
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     ticketId: "T123ABS",
+//     status: "Overdue",
+//     date: "2022-01-01",
+//     title: "Fixing Bugs",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     ticketId: "T1SNDH23",
+//     status: "Due",
+//     date: "2022-01-01",
+//     title: "Fixing Bugs",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+// ];
 interface FormData {
   email: string;
   first_name: string;
@@ -370,10 +370,10 @@ const Settings: React.FC = () => {
       <div></div>
     </div>
   );
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  // const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
   const SearchContent = (
     <div className="FormHeader">
@@ -466,16 +466,16 @@ const Settings: React.FC = () => {
     }
   };
 
-  const handleImportClick = () => {
-    dispatch(getUserCSV())
-      .then((actionResult) => {
-        const response = actionResult.payload;
-        console.log("Response:", response);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+  // const handleImportClick = () => {
+  //   dispatch(getUserCSV())
+  //     .then((actionResult) => {
+  //       const response = actionResult.payload;
+  //       console.log("Response:", response);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
 
   const accountSettingsContent = (
     <div>
@@ -494,6 +494,8 @@ const Settings: React.FC = () => {
             </p>
           ) : null}
           {uploadError ? <p>{uploadError}</p> : null}
+          {uploadLoading ? <p>{uploadLoading}</p> : null}
+
           <label htmlFor="csv-file" className="upload-label">
             <MdCloudUpload className="upload-icon" />
             Upload CSV
@@ -517,9 +519,7 @@ const Settings: React.FC = () => {
 
   const orgSettingsContent = (
     <div>
-      <div className="acc-settings-row-reverse">
-      
-      </div>
+      <div className="acc-settings-row-reverse"></div>
     </div>
   );
 

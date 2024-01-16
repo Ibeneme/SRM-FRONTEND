@@ -1,9 +1,9 @@
 // Reviews.tsx
 import React, { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { BiSolidQuoteAltLeft } from "react-icons/bi";
-import emoji from "../../../assets/Landingpage/SectionA/memoji/anastasiafrost.png";
-import emojione from "../../../assets/Landingpage/SectionA/memoji/i_da_nastya.png";
+// import { BiSolidQuoteAltLeft } from "react-icons/bi";
+// import emoji from "../../../assets/Landingpage/SectionA/memoji/anastasiafrost.png";
+// import emojione from "../../../assets/Landingpage/SectionA/memoji/i_da_nastya.png";
 import emojitwo from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import emojithree from "../../../assets/Landingpage/SectionA/memoji/ssemenov.png";
 import emojifour from "../../../assets/Landingpage/SectionA/memoji/yourawesam.png";

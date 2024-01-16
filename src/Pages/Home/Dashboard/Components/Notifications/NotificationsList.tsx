@@ -69,9 +69,13 @@ const NotificationListComponent: React.FC<NotificationListComponentProps> = ({
       <h3 className="vw-text" style={{ marginTop: -43 }}>
         Notifications
       </h3>
-      {/* <div className="notification-toggle" onClick={toggleNotifications}>
-        <BsBell />
-      </div> */}
+      <div
+        className="notification-toggle"
+        style={{ display: "none" }}
+        onClick={toggleNotifications}
+      >
+        <BsBell />{" "}
+      </div>
       {showAll && (
         <div className="notification-container">
           {notifications.map((notification, index) => (

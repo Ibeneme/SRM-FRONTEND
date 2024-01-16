@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { MdOutlineEdit, MdOutlineDeleteSweep } from "react-icons/md";
-import image01 from "../../../../assets/landscape/Land01.jpg";
-import image02 from "../../../../assets/landscape/Land02.jpg";
-import image03 from "../../../../assets/landscape/Land03.jpg";
-import image04 from "../../../../assets/landscape/Land09..jpg";
+// import image01 from "../../../../assets/landscape/Land01.jpg";
+// import image02 from "../../../../assets/landscape/Land02.jpg";
+// import image03 from "../../../../assets/landscape/Land03.jpg";
+// import image04 from "../../../../assets/landscape/Land09..jpg";
 import image05 from "../../../../assets/landscape/Land05.jpg";
-import image06 from "../../../../assets/landscape/Land06.jpg";
-import image07 from "../../../../assets/landscape/Land07.jpg";
-import image08 from "../../../../assets/landscape/Land08.jpg";
+// import image06 from "../../../../assets/landscape/Land06.jpg";
+// import image07 from "../../../../assets/landscape/Land07.jpg";
+// import image08 from "../../../../assets/landscape/Land08.jpg";
 import Modal from "../../../../components/Modal/Modal";
 
 const images = [
@@ -41,7 +41,7 @@ interface GridProps {
   onDelete?: (id: number) => void;
 }
 
-const GridComponent: React.FC<GridProps> = ({ items, onEdit, onDelete }) => {
+const GridComponent: React.FC<GridProps> = ({ items }) => {
   const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
   const itemImages: { [key: number]: string } = {};
   const [sortedImages, setSortedImages] = useState<string[]>(
@@ -85,7 +85,7 @@ const GridComponent: React.FC<GridProps> = ({ items, onEdit, onDelete }) => {
   const handleEditClick = (id: number, name: string) => {
     setDepartmentName(name);
     setIsModalOpen(true);
-    console.log("dhhdhdh");
+    console.log("dhhdhdh", id);
   };
 
   return (

@@ -27,8 +27,6 @@
   border-radius: 12px;
 }
 
-.slides-settings {
-}
 
 .slides-settings-bold {
   font-size: 16px;
@@ -98,8 +96,6 @@
 .department-info-createdAt {
   font-size: 14px;
 }
-.department-info {
-}
 
 .department-info-name {
   font-size: 20px;
@@ -114,9 +110,6 @@
   /* Add other general styles for the container */
 }
 
-.header-container {
-  /* Styles for the header container */
-}
 
 .empty-departments-container {
   width: 100%;
@@ -147,8 +140,7 @@
   iner */
 }
 
-.department-list-container {
-}
+
 
 /* Add other necessary styles for specific elements */
 .department-list-flex {

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
-import Overdue from "../../../assets/Dashboard/NewOverDue.png";
-import Due from "../../../assets/Dashboard/NewDue.png";
-import Recent from "../../../assets/Dashboard/NewRecent.png";
-import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
+// import Overdue from "../../../assets/Dashboard/NewOverDue.png";
+// import Due from "../../../assets/Dashboard/NewDue.png";
+// import Recent from "../../../assets/Dashboard/NewRecent.png";
+import { TbBell, TbSearch } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,25 +25,26 @@ import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
 import HalfButton from "../../Auth/Components/Buttons/HalfBtn";
 import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
-import FilterBar from "../Dashboard/Components/Filter";
-import HistoryLog from "../Dashboard/Components/HistoryLog";
+// import FilterBar from "../Dashboard/Components/Filter";
+// import HistoryLog from "../Dashboard/Components/HistoryLog";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
 // import SettingsToggle from "./Components/SettingsToggle";
 import profileImage from "../../../assets/Dashboard/Profile.png";
-import orgImage from "../../../assets/Dashboard/Company.png";
+// import orgImage from "../../../assets/Dashboard/Company.png";
 import "../Profile/Profile.css";
-import { MdEdit } from "react-icons/md";
-import SettingsToggle from "../Profile/Components/SettingsToggle";
+// import { MdEdit } from "react-icons/md";
+// import SettingsToggle from "../Profile/Components/SettingsToggle";
 import "./Index.css";
 import UsersToggle from "./Components/SettingsToggle";
-import DepartmentList from "./Components/Department";
-import CsvReaderComponent from "./Components/CSVReaderComponent";
-import CSVReader from "./Components/CSVReaderComponent";
-import CSVViewer from "./Components/CSVReaderComponent";
-import ShimmerLoader from "../../../components/ShimmerLoader/Shimmer";
+// import DepartmentList from "./Components/Department";
+// import CsvReaderComponent from "./Components/CSVReaderComponent";
+// import CSVReader from "./Components/CSVReaderComponent";
+// import CSVViewer from "./Components/CSVReaderComponent";
+// import ShimmerLoader from "../../../components/ShimmerLoader/Shimmer";
 import UsersLog from "./Components/Users";
 import GridComponent from "./Components/Department";
+
 
 const notificationsData = [
   {
@@ -63,31 +64,31 @@ const notificationsData = [
   },
 ];
 
-const dashboardData = [
-  { title: "Overdue Tickets", image: Overdue, number: "50+" },
-  { title: "Due Tickets", image: Due },
-  { title: "Recently Created Tickets", image: Recent, number: 3 },
-];
-const historyLogData = [
-  {
-    assignedTo: "Ibeneme Ikenna",
-    ticketId: "T123ABS",
-    status: "Overdue",
-    date: "2022-01-01",
-    title: "Fixing Bugs",
-    email: "ib@gmail.com",
-    image: image,
-  },
-  {
-    assignedTo: "Ibeneme Ikenna",
-    ticketId: "T1SNDH23",
-    status: "Due",
-    date: "2022-01-01",
-    title: "Fixing Bugs",
-    email: "ib@gmail.com",
-    image: image,
-  },
-];
+// const dashboardData = [
+//   { title: "Overdue Tickets", image: Overdue, number: "50+" },
+//   { title: "Due Tickets", image: Due },
+//   { title: "Recently Created Tickets", image: Recent, number: 3 },
+// ];
+// const historyLogData = [
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     ticketId: "T123ABS",
+//     status: "Overdue",
+//     date: "2022-01-01",
+//     title: "Fixing Bugs",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     ticketId: "T1SNDH23",
+//     status: "Due",
+//     date: "2022-01-01",
+//     title: "Fixing Bugs",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+// ];
 interface FormData {
   email: string;
   first_name: string;
@@ -105,7 +106,7 @@ const UsersPage: React.FC = () => {
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const [departments, setDepartment] = useState<any | null>(null);
   const profile = useSelector((state: RootState) => state.profile.profile);
-  const isLoading = useSelector((state: RootState) => state.profile.loading);
+  // const isLoading = useSelector((state: RootState) => state.profile.loading);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
@@ -158,7 +159,7 @@ const UsersPage: React.FC = () => {
   if (userProfile?.length === 0) {
     // console.log("lolp", userProfile);
   }
-  //console.log("usersInCSV", usersInCSV);
+  console.log("usersInCSV", usersInCSV);
   const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
   const [isModalOpenNotifications, setIsModalOpenNotifications] =
     useState(false);
@@ -404,10 +405,10 @@ const UsersPage: React.FC = () => {
   //     <ShimmerLoader />
   //   )
   // }
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  // const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
   const SearchContent = (
     <div className="FormHeader">
@@ -433,25 +434,25 @@ const UsersPage: React.FC = () => {
     </div>
   );
 
-  const [file, setFile] = useState<File | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0]);
-    }
-  };
+  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     setFile(event.target.files[0]);
+  //   }
+  // };
 
-  const handleImportClick = () => {
-    dispatch(getUserCSV())
-      .then((actionResult) => {
-        const response = actionResult.payload; // Access the payload from the action result
-        console.log("Response:", response);
-        setUsers(response);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+  // const handleImportClick = () => {
+  //   dispatch(getUserCSV())
+  //     .then((actionResult) => {
+  //       const response = actionResult.payload; // Access the payload from the action result
+  //       console.log("Response:", response);
+  //       setUsers(response);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
   console.log("Success:", users);
 
   const accountSettingsContent = (
@@ -479,7 +480,7 @@ const UsersPage: React.FC = () => {
   const orgSettingsContent = (
     <div className="org-settings-content">
       <div className="header-container"></div>
-      {/* <CSVReader url={usersInCSV} /> */}
+      {/* <CSVViewer url={usersInCSV} /> */}
       {departments?.length === 0 ? (
         <div className="empty-departments-container">
           <h3>No Departments Created yet</h3>

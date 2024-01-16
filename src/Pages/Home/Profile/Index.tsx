@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
-import Overdue from "../../../assets/Dashboard/NewOverDue.png";
-import Due from "../../../assets/Dashboard/NewDue.png";
-import Recent from "../../../assets/Dashboard/NewRecent.png";
-import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
+// import Overdue from "../../../assets/Dashboard/NewOverDue.png";
+// import Due from "../../../assets/Dashboard/NewDue.png";
+// import Recent from "../../../assets/Dashboard/NewRecent.png";
+import { TbBell, TbSearch } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,31 +47,31 @@ const notificationsData = [
   },
 ];
 
-const dashboardData = [
-  { title: "Overdue Tickets", image: Overdue, number: "50+" },
-  { title: "Due Tickets", image: Due },
-  { title: "Recently Created Tickets", image: Recent, number: 3 },
-];
-const historyLogData = [
-  {
-    assignedTo: "Ibeneme Ikenna",
-    ticketId: "T123ABS",
-    status: "Overdue",
-    date: "2022-01-01",
-    title: "Fixing Bugs",
-    email: "ib@gmail.com",
-    image: image,
-  },
-  {
-    assignedTo: "Ibeneme Ikenna",
-    ticketId: "T1SNDH23",
-    status: "Due",
-    date: "2022-01-01",
-    title: "Fixing Bugs",
-    email: "ib@gmail.com",
-    image: image,
-  },
-];
+// const dashboardData = [
+//   { title: "Overdue Tickets", image: Overdue, number: "50+" },
+//   { title: "Due Tickets", image: Due },
+//   { title: "Recently Created Tickets", image: Recent, number: 3 },
+// ];
+// const historyLogData = [
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     ticketId: "T123ABS",
+//     status: "Overdue",
+//     date: "2022-01-01",
+//     title: "Fixing Bugs",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     ticketId: "T1SNDH23",
+//     status: "Due",
+//     date: "2022-01-01",
+//     title: "Fixing Bugs",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+// ];
 interface FormData {
   email: string;
   first_name: string;
@@ -366,10 +366,10 @@ const Profile: React.FC = () => {
     </div>
   );
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  // const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
   const SearchContent = (
     <div className="FormHeader">
