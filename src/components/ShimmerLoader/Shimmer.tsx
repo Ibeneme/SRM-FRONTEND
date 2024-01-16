@@ -1,13 +1,8 @@
-import React from 'react';
-import './Shimmer.css'; 
+import React  from "react";
 
-
-const ShimmerLoader: React.FC =() => {
-  return (
-    <div className={`loading`}>
-      <div className="shimmer-loader"></div>
-    </div>
-  );
-};
+const ShimmerLoader: React.FC = () => (
+  <div className="shimmer-loader">
+  </div>
+);
 
 export default ShimmerLoader;

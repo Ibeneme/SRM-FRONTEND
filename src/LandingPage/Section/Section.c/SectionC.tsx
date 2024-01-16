@@ -13,12 +13,14 @@ import {
   MdKeyboardArrowRight,
 } from "react-icons/md";
 import "./SectionC.css";
+import { useNavigate } from "react-router-dom";
 
 interface Review {
   title: string;
   text: string;
   image: string;
   name: string;
+  header: string;
 }
 
 const SectionC: React.FC = () => {
@@ -34,6 +36,8 @@ const SectionC: React.FC = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <div data-aos="zoom-in" className="review-container">
       <div
@@ -41,18 +45,22 @@ const SectionC: React.FC = () => {
         style={{ maxWidth: 600, paddingTop: 120, paddingBottom: 64 }}
       >
         <h1 data-aos="zoom-in-right" className="text-content-h1">
-          Hear What the
-          <span className="header-span"> SE Team</span> <br />
-          has to say about our SRM Platform
+          A Delightful
+          <span className="header-span"> Workspace,</span> <br />
+          One Place to do it all
         </h1>
         <p data-aos="zoom-in-right" className="text-content-p">
           Our unified hub provides a comprehensive view of customer engagements,
-          enabling personalized and targeted interactions. From marketing to
-          support, cultivate meaningful relationships by harmonizing all
-          stakeholder interactions in a single, accessible space.
+          enabling personalized and targeted interactions. Cultivate meaningful
+          relationships by harmonizing all stakeholder interactions in a single,
+          accessible space.
         </p>
         <div data-aos="zoom-in-right" className="sectionA-left-content">
-          <button data-aos="zoom-in-right" className="cta-button">
+          <button
+            data-aos="zoom-in-right"
+            className="cta-button"
+            onClick={() => navigate("/create-account")}
+          >
             Get Started
             <FiArrowRight />
           </button>
@@ -63,7 +71,10 @@ const SectionC: React.FC = () => {
           .slice(currentIndex, currentIndex + 3)
           .map((review, index) => (
             <div key={index} data-aos="zoom-in-left" className="review-card">
-              <BiSolidQuoteAltLeft style={{ fontSize: 36, color: "#ff5f05" }} />
+              {/* <BiSolidQuoteAltLeft style={{ fontSize: 36, color: "#ff5f05" }} /> */}
+              <h2 style={{ fontSize: 24, color: "#121212WQ" }}>
+                {review?.header}
+              </h2>
               <div>
                 <p className="teexts-reviews">{review.text}</p>
               </div>
@@ -106,6 +117,7 @@ export default SectionC;
 const reviewsData: Review[] = [
   {
     name: "Ibeneme Ikenna",
+    header: "Ticketing",
     image: emojifour,
     title: "Title 1",
     text: "Effortless communication with clients has become a reality, all thanks to the remarkable capabilities of this platform. The sophisticated automation features not only save us valuable time but also contribute to a more streamlined workflow. Additionally, the robust analytics tools provide deep insights, empowering us to gain a comprehensive understanding of our customers and their preferences. This platform has truly transformed the way we engage with our clients, making every interaction more meaningful and efficient",
@@ -114,30 +126,14 @@ const reviewsData: Review[] = [
     name: "Olayemi Ogundijo",
     image: emojithree,
     title: "Title 2",
+    header: "Integrations",
     text: "Seamless communication with clients has become a reality, all thanks to the remarkable capabilities of this platform. The sophisticated automation features not only save us valuable time but also contribute to a more streamlined workflow. Additionally, the robust analytics tools provide deep insights, empowering us to gain a comprehensive understanding of our customers and their preferences. This platform has truly transformed the way we engage with our clients, making every interaction more meaningful and efficient.",
   },
   {
     name: "Nengi Tams",
     image: emojitwo,
     title: "Title 3",
+    header: "Workforce Management",
     text: "This platform has brought a new level of efficiency to our client communication. Its remarkable capabilities, coupled with sophisticated automation features, have saved us valuable time and streamlined our workflow. The robust analytics tools offer deep insights, allowing us to understand our customers and their preferences comprehensively. Our interactions with clients have been transformed, making each one more meaningful and efficient.",
-  },
-  {
-    name: "Ibeneme Ikenna",
-    image: emojithree,
-    title: "Title 4",
-    text: "The outstanding capabilities of this platform have turned effortless communication with clients into a reality. The sophisticated automation features not only save us time but also contribute to a more streamlined workflow. The robust analytics tools provide deep insights, empowering us to comprehensively understand our customers and their preferences. This platform has truly revolutionized the way we engage with our clients, enhancing the meaning and efficiency of every interaction.",
-  },
-  {
-    name: "Justina",
-    image: emoji,
-    title: "Title 5",
-    text: "The remarkable capabilities of this platform have made seamless communication with clients a reality. The sophisticated automation features save us valuable time and contribute to a more streamlined workflow. The robust analytics tools provide deep insights, empowering us to gain a comprehensive understanding of our customers and their preferences. This platform has truly revolutionized our client engagement, making every interaction more meaningful and efficient.",
-  },
-  {
-    name: "Ibeneme Ikenna",
-    image: emojione,
-    title: "Title 6",
-    text: "This platform has ushered in a new era of communication with clients, thanks to its remarkable capabilities. The sophisticated automation features not only save us valuable time but also contribute to a more streamlined workflow. The robust analytics tools provide deep insights, empowering us to gain a comprehensive understanding of our customers and their preferences. Truly transformative, this platform has changed the way we engage with our clients, making interactions more meaningful and efficient.",
   },
 ];

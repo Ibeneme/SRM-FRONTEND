@@ -12,22 +12,22 @@ import {
   getOrganizationProfile,
   getProfile,
   updateOrganizationProfile,
+  updatePersonalProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
-//import { useNavigate } from "react-router-dom";
 import FormHeaders from "../../Auth/Components/FormHeaders";
 import TextInputDashboard from "../../Auth/Components/TextInouts/TextInputDashboard";
 import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
 import HalfButton from "../../Auth/Components/Buttons/HalfBtn";
 import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
-import FilterBar from "../Dashboard/Components/Filter";
-import HistoryLog from "../Dashboard/Components/HistoryLog";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
 import SettingsToggle from "./Components/SettingsToggle";
-import profileImage from "../../../assets/Dashboard/Profile.png";
+import profileImage from "../../../assets/Dashboard/Company.png";
+import orgImage from "../../../assets/Dashboard/Company.png";
 import "./Profile.css";
+import { MdEdit } from "react-icons/md";
 
 const notificationsData = [
   {
@@ -76,7 +76,6 @@ interface FormData {
   email: string;
   first_name: string;
   last_name: string;
-  company_name: string;
 }
 
 const Profile: React.FC = () => {
@@ -86,8 +85,6 @@ const Profile: React.FC = () => {
     null
   );
   const [userProfile, setUserProfile] = useState<any | null>(null);
-  // const isLoading = useSelector((state: RootState) => state.profile.loading);
-  // const error = useSelector((state: RootState) => state.profile.error);
   const profile = useSelector((state: RootState) => state.profile.profile);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -96,7 +93,6 @@ const Profile: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
     last_name: "",
-    company_name: "",
     email: "",
   });
 
@@ -111,7 +107,7 @@ const Profile: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (userProfile?.org_setup_complete === true) {
+    if (userProfile?.org_setup_complete === false) {
       openModal();
     }
   }, [userProfile]);
@@ -129,12 +125,6 @@ const Profile: React.FC = () => {
     }
   }, [profile]);
 
-  // const [errors, setErrors] = useState<{
-  //   email?: string;
-  //   first_name?: string;
-  //   last_name?: string;
-  //   company_name?: string;
-  // }>({});
   const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
   const [isModalOpenNotifications, setIsModalOpenNotifications] =
     useState(false);
@@ -156,7 +146,6 @@ const Profile: React.FC = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    // setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
   };
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -188,76 +177,81 @@ const Profile: React.FC = () => {
 
   const handleFirstModalContinue = () => {
     setFormErrors("");
-    if (selectedValue && selectedCountry) {
-      setLoading(true);
-      dispatch(
-        updateOrganizationProfile({
-          staff_count: selectedValue,
-          country: selectedCountry,
-        })
-      )
-        .then((response) => {
-          setLoading(false);
-          switch (response?.payload) {
-            case 200:
-              closeModal();
-              openSecondModal();
-              break;
-            case 400:
-              setFormErrors("Please enter data correctly");
-              break;
-            case 500:
-              setFormErrors("Server Error");
-              break;
-            default:
-              setFormErrors("Network Error");
-              break;
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.error("Error updating organization profile:", error);
-        });
-    } else {
-      setFormErrors(
-        "Please choose both Average Number of Staff and Country of Operation."
-      );
-    }
+    setLoading(true);
+    dispatch(
+      updateOrganizationProfile({
+        staff_count: selectedValue,
+        country: selectedCountry,
+        name: formData.first_name
+          ? formData.first_name
+          : organizationProfile?.name,
+        email: formData.last_name
+          ? formData.last_name
+          : organizationProfile?.email,
+      })
+    )
+      .then((response) => {
+        setLoading(false);
+        switch (response?.payload) {
+          case 200:
+            console.log(response?.payload);
+            setFormData({
+              first_name: "",
+              last_name: "",
+              email: "",
+            });
+            closeSecondModal();
+            break;
+          case 400:
+            setFormErrors("Please enter data correctly");
+            break;
+          case 422:
+            setFormErrors("Please enter a valid email address");
+            break;
+          case 500:
+            setFormErrors("Server Error");
+            break;
+          default:
+            setFormErrors("Network Error");
+            break;
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error("Error updating organization profile:", error);
+      });
   };
+  const handleSecondModalContinue = async () => {
+    try {
+      setFormErrors("");
+      if (formData?.first_name?.length > 0) {
+        setLoading(true);
 
-  const handleSecondModalContinue = () => {
-    setFormErrors("");
-    if (formData?.first_name?.length > 0) {
-      setLoading(true);
-      dispatch(
-        updateOrganizationProfile({
-          nature_of_business: formData?.first_name,
-        })
-      )
-        .then((response) => {
-          setLoading(false);
-          switch (response?.payload) {
-            case 200:
-              console.log(
-                "Organization profile updated successfully:",
-                response
-              );
-              closeSecondModal();
-              break;
-            case 400:
-              setFormErrors("Please Enter a Business Name to Proceed.");
-              break;
-            default:
-              console.log("Unexpected response payload:", response);
-              break;
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.error("Error updating organization profile:", error);
-        });
-    } else {
-      setFormErrors("Please Enter a Business Name to Proceed.");
+        const response = await dispatch(updatePersonalProfile(formData));
+        setLoading(false);
+        switch (response?.payload) {
+          case 200:
+            console.log("Profile successfully updated:", response);
+            setFormData({
+              first_name: "",
+              last_name: "",
+              email: "",
+            });
+            closeModal();
+            break;
+          case 400:
+            setFormErrors("Please Enter a Business Name to Proceed.");
+            break;
+          default:
+            console.log("Unexpected response payload:", response);
+            break;
+        }
+      } else {
+        setFormErrors("Please Enter a Business Name to Proceed.");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error updating organization profile:", error);
     }
   };
 
@@ -265,19 +259,36 @@ const Profile: React.FC = () => {
     <div className="form_content_display-dashboard">
       <br />
       <FormHeaders
-        step="Step"
-        activeStepNumber={1}
-        totalStepNumbers={2}
+        step=""
+        activeStepNumber={0}
+        totalStepNumbers={0}
         colored="gray"
-        title="Setup your Organisation"
+        title="Edit your Organisation"
         //errorText={formErrors}
-        accountText={"Complete these to set up your organisation"}
+        accountText={"Complete these to edit your organisation"}
       />
       <PasswordWarning formErrors={formErrors} />
-      <div className="business-name-div">
-        <p className="business-name-label">Business Name</p>
-        <p className="business-name-fetched">{organizationProfile?.name}</p>
-      </div>
+
+      <br />
+      <br />
+      <TextInputDashboard
+        label="Business Name"
+        value={formData.first_name}
+        onChange={handleChange}
+        type="text"
+        id="first_name"
+        name="first_name"
+        placeholder="Enter a Business Name"
+      />
+      <TextInputDashboard
+        label="Email Address"
+        value={formData.last_name}
+        onChange={handleChange}
+        type="text"
+        id="last_name"
+        name="last_name"
+        placeholder="Enter a Email Address"
+      />
       <SelectInput
         placeholder="Select Number of Staff"
         label="Average Number of Staff"
@@ -319,26 +330,31 @@ const Profile: React.FC = () => {
     <div className="form_content_display-dashboard">
       <br />
       <FormHeaders
-        step="Step"
-        activeStepNumber={2}
-        totalStepNumbers={2}
-        colored="gray"
-        title="Setup your Organisation"
-        accountText={"Complete these to set up your organisation"}
-      />
+        activeStepNumber={0}
+        totalStepNumbers={0}
+        title="Edit your profile"
+        //errorText={formErrors}
+        accountText={"Edit your Personal Profile"}
+      />{" "}
+      <br /> <br />
       <PasswordWarning formErrors={formErrors} />
-      <div className="business-name-div">
-        <p className="business-name-label">Business Name</p>
-        <p className="business-name-fetched">{organizationProfile?.name}</p>
-      </div>
       <TextInputDashboard
-        label="Nature of Business"
+        label="First Name"
         value={formData.first_name}
         onChange={handleChange}
         type="text"
         id="first_name"
         name="first_name"
-        placeholder="Nature of Business"
+        placeholder="Enter a First Name"
+      />
+      <TextInputDashboard
+        label="Last Name"
+        value={formData.last_name}
+        onChange={handleChange}
+        type="text"
+        id="last_name"
+        name="last_name"
+        placeholder="Enter a Last Name"
       />
       <HalfButton
         onClick={handleSecondModalContinue}
@@ -346,20 +362,15 @@ const Profile: React.FC = () => {
         loading={loading}
         disabled={loading}
       />
-      <div>{/* ... (other form elements) */}</div>
+      <div></div>
     </div>
   );
 
-  // if(!isLoading){
-  //   return (
-  //     <ShimmerLoader />
-  //   )
-  // }
   const [searchTerm, setSearchTerm] = useState<string>("");
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    // You can perform additional search-related logic here
   };
+
   const SearchContent = (
     <div className="FormHeader">
       <div className="vw">
@@ -386,37 +397,35 @@ const Profile: React.FC = () => {
 
   const accountSettingsContent = (
     <div>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          backgroundColor: "#Fff",
-          borderRadius: 12,
-          flexDirection: "row-reverse",
-          justifyContent: "space-between",
-          paddingTop: 24,
-          paddingBottom: 24,
-        }}
-      >
+      <div className="acc-settings-row-reverse">
         <div className="account-settings-background">
           <img src={profileImage} width="300" />
         </div>
         <div style={{ padding: 24 }}>
           <div className="slides-settings">
             <p className="slides-settings-p">First Name</p>
-            <p className="slides-settings-bold">First Name</p>
+            <p className="slides-settings-bold">{userProfile?.first_name}</p>
           </div>
-          <div>
-            <p>Last Name</p>
-            <p>Last Name</p>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Last Name</p>
+            <p className="slides-settings-bold">{userProfile?.last_name}</p>
           </div>
-          <div>
-            <p>Email Address</p>
-            <p>Email Address</p>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Email Address</p>
+            <p className="slides-settings-bold">{userProfile?.email}</p>
           </div>
-          <div>
-            <p>Department Name</p>
-            <p>Department</p>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Account Type</p>
+            <p className="slides-settings-bold">
+              {userProfile?.permission_type === "executive"
+                ? "Super Admin"
+                : null}
+            </p>
+          </div>
+          <div className="slides-settings">
+            <p className="slides-settings-edit" onClick={openModal}>
+              Edit <MdEdit />
+            </p>
           </div>
         </div>
       </div>
@@ -425,8 +434,38 @@ const Profile: React.FC = () => {
 
   const orgSettingsContent = (
     <div>
-      {/* Content for Org Settings */}
-      <p>Org Settings Content</p>
+      <div className="acc-settings-row-reverse">
+        <div className="account-settings-background">
+          <img src={orgImage} width="300" />
+        </div>
+        <div style={{ padding: 24 }}>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Business Name</p>
+            <p className="slides-settings-bold">{organizationProfile?.name}</p>
+          </div>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Country of Operation</p>
+            <p className="slides-settings-bold">
+              {organizationProfile?.country}
+            </p>
+          </div>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Email Address</p>
+            <p className="slides-settings-bold">{organizationProfile?.email}</p>
+          </div>
+          <div className="slides-settings">
+            <p className="slides-settings-p">Staff Count</p>
+            <p className="slides-settings-bold">
+              {organizationProfile?.staff_count}
+            </p>
+          </div>
+          <div className="slides-settings">
+            <p className="slides-settings-edit" onClick={openSecondModal}>
+              Edit <MdEdit />
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 
@@ -436,7 +475,7 @@ const Profile: React.FC = () => {
         user_first_name={`${userProfile?.first_name} `}
         user_last_name={`${userProfile?.last_name}`}
         usersemail={`${userProfile?.email}
-        `}
+  `}
       />
 
       <div className="main-content-container">
@@ -486,14 +525,21 @@ const Profile: React.FC = () => {
         onClose={closeModalNotifications}
         formContent={NotificationsDisplay}
       />
+      <ModalSearch
+        isOpen={isModalOpen}
+        onOpen={openModal}
+        onClose={closeModal}
+        formContent={formContentSecondModal}
+      />
+      <ModalSearch
+        isOpen={isSecondModalOpen}
+        onOpen={openSecondModal}
+        onClose={closeSecondModal}
+        formContent={formContentFirstModal}
+      />
+
       {userProfile?.org_setup_complete ? null : (
         <div>
-          <Modal
-            isOpen={isModalOpen}
-            onOpen={openModal}
-            onClose={closeModal}
-            formContent={formContentFirstModal}
-          />
           {isSecondModalOpen && (
             <Modal
               isOpen={isSecondModalOpen}

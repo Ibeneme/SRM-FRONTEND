@@ -60,10 +60,6 @@
   animation: scrollAnimation 12s linear infinite; /* Half the duration for smooth continuous scrolling */
 }
 
-/* SectionB.css */
-
-/* ... (previous styles) */
-
 .additional-content-container {
   display: flex;
   flex-direction: column;

@@ -13,9 +13,13 @@
     "@reduxjs/toolkit": "^2.0.1",
     "aos": "^2.3.4",
     "axios": "^1.6.5",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
+    "react-content-loader": "^6.2.1",
+    "react-csv-reader": "^4.0.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
+    "react-papaparse": "^4.4.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.1",
     "redux": "^5.0.1"

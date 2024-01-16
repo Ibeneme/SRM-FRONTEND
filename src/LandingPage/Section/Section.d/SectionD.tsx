@@ -10,20 +10,21 @@ interface FAQ {
 const SectionD: React.FC = () => {
   const faqs: FAQ[] = [
     {
-      question: "How can I track my order?",
-      answer: `To track your order, log in to your account and go to the 'Order History' section. You will find detailed information about your order status, shipping details, and estimated delivery date.`,
+      question: "Ticke",
+      answer: `To regain access to your Acadaboo account, click on the 'Forgot Password' link on the login page. You'll receive an email with secure instructions on how to reset your password. If you encounter any issues during this process, please contact our customer support team for immediate assistance.`,
     },
     {
-      question: "What is your return policy?",
-      answer: `Our return policy allows for returns within 30 days of purchase. If you're not satisfied with your purchase, please contact our customer support team for assistance.`,
+      question:
+        "I'm having trouble resetting my password on Acadaboo. What should I do?",
+      answer: `If you're facing difficulties resetting your password, reach out to our customer support team, and we'll guide you through the process. Your security is our priority, and we're here to help you securely regain access to your Acadaboo account.`,
     },
     {
-      question: "How do I reset my password?",
-      answer: `To reset your password, click on the 'Forgot Password' link on the login page. You will receive an email with instructions on how to reset your password securely.`,
+      question: "Can I update my account information after logging in?",
+      answer: `After log˝ging in, account information updates may be possible. If you need assistance or encounter any issues while trying to update your information on Acadaboo, please contact our dedicated customer support team for personalized help.`,
     },
     {
-      question: "Can I change my shipping address after placing an order?",
-      answer: `Unfortunately, we cannot modify the shipping address once an order has been placed. Please double-check your shipping information before completing your purchase.`,
+      question: "I'm having trouble logging in. What should I do?",
+      answer: `If you're experiencing login issues, please ensure you are using the correct credentials. If the problem persists, contact our customer support team for immediate assistance in resolving any login-related challenges on Acadaboo.`,
     },
   ];
 

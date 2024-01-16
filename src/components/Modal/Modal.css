@@ -158,3 +158,11 @@
   flex-direction: column;
   justify-content: center;
 }
+
+
+.name-users-style{
+  font-size: 14px;
+  color: gray;
+  margin-top: 24px;
+  margin-bottom: -12px;
+}

@@ -24,18 +24,18 @@ const menuData = [
     title: "MENU",
     items: [
       { icon: <TbTicket />, text: "Tickets", to: "/" },
-      { icon: <TbMail />, text: "Mails", to: "/settings" },
-      { icon: <TbMessage />, text: "Chats", to: "/settings" },
-      { icon: <TbPhoneCall />, text: "Calls", to: "/settings" },
-      { icon: <TbClipboardList />, text: "Feedback Forms", to: "/settings" },
+      { icon: <TbMail />, text: "Mails", to: "/" },
+      { icon: <TbMessage />, text: "Chats", to: "/" },
+      { icon: <TbPhoneCall />, text: "Calls", to: "/" },
+      { icon: <TbClipboardList />, text: "Feedback Forms", to: "/" },
     ],
   },
   {
     title: "MORE",
     items: [
       { icon: <TbHistoryToggle />, text: "History", to: "/" },
-      { icon: <TbNotification />, text: "Notifications", to: "/settings" },
-      { icon: <TbUserSquareRounded />, text: "Users", to: "/settings" },
+      { icon: <TbNotification />, text: "Notifications", to: "/" },
+      { icon: <TbUserSquareRounded />, text: "Users", to: "/users" },
       { icon: <TbSettings />, text: "Settings", to: "/settings" },
       { icon: <TbUserEdit />, text: "Profile", to: "/Profile" },
     ],
@@ -90,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <span
                 style={{
                   color: "#fff",
-                  fontSize: 16,
+                  fontSize: 13,
                 }}
               >
                 {user_first_name[0]}

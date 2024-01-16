@@ -29,7 +29,8 @@
     font-weight: bold;
     color: orangered;
     margin-top: 0px;
-    margin-bottom: 6px
+    margin-bottom: 6px;
+    text-align: left;
   }
 
   .support-typing-text{

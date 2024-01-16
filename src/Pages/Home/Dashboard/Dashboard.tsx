@@ -27,6 +27,7 @@ import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
 import NotificationListComponent from "./Components/Notifications/NotificationsList";
 
+
 const notificationsData = [
   {
     title: "Assigned a Ticket",
@@ -44,6 +45,7 @@ const notificationsData = [
     titleColor: "#121212",
   },
 ];
+
 
 const dashboardData = [
   { title: "Overdue Tickets", image: Overdue, number: "50+" },
@@ -109,7 +111,7 @@ const Dashboard: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (userProfile?.org_setup_complete === true) {
+    if (userProfile?.org_setup_complete === false) {
       openModal();
     }
   }, [userProfile]);
@@ -127,12 +129,6 @@ const Dashboard: React.FC = () => {
     }
   }, [profile]);
 
-  // const [errors, setErrors] = useState<{
-  //   email?: string;
-  //   first_name?: string;
-  //   last_name?: string;
-  //   company_name?: string;
-  // }>({});
   const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
   const [isModalOpenNotifications, setIsModalOpenNotifications] =
     useState(false);
@@ -154,7 +150,6 @@ const Dashboard: React.FC = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    // setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined }));
   };
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -466,15 +461,16 @@ const Dashboard: React.FC = () => {
             onClose={closeModal}
             formContent={formContentFirstModal}
           />
-          {isSecondModalOpen && (
-            <Modal
-              isOpen={isSecondModalOpen}
-              onOpen={openSecondModal}
-              onClose={closeSecondModal}
-              formContent={formContentSecondModal}
-            />
-          )}
         </div>
+      )}
+
+      {isSecondModalOpen && (
+        <Modal
+          isOpen={isSecondModalOpen}
+          onOpen={openSecondModal}
+          onClose={closeSecondModal}
+          formContent={formContentSecondModal}
+        />
       )}
     </div>
   );

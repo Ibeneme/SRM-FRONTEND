@@ -35,5 +35,16 @@
 }
 
 .slides-settings-p {
-    font-size: 14px;
+  font-size: 14px;
+  color: #808080;
 }
+.slides-settings-bold {
+  margin-top: -6px;
+  margin-bottom: 32px
+}
+.slides-settings-edit{
+    font-size: 14px;
+    color: var(--darkOrange);
+    cursor: pointer;
+    width: fit-content
+  }

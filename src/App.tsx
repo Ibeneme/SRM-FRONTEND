@@ -19,6 +19,8 @@ import {
 import Dashboard from "./Pages/Home/Dashboard/Dashboard";
 import YourComponent from "./Pages/Home/Testing";
 import Profile from "./Pages/Home/Profile/Index";
+import UsersPage from "./Pages/Home/Users/Index";
+import Settings from "./Pages/Home/Settings/Index";
 
 // const App: React.FC = () => {
 //   const access_token = localStorage.getItem("access_token");
@@ -70,6 +72,8 @@ const App: React.FC = () => {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/test" element={<YourComponent />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
   );

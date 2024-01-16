@@ -1,0 +1,210 @@
+.account-settings-toggle {
+  padding: 12px 32px;
+  border-radius: 24px;
+  border: none;
+  background-color: #ffff;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #ff5f05;
+  width: fit-content;
+}
+
+.top-settings-toggle {
+  background-color: #ff734220;
+  border-radius: 400px;
+  padding: 6px 8px;
+  width: fit-content;
+}
+
+.width-settings {
+  width: 100%;
+  border-radius: 12px;
+}
+.account-settings-background {
+  background-color: #ff5f0515;
+  margin-right: 24px;
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.slides-settings {
+}
+
+.slides-settings-bold {
+  font-size: 16px;
+}
+
+.slides-settings-p {
+  font-size: 14px;
+  color: #808080;
+}
+.slides-settings-bold {
+  margin-top: -6px;
+  margin-bottom: 32px;
+}
+.slides-settings-edit {
+  font-size: 14px;
+  color: var(--darkOrange);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.dept-texts {
+  font-size: 14px;
+  color: #808080;
+  margin-top: -8px;
+  margin-bottom: 64px;
+}
+
+.department-list-container {
+  cursor: pointer;
+  padding: 16px;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: -8px;
+  padding-bottom: 24px;
+  border-radius: 12px;
+}
+
+.department-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+  width: "100%";
+}
+
+.department-card {
+  /* Styles for each card */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.department-item {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 12px;
+  width: 300px;
+}
+
+.department-info {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.department-info-createdAt {
+  font-size: 14px;
+}
+.department-info {
+}
+
+.department-info-name {
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  max-width: 100%;
+}
+.org-settings-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Add other general styles for the container */
+}
+
+.header-container {
+  /* Styles for the header container */
+}
+
+.empty-departments-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.departments-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #fff;
+  width: fit-content;
+}
+
+.create-department-button-container {
+  padding: 24px 0px;
+  /* Styles for the create department button conta
+  iner */
+}
+
+.department-list-container {
+}
+
+/* Add other necessary styles for specific elements */
+.department-list-flex {
+  display: flex;
+}
+
+/* GridComponent.css */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+
+  padding-bottom: 48px;
+}
+
+.grid-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.grid-item:hover {
+  transform: scale(1.05);
+}
+
+.grid-item-image img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.grid-item-content {
+  padding: 12px;
+}
+
+.grid-texts-depts-p {
+  font-size: 12px;
+  color: "#80808045";
+  margin: 0;
+  margin-top: -12px;
+  margin-bottom: 12px;
+}
+
+.grid-texts-depts{
+  font-size: 16px;
+  color: "#80808075";
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.edit-icon{
+  background-color: #ff5f0525;
+  color:#ff5f05;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 48px;
+}

@@ -4,15 +4,15 @@ import "./TextInput.css";
 interface TextInputDashboardProps {
   label?: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<any>) => void;
   type: string;
   id: string;
   name: string;
   required?: boolean;
   placeholder: string;
   error?: string;
+  height?: boolean;
 }
-
 const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
   label,
   value,
@@ -22,25 +22,43 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
   name,
   placeholder,
   required = false,
+  height,
   error,
 }) => {
+  const inputElement = height ? (
+    <textarea
+      style={{ height: 100 }}
+      className={`${
+        error ? "error-auth-input" : "div-for-auth-text-input-input"
+      }`}
+      id={id}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      placeholder={`${"Enter your"} ${placeholder}`}
+    />
+  ) : (
+    <input
+      className={`${
+        error ? "error-auth-input" : "div-for-auth-text-input-input"
+      }`}
+      type={type}
+      id={id}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      placeholder={`${"Enter your"} ${placeholder}`}
+    />
+  );
+
   return (
     <div className="div-for-auth-text-input-div">
       <label className="business-name-label" htmlFor={id}>
         {label}
       </label>
-      <input
-        className={`${
-          error ? "error-auth-input" : "div-for-auth-text-input-input"
-        }`}
-        type={type}
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        placeholder={`${"Enter your"} ${placeholder}`}
-      />
+      {inputElement}
       <p className="div-for-auth-text-input-input-error">{error}</p>
     </div>
   );
