@@ -25,7 +25,7 @@ const Typewriter: React.FC<{ text: string; speed: number }> = ({
     return () => clearInterval(intervalId);
   }, [text, speed]);
 
-  return <span>{displayText}</span>;
+  return <span style={{}}>{displayText}</span>;
 };
 
 // ChatAnimations component

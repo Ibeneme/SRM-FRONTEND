@@ -5,7 +5,7 @@
   background-color: #ffff;
   font-size: 14px;
   font-family: var(--font-family);
-  color: #ff5f05;
+  color: var(--darkOrange);
   width: fit-content;
 }
 
@@ -40,11 +40,11 @@
 }
 .slides-settings-bold {
   margin-top: -6px;
-  margin-bottom: 32px
+  margin-bottom: 32px;
 }
-.slides-settings-edit{
-    font-size: 14px;
-    color: var(--darkOrange);
-    cursor: pointer;
-    width: fit-content
-  }
+.slides-settings-edit {
+  font-size: 14px;
+  color: var(--darkOrange);
+  cursor: pointer;
+  width: fit-content;
+}

@@ -68,6 +68,7 @@ option {
 .log-table td {
   padding: 12px;
   text-align: left;
+  padding-left: 12px;
 }
 
 .log-table th {
@@ -127,6 +128,18 @@ h2 {
   display: none; /* Initially hide */
 }
 
+.view-tickets {
+  background-color: #ff734225;
+  color: #ff7342;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+  border-radius: 239px;
+  width: fit-content;
+}
+
 @media (max-width: 589px) {
   .log-table th:nth-child(4),
   .log-table th:nth-child(1),
@@ -154,12 +167,16 @@ h2 {
   }
 
   .log-item:not(:last-child) {
-    border-bottom: 1px solid #80808045;
+    border-bottom: 1px solid #80808015;
   }
   .log-table td {
     padding: 4px;
     text-align: left;
   }
+
+  .log-item tr {
+    align-items: center;
+    margin-top: 12px;
+  }
 }
-
-
+/* Add this to your CSS file or style tag in your component */

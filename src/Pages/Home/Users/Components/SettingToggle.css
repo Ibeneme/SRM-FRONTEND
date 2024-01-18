@@ -5,7 +5,7 @@
   background-color: #ffff;
   font-size: 14px;
   font-family: var(--font-family);
-  color: #ff5f05;
+  color: var(--darkOrange);
   width: fit-content;
 }
 
@@ -195,7 +195,7 @@
 
 .edit-icon{
   background-color: #ff5f0525;
-  color:#ff5f05;
+  color: var(--darkOrange);
   padding: 12px;
   font-size: 18px;
   border-radius: 48px;

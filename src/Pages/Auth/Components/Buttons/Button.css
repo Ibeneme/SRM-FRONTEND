@@ -38,7 +38,20 @@
   font-size: 14px;
   transition: 0.4s ease-in;
 }
-
+.custom-containers {
+  height: 48px;
+  color: var(--darkOrange);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.3px solid var(--darkOrange);
+  border-radius: 8px;
+  background-color: #fff;
+  font-family: var(--font-family);
+  font-size: 14px;
+  transition: 0.4s ease-in;
+}
 .loading {
   height: 48px;
   background-color: #ff5c0075;

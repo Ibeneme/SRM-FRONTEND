@@ -1,17 +1,33 @@
 /* SectionB.css */
 
 .sectionB {
-  background-color: var(--darkOrange);
+  /* background-color: var(--darkBlue); */
+  background-color: #FF6B00;
   padding: 50px 16px;
   overflow: hidden;
   height: 100vh;
+  
 }
+.sectionB:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top left, #FF6B00 50%, transparent 0%);
+  transform-origin: top left;
+  transform: skewY(-5deg);
+  z-index: -1;
+}
+
 
 .sectionB-content-container {
   max-width: 1200px;
   gap: 24px;
   margin: 0 auto;
   display: flex;
+  z-index: 1; 
   justify-content: space-between;
 }
 

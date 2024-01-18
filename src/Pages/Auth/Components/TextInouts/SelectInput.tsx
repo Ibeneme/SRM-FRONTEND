@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 import "./SelectInput.css";
 
 interface SelectInputProps {
@@ -7,7 +7,7 @@ interface SelectInputProps {
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void; // Make sure to specify HTMLSelectElement here
   id: string;
   name: string;
-  options: string[];
+  options: (string | ReactNode)[];
   required?: boolean;
   placeholder: string;
   error?: string;
@@ -24,6 +24,19 @@ const SelectInput: React.FC<SelectInputProps> = ({
   required = false,
   error,
 }) => {
+  const renderOptions = () => {
+    if (Array.isArray(options)) {
+      return options.map((option, index) => (
+        <option key={index} value={typeof option === "string" ? option : ""}>
+          {option}
+        </option>
+      ));
+    } else {
+      console.error("Options should be an array.");
+      return null;
+    }
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <label className="business-name-label" htmlFor={id}>
@@ -36,18 +49,18 @@ const SelectInput: React.FC<SelectInputProps> = ({
         onChange={onChange}
         required={required}
         style={{ height: 48, padding: 12, width: "100%" }}
-        className={`${
-            error ? "error-select-input" : "select-dashboard"
-          }`}
+        className={`${error ? "error-select-input" : "select-dashboard"}`}
       >
-        <option value="" disabled>
+        {/* <option value="" disabled>
           {placeholder}
         </option>
         {options.map((option, index) => (
           <option key={index} value={option}>
             {option}
           </option>
-        ))}
+        ))} */}
+
+        {renderOptions()}
       </select>
       <p>{error}</p>
     </div>

@@ -1,60 +1,26 @@
-.csv-uploader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .upload-label {
-    background-color: #FF734225;
-    color: #FF7342;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 150px;
-    width: 200px;
-    text-align: center;
-  }
-  
-  .upload-icon {
-    margin-right: 8px;
-  }
-  .csv-uploader-container input[type="file"] {
-    display: none;
-  }
-  .upload-div{
-    background-color: white;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 24px
-  }
 
-  .progress-bar-container {
-    position: relative;
-    margin-top: 10px;
+  .departments-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; 
   }
   
-  .progress-bar {
-    width: 0;
-    height: 20px;
-    background-color: #4caf50;
-    position: absolute;
-    top: 0;
-    left: 0;
+  .department-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+   justify-content: center;
+   max-width: 200px;
+   padding: 16px
   }
   
-  .button-upload{
-    background-color: orangered;
-    color: white;
-    padding: 16px;
-    width: 220px;
-    border: none;
-    border-radius: 24px;
-    font-family: var(--fontFamily);
+  .department-image {
+    width: 48px; 
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 8px;
   }
   

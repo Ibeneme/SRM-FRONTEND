@@ -22,7 +22,7 @@ const baseApiUrl = "https://srm.neofin.ng";
 export const getOrganizationProfile = createAsyncThunk(
   "profile/getOrganizationProfile",
   async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("srm_access_token");
 
     try {
       const response = await axios.get(
@@ -41,7 +41,7 @@ export const getOrganizationProfile = createAsyncThunk(
   }
 );
 export const getProfile = createAsyncThunk("profile/getProfile", async () => {
-  const token = localStorage.getItem("access_token");
+  const token = localStorage.getItem("srm_access_token");
 
   try {
     const response = await axios.get(`${baseApiUrl}/profile/get-profile/`, {
@@ -59,7 +59,7 @@ export const getProfile = createAsyncThunk("profile/getProfile", async () => {
 export const getDepartments = createAsyncThunk(
   "profile/getDepartments",
   async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("srm_access_token");
 
     try {
       const response = await axios.get(
@@ -81,7 +81,7 @@ export const getDepartments = createAsyncThunk(
 export const createDepartment = createAsyncThunk(
   "auth/createDepartment",
   async (createDepartment: any, { rejectWithValue }) => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("srm_access_token");
 
     try {
       // const formData = new FormData();
@@ -110,11 +110,68 @@ export const createDepartment = createAsyncThunk(
   }
 );
 
+export const editDepartment = createAsyncThunk(
+  "auth/editDepartment",
+  async (
+    { editDepartment, department }: { editDepartment: any; department: string },
+    { rejectWithValue }
+  ) => {
+    const token = localStorage.getItem("srm_access_token");
+    console.log(editDepartment, department, "departmentdepartment");
+    try {
+      const response = await axios.put(
+        `${baseApiUrl}/profile/update-department/${department}/`,
+        editDepartment, // Pass editDepartment directly as the request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response, "fm");
+      return response.status;
+    } catch (error) {
+      console.error(error, "Organization Profile Update Error");
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.status);
+      }
+      return rejectWithValue("Network Error");
+    }
+  }
+);
+
+export const deleteDepartment = createAsyncThunk(
+  "auth/deleteDepartment",
+  async (deleteDepartment: any, { rejectWithValue }) => {
+
+    const token = localStorage.getItem("srm_access_token");
+    console.log(deleteDepartment, deleteDepartment, "departmentdepartment");
+    try {
+      const response = await axios.delete(
+        `${baseApiUrl}/profile/delete-department/${deleteDepartment}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response, "fm");
+      return response.status;
+    } catch (error) {
+      console.error(error, "Organization Profile Update Error");
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.status);
+      }
+      return rejectWithValue("Network Error");
+    }
+  }
+);
+
 export const updateOrganizationProfile = createAsyncThunk(
   "auth/updateOrganizationProfile",
   async (updatedProfile: any, { rejectWithValue }) => {
     console.log(updatedProfile, " hhhhh");
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("srm_access_token");
     try {
       const response = await axios.put(
         `${baseApiUrl}/profile/update-organization/`,
@@ -140,7 +197,7 @@ export const updateOrganizationProfile = createAsyncThunk(
 export const updatePersonalProfile = createAsyncThunk(
   "auth/updatePersonalProfile",
   async (updatePersonalProfile: any, { rejectWithValue }) => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("srm_access_token");
 
     try {
       const formData = new FormData();
@@ -169,33 +226,36 @@ export const updatePersonalProfile = createAsyncThunk(
   }
 );
 export const importStaff = createAsyncThunk(
-  'auth/importStaff',
+  "auth/importStaff",
   async (formData: FormData, { rejectWithValue }) => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.post(`${baseApiUrl}/auth/import-staff/`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post(
+        `${baseApiUrl}/auth/import-staff/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log(response);
       return response.status;
     } catch (error) {
-      console.error(error, 'Organization Profile Update Error');
+      console.error(error, "Organization Profile Update Error");
       if (axios.isAxiosError(error)) {
         return rejectWithValue(error.response?.status);
       }
-      return rejectWithValue('Network Error');
+      return rejectWithValue("Network Error");
     }
   }
 );
 
-
 export const getUserCSV = createAsyncThunk("profile/getUserCSV", async () => {
-  const token = localStorage.getItem("access_token");
+  const token = localStorage.getItem("srm_access_token");
 
   try {
     const response = await axios.get(`${baseApiUrl}/profile/export-users/`, {
@@ -211,7 +271,7 @@ export const getUserCSV = createAsyncThunk("profile/getUserCSV", async () => {
 });
 
 export const getAllUsers = createAsyncThunk("profile/getAllUsers", async () => {
-  const token = localStorage.getItem("access_token");
+  const token = localStorage.getItem("srm_access_token");
 
   try {
     const response = await axios.get(`${baseApiUrl}/profile/all-users/`, {
@@ -363,6 +423,36 @@ const profileSlice = createSlice({
         state.profile = action.payload;
       })
       .addCase(getAllUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload
+          ? (action.payload as string)
+          : "Failed to update profile";
+      });
+    builder
+      .addCase(editDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(editDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload
+          ? (action.payload as string)
+          : "Failed to update profile";
+      });
+      builder
+      .addCase(deleteDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(deleteDepartment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload
           ? (action.payload as string)

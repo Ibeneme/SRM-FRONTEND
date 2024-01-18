@@ -27,8 +27,8 @@ import Settings from "./Pages/Home/Settings/Index";
 //   const isLoggedIn = !!access_token;
 const App: React.FC = () => {
   const [isLoggedIn] = useState(() => {
-    const access_token = localStorage.getItem("access_token");
-    return !!access_token;
+    const srm_access_token = localStorage.getItem("srm_access_token");
+    return !!srm_access_token;
   });
   return (
     <Router>

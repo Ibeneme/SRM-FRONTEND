@@ -1,98 +1,102 @@
 /* ChatAnimations.css */
 
 .chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 12px;
+  font-size: 10px;
+  margin-top: 48px;
+}
+
+.profile-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.typing-animation {
+  background-color: #fff;
+  padding: 12px 12px;
+  border-radius: 10px;
+  max-width: 250px; /* Adjust the maximum width based on your layout */
+  word-wrap: break-word; /* or use word-wrap: break-word; */
+  margin: 5px 0;
+  color: gray;
+  gap: -12px;
+}
+.stkeholder-typing-text {
+  font-size: 10px;
+  font-weight: bold;
+  color: orangered;
+  margin-top: 0px;
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+.support-typing-text {
+  font-size: 10px;
+  font-weight: bold;
+  color: blue;
+  margin-top: 0px;
+  margin-bottom: 6px;
+  align-items: center;
+  display: flex;
+  gap: 2px;
+}
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typing-animation span {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 2s;
+}
+
+.receiver-container {
+  opacity: 1;
+  transform: translateY(0);
+  animation: pop-in 0.5s forwards;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 15px;
+}
+
+.sender-container {
+  opacity: 1;
+  transform: translateY(0);
+  animation: pop-in 0.5s forwards;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 180px;
+}
+@keyframes pop-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 726px) {
+  .sender-container {
+    opacity: 1;
+    transform: translateY(0);
+    animation: pop-in 0.5s forwards;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 12px;
-    font-size: 10px;
-    margin-top: 48px;
-  }
-  
-  .profile-image {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-  }
-  .typing-animation {
-    background-color: #fff;
-    padding: 12px 12px;
-    border-radius: 10px;
-    max-width: 220px; /* Adjust the maximum width based on your layout */
-    word-wrap: break-word; /* or use word-wrap: break-word; */
-    margin: 5px 0;
-    color: gray;
-    gap:-12px;
-  }
-  .stkeholder-typing-text{
-    font-size: 10px;
-    font-weight: bold;
-    color: orangered;
-    margin-top: 0px;
-    margin-bottom: 6px;
-    text-align: left;
+    align-items: center;
+    gap: 4px;
+    margin-left: 10px;
   }
 
-  .support-typing-text{
-    font-size: 10px;
-    font-weight: bold;
-    color: blue;
-    margin-top: 0px;
-    margin-bottom: 6px;
-    align-items: center;
-    display: flex;
-    gap: 2px
+  .chat-container {
+    display: none;
   }
-  @keyframes typing {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
-    }
-  }
-  
-  .typing-animation span {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    animation: typing 2s;
-  }
-  
-  .receiver-container {
-    opacity: 1;
-    transform: translateY(0);
-    animation: pop-in 0.5s forwards;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: 25px
-  }
-  
-  .sender-container{
-    opacity: 1;
-    transform: translateY(0);
-    animation: pop-in 0.5s forwards;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: 250px;
-  }
-  @keyframes pop-in {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @media(max-width: 726px){
-    .sender-container{
-        opacity: 1;
-        transform: translateY(0);
-        animation: pop-in 0.5s forwards;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        margin-left: 120px;
-      }
-  }
+}

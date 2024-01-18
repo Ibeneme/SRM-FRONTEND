@@ -17,13 +17,11 @@ const SectionB: React.FC = () => {
         >
           <h1 data-aos="zoom-in" className="hero-header">
             Stakeholder Friendly
-            <br />
+            <br /> Management{" "}
             <span
               data-aos="zoom-in"
               style={{ color: "#FFCA95", textDecorationLine: "underline" }}
-            >
-              Management{" "}
-            </span>{" "}
+            ></span>{" "}
             Software
           </h1>
           <p data-aos="zoom-in" className="hero-smaller-text">

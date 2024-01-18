@@ -1,4 +1,5 @@
 import React from "react";
+import { MdSend } from "react-icons/md";
 
 interface HistoryLogItem {
   ticketId: string;
@@ -23,10 +24,10 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
         <thead>
           <tr>
             <th>Assigned To</th>
-            <th>Ticket ID</th>
-            <th>Status</th>
-            <th>Date</th>
             <th>Title</th>
+            <th>Ticket ID</th>
+            {/* <th>Status</th> */}
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
@@ -49,9 +50,10 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                   Ticket Title: {item.title}
                 </p>
               </td>
+              <td>{item.title}</td>
               <td>{item.ticketId}</td>
-              <td>
-                <p
+              {/*     <td>
+            <p
                   style={{
                     color: item.status === "Overdue" ? "red" : "#0000ff",
                     backgroundColor:
@@ -64,10 +66,15 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                 >
                   {" "}
                   {item.status}
-                </p>
-              </td>
+                </p> 
+              </td>*/}
               <td>{item.date}</td>
-              <td>{item.title}</td>
+              <td>
+                {" "}
+                <p className="view-tickets">
+                  View ticket <MdSend />{" "}
+                </p>{" "}
+              </td>
             </tr>
           ))}
         </tbody>

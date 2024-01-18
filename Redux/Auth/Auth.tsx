@@ -56,10 +56,16 @@ export const login = createAsyncThunk("auth/login", async (loginData: any) => {
   try {
     const response = await axios.post(`${baseApiUrl}/auth/login/`, loginData);
     console.log(response.data.access_token, "Login Response");
-    const access_token = response?.data?.access_token;
-    if (access_token) {
-      localStorage.setItem("access_token", access_token);
+    const srm_access_token = response?.data?.access_token;
+    const srm_user = response?.data?.user;
+    if (srm_access_token) {
+      localStorage.setItem("srm_access_token", srm_access_token);
     }
+    if (srm_user) {
+      localStorage.setItem("srm_user", JSON.stringify(srm_user));
+      console.log("pls,", srm_user);
+    }
+
     return response.status;
   } catch (error) {
     console.error(error, "Login Error");
@@ -164,6 +170,30 @@ export const confirmPasswordReset = createAsyncThunk(
       return response.status;
     } catch (error) {
       console.error(error, "Reset Password Error");
+      return (error as AxiosError).response?.status;
+    }
+  }
+);
+
+export const addStaff = createAsyncThunk(
+  "auth/addStaff",
+  async (userData: any) => {
+    const token = localStorage.getItem("srm_access_token");
+    try {
+      const response = await axios.post(
+        `${baseApiUrl}/auth/add-staff/`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(userData, "userData");
+      console.log(response, "addStaff Response");
+      return response.status;
+    } catch (error) {
+      console.log(error, "addStaff Error");
       return (error as AxiosError).response?.status;
     }
   }
@@ -288,6 +318,18 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(confirmPasswordReset.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ? (action.payload as string) : null;
+      });
+    builder
+      .addCase(addStaff.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addStaff.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(addStaff.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ? (action.payload as string) : null;
       });

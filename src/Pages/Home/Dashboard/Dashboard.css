@@ -64,16 +64,25 @@
 }
 .div-dashboard-overdue {
   background-color: #fff;
-  padding: 16px;
+  padding: 12px;
   border-radius: 16px;
   cursor: pointer;
   width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .div-split-tickets {
   margin-top: 32px;
+  margin-bottom: 16px;
   display: flex;
   gap: 16px;
   width: auto;
+}
+
+.full-width {
+  margin-top: -4px;
 }
 .history-log-p {
   display: none;
@@ -93,11 +102,24 @@
   .div-split-tickets {
     flex-wrap: wrap;
   }
+  .div-split-tickets {
+    margin-top: 32px;
+    margin-bottom: 36px;
+    display: flex;
+    gap: 16px;
+    width: auto;
+  }
+  
 }
-@media (max-width: 500px) {
+@media (max-width: 700px) {
   .hide {
     display: none;
   }
+
+  .full-width {
+    margin-top: 32px;
+  }
+
   .main-content-container {
     flex: 1;
     background-color: #f4f4f4;
@@ -123,16 +145,22 @@
   }
 }
 
+@media (min-width: 701px) and (max-width: 991px) {
+  .full-width {
+    margin-top: 16px;
+  }
+}
+
 .div-overdue-icons {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: -12px;
-  border-bottom: 0.6px solid #80808020;
+  width: 100%;
 }
 .div-main-overdue-image {
   background-color: #ff000023;
   border-radius: 8px;
+  margin-bottom: -18px;
 }
 .image-main-overdue-image {
   border-radius: 8px;
@@ -178,4 +206,43 @@
   z-index: 12;
   position: absolute;
   margin-left: -20px;
+}
+
+.no_tickets {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  border-radius: 16px;
+  margin-top: -20px;
+}
+
+.no_tickets-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.no_tickets-div-p {
+  font-size: 16px;
+  color: #80808095;
+  margin-top: -2px;
+}
+
+.no_tickets-div-h2 {
+  font-size: 18px;
+}
+.no_tickets-div-button {
+  height: 52px;
+  font-size: 17px;
+  width: 250px;
+  background-color: var(--darkOrange);
+  color: "#ffffff";
+  border: none;
+  border-radius: 249px;
+  font-family: var(--font-family);
+  margin-top: 24px;
 }

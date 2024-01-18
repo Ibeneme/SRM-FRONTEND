@@ -1,6 +1,6 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
  */
- @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&display=swap");
 :root {
   --font-family: "Dm Sans", sans-serif;
   padding: 0;
@@ -8,7 +8,8 @@
 }
 
 :root {
-  --darkOrange: #ff5f05;
+  --darkOrange: #ff6b00;
+  /* --darkOrange: #ff5f05; */
   --primaryOrange: #ff7342;
   --darkBlue: #031849;
   --lightBlue: #3586ff;
@@ -25,6 +26,3 @@ body {
   margin: 0;
   font-family: var(--font-family);
 }
-
-
- 

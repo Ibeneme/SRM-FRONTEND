@@ -26,6 +26,9 @@ import HalfButton from "../../Auth/Components/Buttons/HalfBtn";
 import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
 import NotificationListComponent from "./Components/Notifications/NotificationsList";
+import { IoTicket } from "react-icons/io5";
+import NoTickets from "../../../assets/Dashboard/NoTickets.png";
+import NoTicketsMessage from "./Components/NoTickets";
 
 const notificationsData = [
   {
@@ -46,26 +49,31 @@ const notificationsData = [
 ];
 
 const dashboardData = [
-  { title: "Overdue Tickets", image: Overdue, number: "50+" },
-  { title: "Due Tickets", image: Due },
-  { title: "Recently Created Tickets", image: Recent, number: 3 },
+  { title: "Overdue Tickets", image: Overdue, number: "50+", color: "#FD1E10" },
+  { title: "Due Tickets", image: Due, color: "#FDBA10" },
+  {
+    title: "Recent Tickets",
+    image: Recent,
+    number: 3,
+    color: "#0FC136",
+  },
 ];
 const historyLogData = [
   {
     assignedTo: "Ibeneme Ikenna",
-    ticketId: "T123ABS",
+    title: "Fixing Bugs....",
+    ticketId: "123456",
     status: "Overdue",
     date: "2022-01-01",
-    title: "Fixing Bugs",
     email: "ib@gmail.com",
     image: image,
   },
   {
     assignedTo: "Ibeneme Ikenna",
-    ticketId: "T1SNDH23",
+    title: "Fixing Bugs....",
+    ticketId: "789012",
     status: "Due",
     date: "2022-01-01",
-    title: "Fixing Bugs",
     email: "ib@gmail.com",
     image: image,
   },
@@ -378,10 +386,10 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       <Sidebar
-        user_first_name={`${userProfile?.first_name} `}
-        user_last_name={`${userProfile?.last_name}`}
-        usersemail={`${userProfile?.email}
-        `}
+      // user_first_name={`${userProfile?.first_name} `}
+      // user_last_name={`${userProfile?.last_name}`}
+      // usersemail={`${userProfile?.email}
+      // `}
       />
 
       <div className="main-content-container">
@@ -410,7 +418,32 @@ const Dashboard: React.FC = () => {
                 {dashboardData.map((item, index) => (
                   <div key={index} className="div-dashboard-overdue">
                     <div className="div-overdue-icons">
-                      <p className="overdue-texts-dashboard">{item.title}</p>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 8,
+                        }}
+                      >
+                        <div
+                          style={{
+                            backgroundColor: item.color,
+                            padding: 12,
+                            borderRadius: 12,
+                            fontSize: 20,
+                            height: 24,
+                            width: 24,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            color: "#Fff",
+                          }}
+                        >
+                          <IoTicket />
+                        </div>
+                        <p className="overdue-texts-dashboard">{item.title}</p>
+                      </div>
                       <span style={{ fontSize: 24, position: "relative" }}>
                         <TbTicket style={{ marginLeft: -12 }} />
                         {item?.number ? (
@@ -420,22 +453,56 @@ const Dashboard: React.FC = () => {
                         ) : null}
                       </span>
                     </div>
-                    <div className="div-main-overdue-image">
+                    {/* <div className="div-main-overdue-image">
                       <img
                         src={item.image}
+                        style={{ height: 24 }}
                         className="image-main-overdue-image"
                         alt={item.title}
-                      />
-                    </div>
+                      /> 
+                    </div>*/}
                   </div>
                 ))}
               </div>
-              <div className="div-split-tickets">
+
+              <NoTicketsMessage
+                heading="Whoops... No Tickets Logged"
+                paragraph="No tickets created yet"
+                imageUrl={NoTickets}
+                imageAlt="No Tickets"
+                buttonText="+ Create a Ticket"
+                onClick={() => console.log("clicked")}
+              />
+              {/* <div className="">
+                <div className="no_tickets">
+                  <div className="no_tickets-div">
+                    <h2 className="no_tickets-div-h2">
+                      {" "}
+                      Whoops... No Tickets Logged
+                    </h2>
+                    <p className="no_tickets-div-p"> No tickets created yet</p>
+                    <img
+                      src={NoTickets}
+                      style={{ height: 300 }}
+                      // className="image-main-overdue-image"
+                      alt={NoTickets}
+                    />{" "}
+                    <button
+                      className="no_tickets-div-button"
+                      style={{ color: "white" }}
+                    >
+                      + Create a Ticket
+                    </button>
+                  </div>{" "}
+                </div>
+              </div> */}
+
+              {/* <div className="div-split-tickets full-width">
                 <FilterBar />
               </div>
               <div>
                 <HistoryLog data={historyLogData} />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

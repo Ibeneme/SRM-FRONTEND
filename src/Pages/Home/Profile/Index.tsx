@@ -471,12 +471,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <Sidebar
-        user_first_name={`${userProfile?.first_name} `}
-        user_last_name={`${userProfile?.last_name}`}
-        usersemail={`${userProfile?.email}
-  `}
-      />
+      <Sidebar />
 
       <div className="main-content-container">
         <div className="dashboard-cards-container">

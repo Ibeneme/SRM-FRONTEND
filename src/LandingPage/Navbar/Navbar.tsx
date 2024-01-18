@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { FiArrowRight } from "react-icons/fi";
+// import { FiArrowRight } from "react-icons/fi";
 import "./Navbar.css";
-import useNavigateToCreateAccount from "../../Pages/Auth/Hook/useCreateAccount";
+// import useNavigateToCreateAccount from "../../Pages/Auth/Hook/useCreateAccount";
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,13 +28,13 @@ const Navbar: React.FC = () => {
             <p className="nav-logo-text">SRM</p>
           </div>
           <div className="nav-right-content">
-            <button
+            {/* <button
               className={`${isScrolled ? "scrolledNavbtn" : "nav-button"}`}
               onClick={useNavigateToCreateAccount()}
             >
               Get Started
               <FiArrowRight />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
