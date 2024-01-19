@@ -22,7 +22,6 @@ import PasswordWarning from "../../../components/Error/ErrorWarning";
 import Sidebar from "../Dashboard/SideBar";
 import "../Profile/Profile.css";
 import SettingsToggle from "./SettingsToggle";
-import { MdEdit } from "react-icons/md";
 import "./settings.css";
 import orgImage from "../../../assets/Dashboard/Company.png";
 import NoTicketsMessage from "../Dashboard/Components/NoTickets";
@@ -31,7 +30,6 @@ import { addStaff } from "../../../../Redux/Auth/Auth";
 import departmentsImage from "../../../assets/Dashboard/Departments.png";
 import DepartmentsComponent from "./DepartmentsComponents";
 import { useNavigate } from "react-router-dom";
-import UsersLog from "../Users/Components/Users";
 import UsersLogFD from "../Users/Components/UsersFD";
 
 interface FormData {
