@@ -21,7 +21,6 @@ import SettingsToggle from "./SettingsToggle";
 import { MdEdit } from "react-icons/md";
 import "./settings.css";
 import orgImage from "../../../assets/Dashboard/Company.png";
-import NoTicketsMessage from "../Dashboard/Components/NoTickets";
 //import { useNavigate } from "react-router-dom";
 import UsersLog from "../Users/Components/Users";
 
@@ -92,7 +91,6 @@ const Settings: React.FC = () => {
     });
   }, [dispatch]);
 
-  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -246,26 +244,9 @@ const Settings: React.FC = () => {
 
   const accountSettingsContent = (
     <div>
-      <br />
-
-      {fetchedUsers?.length === 0 ? (
-        <NoTicketsMessage
-          heading="Whoops... No Users Added yet"
-          paragraph="No users created yet"
-          imageUrl={orgImage}
-          imageAlt="No Tickets"
-          buttonText="+ Create a User"
-          onClick={() => console.log("true")}
-        />
-      ) : (
-        <div>
-          <div
-            style={{ backgroundColor: "#fff", padding: 12, borderRadius: 24 }}
-          >
-            <UsersLog isLoading={loading} />
-          </div>
-        </div>
-      )}
+      <div style={{ backgroundColor: "#fff", padding: 12, borderRadius: 24 }}>
+        <UsersLog isLoading={loading} />
+      </div>
     </div>
   );
   const orgSettingsContent = (
@@ -305,6 +286,7 @@ const Settings: React.FC = () => {
     </div>
   );
 
+  console.log(fetchedUsers);
   return (
     <div className="dashboard-container">
       <Sidebar />

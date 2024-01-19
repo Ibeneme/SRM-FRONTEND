@@ -344,5 +344,43 @@ h2 {
   background-color: var(--ticket-color-3);
 }
 
+.view-tickets {
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 588px;
+  padding: 8px 16px;
+  margin: 5px;
+  display: flex;
+}
+
+.view-tickets-loading {
+  background-color: #80808020;
+  color: #808080;
+  pointer-events: none;
+  cursor: not-allowed;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+  border-radius: 239px;
+  cursor: pointer;
+  margin: 0
+}
 
 
+.view-tickets-token {
+  background-color: #80808020;
+  color: #808080;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+  border-radius: 239px;
+  cursor: pointer;
+  margin: 0
+}

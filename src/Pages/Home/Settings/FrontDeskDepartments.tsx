@@ -23,13 +23,13 @@ import Sidebar from "../Dashboard/SideBar";
 import "../Profile/Profile.css";
 import SettingsToggle from "./SettingsToggle";
 import "./settings.css";
-import orgImage from "../../../assets/Dashboard/Company.png";
-import NoTicketsMessage from "../Dashboard/Components/NoTickets";
+// import orgImage from "../../../assets/Dashboard/Company.png";
+// import NoTicketsMessage from "../Dashboard/Components/NoTickets";
 import { MdOutlineCancel } from "react-icons/md";
 import { addStaff } from "../../../../Redux/Auth/Auth";
 import departmentsImage from "../../../assets/Dashboard/Departments.png";
 import DepartmentsComponent from "./DepartmentsComponents";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import UsersLogFD from "../Users/Components/UsersFD";
 import ShimmerLoaderPage from "../../Utils/ShimmerLoader/ShimmerLoaderPage";
 
@@ -71,7 +71,7 @@ const Frontdesk: React.FC = () => {
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [fetchedDepartments, setDepartments] = useState<Department[]>([]);
   const [fetchedSpecificDepartments, setSpecificDepartments] = useState<
     any | null
@@ -747,7 +747,7 @@ const Frontdesk: React.FC = () => {
     <div>
       <br />
 
-      {fetchedUsers?.length === 0 ? (
+      {/* {fetchedUsers?.length === 0 ? (
         <NoTicketsMessage
           heading="Whoops... No Users Added yet"
           paragraph="No users created yet"
@@ -756,23 +756,21 @@ const Frontdesk: React.FC = () => {
           buttonText="+ Create a User"
           onClick={() => navigate("/settings")}
         />
-      ) : (
-        <div>
+      ) : ( */}
+      <div>
+        <div style={{ backgroundColor: "#fff", padding: 12, borderRadius: 24 }}>
           <div
-            style={{ backgroundColor: "#fff", padding: 12, borderRadius: 24 }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-              }}
-            ></div>
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          ></div>
 
-            <UsersLogFD data={fetchedUsers} />
-          </div>
+          <UsersLogFD data={fetchedUsers} />
         </div>
-      )}
+      </div>
+      {/* // )} */}
     </div>
   );
 

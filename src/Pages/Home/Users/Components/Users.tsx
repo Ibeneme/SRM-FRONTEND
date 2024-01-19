@@ -19,8 +19,9 @@ import {
   getDepartments,
   updateStaff,
 } from "../../../../../Redux/Profile/Profile";
-import { addStaff } from "../../../../../Redux/Auth/Auth";
+import { addStaff, resendOTP } from "../../../../../Redux/Auth/Auth";
 import ShimmerLoaderPage from "../../../Utils/ShimmerLoader/ShimmerLoaderPage";
+import useCustomToasts from "../../../Utils/ToastNotifications/Toastify";
 
 interface UsersLogItem {
   department: string | null;
@@ -33,6 +34,7 @@ interface UsersLogItem {
   last_name: string;
   id: string;
   phone_number: string;
+  email_verified: string;
 }
 
 interface UsersLogProps {
@@ -66,6 +68,7 @@ interface SubmitErrors {
 }
 
 const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
+  const { showSuccessToast, showErrorToast } = useCustomToasts();
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [clickedUser, setClickedUser] = useState<UsersLogItem | null>(null);
@@ -77,6 +80,9 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const [formErrors, setFormErrors] = useState("");
   const [fetchedUsers, setFetchedUsers] = useState<UsersLogItem[]>([]);
   const [pageLoading, setPageLoading] = useState<boolean>(false);
+  const [resendTokenLoading, setResendTokenLoading] = useState<
+    Record<string, boolean>
+  >({});
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
     permission_type: "",
@@ -115,7 +121,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     const fetchUsers = async () => {
       try {
         setPageLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 1200));
+        await new Promise((resolve) => setTimeout(resolve, 800));
         const result = await dispatch(getAllUsers());
         setFetchedUsers(result.payload);
       } catch (error) {
@@ -127,14 +133,41 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     fetchUsers();
   }, [dispatch]);
 
- useEffect(() => {
-  //   dispatch(getAllUsers()).then((result) => {
-  //     setFetchedUsers(result.payload);
-  //   });
-  dispatch(getDepartments()).then((result) => {
-    setDepartments(result.payload);
-  });
-}, [dispatch]);
+  useEffect(() => {
+    //   dispatch(getAllUsers()).then((result) => {
+    //     setFetchedUsers(result.payload);
+    //   });
+    dispatch(getDepartments()).then((result) => {
+      setDepartments(result.payload);
+    });
+  }, [dispatch]);
+
+  const handleResendOTP = (item: UsersLogItem) => {
+    console.log(item);
+    setResendTokenLoading((prevLoadingMap) => ({
+      ...prevLoadingMap,
+      [item.id]: true,
+    }));
+    setTimeout(() => {
+      dispatch(resendOTP({ email: item?.email }))
+        .then((status) => {
+          setResendTokenLoading((prevLoadingMap) => ({
+            ...prevLoadingMap,
+            [item.id]: false,
+          }));
+          console.log("Resend OTP success. Status:", status);
+          showSuccessToast("Token Resent Successfully");
+        })
+        .catch((errorStatus) => {
+          setResendTokenLoading((prevLoadingMap) => ({
+            ...prevLoadingMap,
+            [item.id]: false,
+          }));
+          showErrorToast("This is an error toast!");
+          console.error("Error sending Token", errorStatus);
+        });
+    }, 800);
+  };
 
   const handleDeleteStaff = async () => {
     try {
@@ -816,132 +849,148 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
 
   return (
     <div>
-      <HalfButton
-        onClick={openSecondModal}
-        text="+ Add a User"
-        loading={loading}
-        disabled={loading}
-      />
-      <div
-        className="history-log"
-        style={{ padding: 0, margin: 0, width: "100%" }}
-      >
-        {pageLoading ? (
-          <ShimmerLoaderPage />
-        ) : (
-          <table className="log-table" style={{ width: "100%" }}>
-            <thead>
-              <tr>
-                <th>Staff</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Department</th>
-                <th>Permission</th>
-              </tr>
-            </thead>
-            <tbody>
-              {fetchedUsers?.map((item, index) => {
-                const profilePicStyle: React.CSSProperties = {
-                  backgroundColor: item?.image
-                    ? "transparent"
-                    : getRandomColor(item?.first_name[1]),
-                };
+      <div>
+        <HalfButton
+          onClick={openSecondModal}
+          text="+ Add a User"
+          loading={loading}
+          disabled={loading}
+        />
+        <div
+          className="history-log"
+          style={{ padding: 0, margin: 0, width: "100%" }}
+        >
+          {pageLoading ? (
+            <ShimmerLoaderPage />
+          ) : (
+            <table className="log-table" style={{ width: "100%" }}>
+              <thead>
+                <tr>
+                  <th>Staff</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>Department</th>
+                  <th>Permission</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fetchedUsers?.map((item, index) => {
+                  const profilePicStyle: React.CSSProperties = {
+                    backgroundColor: item?.image
+                      ? "transparent"
+                      : getRandomColor(item?.first_name[1]),
+                  };
 
-                return (
-                  <tr
-                    key={index}
-                    className="log-item"
-                    onClick={() => openModal(item)}
-                  >
-                    <td>
-                      <span className="center-column-span">
-                        {item?.image ? (
-                          <img
-                            className="center-column-image"
-                            src={item?.image}
-                            alt="item"
-                          />
-                        ) : (
-                          <div
-                            className="profile-pic-dashboard"
-                            style={profilePicStyle}
-                          >
-                            {item?.image ? (
-                              <img
-                                src={item?.image}
-                                alt={`${item?.first_name} ${item?.last_name}`}
-                              />
-                            ) : (
-                              <span
-                                style={{
-                                  color: "#fff",
-                                  fontSize: 13,
-                                }}
-                              >
-                                {item?.first_name[0]}
-                                {item?.last_name[0]}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        <span className="center-column">
-                          <p className="center-column-title">
-                            {item.first_name} {item?.last_name}
-                          </p>
-                          <p className="center-column-p">{item.email}</p>
+                  return (
+                    <tr key={index} className="log-item">
+                      <td>
+                        <span className="center-column-span">
+                          {item?.image ? (
+                            <img
+                              className="center-column-image"
+                              src={item?.image}
+                              alt="item"
+                            />
+                          ) : (
+                            <div
+                              className="profile-pic-dashboard"
+                              style={profilePicStyle}
+                            >
+                              {item?.image ? (
+                                <img
+                                  src={item?.image}
+                                  alt={`${item?.first_name} ${item?.last_name}`}
+                                />
+                              ) : (
+                                <span
+                                  style={{
+                                    color: "#fff",
+                                    fontSize: 13,
+                                  }}
+                                >
+                                  {item?.first_name[0]}
+                                  {item?.last_name[0]}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          <span className="center-column">
+                            <p className="center-column-title">
+                              {item.first_name} {item?.last_name}
+                            </p>
+                            <p className="center-column-p">{item.email}</p>
+                          </span>
                         </span>
-                      </span>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{item.department || "Missing Field"}</td>
-                    <td>
-                      <p>
-                        {item.permission_type.toLowerCase() === "executive"
-                          ? "Executive"
-                          : "Support"}
-                      </p>
-                    </td>
-                    <td>
-                      {" "}
-                      <p className="view-tickets">
-                        View User <MdSend />{" "}
-                      </p>{" "}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          formContent={content}
-        />
-        <Modal
-          isOpen={isEditModalOpen}
-          onClose={closeEditModal}
-          formContent={editModalContent}
-        />
-        <Modal
-          isOpen={isDeleteModalOpen}
-          onClose={closeDeleteModal}
-          formContent={confirmDeleteModal}
-        />
-        <Modal
-          isOpen={isSecondModalOpen}
-          onOpen={openSecondModal}
-          onClose={closeSecondModal}
-          formContent={formContentSecondModal}
-        />
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          formContent={content}
-        />
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{item.department || "Missing Field"}</td>
+                      <td>
+                        <p>
+                          {item.permission_type.toLowerCase() === "executive"
+                            ? "Executive"
+                            : "Support"}
+                        </p>
+                      </td>
+                      <td>
+                        {item?.email_verified === "True" ? (
+                          <p
+                            onClick={() => openModal(item)}
+                            className="view-tickets"
+                          >
+                            View User <MdSend />{" "}
+                          </p>
+                        ) : (
+                          <p
+                            className={` ${
+                              resendTokenLoading[item.id]
+                                ? "view-tickets-loading"
+                                : "view-tickets-token"
+                            }`}
+                            onClick={() => handleResendOTP(item)}
+                          >
+                            {resendTokenLoading[item.id]
+                              ? "Loading..."
+                              : "Resend Token"}{" "}
+                            <MdSend />
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+          <Modal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            formContent={content}
+          />
+          <Modal
+            isOpen={isEditModalOpen}
+            onClose={closeEditModal}
+            formContent={editModalContent}
+          />
+          <Modal
+            isOpen={isDeleteModalOpen}
+            onClose={closeDeleteModal}
+            formContent={confirmDeleteModal}
+          />
+          <Modal
+            isOpen={isSecondModalOpen}
+            onOpen={openSecondModal}
+            onClose={closeSecondModal}
+            formContent={formContentSecondModal}
+          />
+          <Modal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            formContent={content}
+          />
+        </div>
       </div>
     </div>
   );

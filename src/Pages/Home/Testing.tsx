@@ -1,26 +1,57 @@
-// NotFound.tsx
-import React from "react";
-import { Link } from "react-router-dom";
-import "./Testing.css"; // Import a separate CSS file for styling
-import NotFoundImage from "../../assets/Dashboard/NotFoundImage.png";
+import React from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Testing.css'; // Import your CSS file for additional styling
 
-const NotFound: React.FC = () => {
+interface YourComponentProps {
+  // Your component props
+}
+
+const YourComponent: React.FC<YourComponentProps> = ({ /* your props here */ }) => {
+  const showSuccessToast = () => {
+    toast.success('This is a success toast!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      style: {
+        background: '#0D7825',
+        color: '#ffffff',
+      },
+      className: 'custom-success-toast',
+      progressClassName: 'custom-progress-success',// Add a custom class for the progress bar
+    });
+  };
+
+  const showErrorToast = () => {
+    toast.error('This is an error toast!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      style: {
+        background: '#781A0D',
+        color: '#ffffff',
+      },
+      className: 'custom-error-toast',
+      progressClassName: 'custom-progress-error', // Add a custom class for the progress bar
+   });
+  };
+
+  // Custom CloseButton component
+
+
   return (
-    <div className="not-found-container">
-      <div className="not-found-content">
-        <img src={NotFoundImage} alt="Instagram Logo" />
-        <h1>Sorry, this page isn't available.</h1>
-        <p>
-          The link you followed may be broken, or the page may have been
-          removed. Go back to{" "}
-          <Link to="/" className="link-to-home">
-            SRM's Home
-          </Link>
-          .
-        </p>
-      </div>
+    <div>
+      {/* Your component code */}
+      <button onClick={showSuccessToast}>Show Success Toast</button>
+      <button onClick={showErrorToast}>Show Error Toast</button>
     </div>
   );
 };
 
-export default NotFound;
+export default YourComponent;
