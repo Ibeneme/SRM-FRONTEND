@@ -6,7 +6,6 @@ import { MdOutlineCancel, MdSend } from "react-icons/md";
 import FormHeaders from "../../../Auth/Components/FormHeaders";
 import PasswordWarning from "../../../../components/Error/ErrorWarning";
 import TextInputDashboard from "../../../Auth/Components/TextInouts/TextInputDashboard";
-import SelectInput from "../../../Auth/Components/TextInouts/SelectInput";
 import HalfButton from "../../../Auth/Components/Buttons/HalfBtn";
 import DateTextInput from "../../../Auth/Components/TextInouts/DateInput";
 import {
@@ -32,14 +31,7 @@ interface UsersLogFDItem {
 interface UsersLogFDProps {
   data: UsersLogFDItem[];
 }
-interface Department {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  reference: string;
-}
+
 interface FormData {
   email: string;
   first_name: string;
