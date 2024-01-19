@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../Auth/Auth.css";
 import Button from "./Components/Buttons/Button";
@@ -9,22 +9,55 @@ import useNavigateToCreateAccount from "./Hook/useCreateAccount";
 import TextInput from "./Components/TextInouts/TextInput";
 import { AppDispatch } from "../../../Redux/Store";
 import { useDispatch } from "react-redux";
-import { setPassword } from "../../../Redux/Auth/Auth";
+import { otpVerification, setPassword } from "../../../Redux/Auth/Auth";
 import Modal from "../../components/Modal/Modal";
 import success_image from "../../assets/Illustrations/AuthSuccessImage.png";
-
+import errorImage from "../../assets/Dashboard/404.png";
 interface FormData {
   confirmPassword: string;
   createPassword: string;
 }
 
 const SetAddedUserPassword: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const token = urlParams.get("token");
+    console.log(token);
 
+    dispatch(
+      otpVerification({
+        otp: token,
+      })
+    )
+      .then((response) => {
+        setLoading(false);
+        console.log("Registration successful", response);
+        switch (response?.payload) {
+          case 200:
+            console.log("success");
+            setSuccess(true);
+            break;
+          case 400:
+            break;
+          case 422:
+            break;
+          default:
+            console.log(response?.payload, "lo");
+            break;
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("Registration failed", error);
+      });
+  }, [location.search]);
+
+  const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const location = useLocation();
   const email: string = (location.state as any)?.email || "";
   const [formData, setFormData] = useState<FormData>({
     confirmPassword: "",
@@ -45,7 +78,7 @@ const SetAddedUserPassword: React.FC = () => {
   };
 
   const handleClick = () => {
-    openModal()
+    openModal();
     setLoading(true);
     setFormErrors("");
     setErrors({ confirmPassword: "", createPassword: "" });
@@ -146,61 +179,123 @@ const SetAddedUserPassword: React.FC = () => {
 
   return (
     <div className="auth-container">
-      <div className="auth-forms-div">
-        <FormTop
-          step="Step"
-          activeStepNumber={3}
-          totalStepNumbers={3}
-          title="Create a Password"
-          accountText={accountText}
-          errorText={formErrors}
-          warningText="Password must contain a mix of uppercase, lowercase, numbers, and special characters"
-        />
+      {success ? (
+        <div className="auth-forms-div">
+          <FormTop
+            step="Step"
+            activeStepNumber={3}
+            totalStepNumbers={3}
+            title="Create a Password"
+            accountText={accountText}
+            errorText={formErrors}
+            warningText="Password must contain a mix of uppercase, lowercase, numbers, and special characters"
+          />
 
-        <form className="create-account-container">
-          <div>
-            <PasswordInput
-              label="Create Password"
-              value={formData.createPassword}
-              onChange={handleChange}
-              id="createPassword"
-              name="createPassword"
-              placeholder="Password"
-              required
-              error={errors.createPassword}
-            />
-
-            <div style={{ visibility: "hidden", height: 1 }}>
-              <TextInput
-                label="First Name"
-                value={"ddd"}
+          <form className="create-account-container">
+            <div>
+              <PasswordInput
+                label="Create Password"
+                value={formData.createPassword}
                 onChange={handleChange}
-                type="text"
-                id="firstName"
-                name="firstName"
-                placeholder="First Name"
+                id="createPassword"
+                name="createPassword"
+                placeholder="Password"
+                required
+                error={errors.createPassword}
+              />
+
+              <div style={{ visibility: "hidden", height: 1 }}>
+                <TextInput
+                  label="First Name"
+                  value={"ddd"}
+                  onChange={handleChange}
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First Name"
+                />
+              </div>
+              <PasswordInput
+                label="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Password"
+                required
+                error={errors.confirmPassword}
               />
             </div>
-            <PasswordInput
-              label="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Password"
-              required
-              error={errors.confirmPassword}
-            />
-          </div>
 
-          <Button
-            onClick={handleClick}
-            text="Continue"
-            loading={loading}
-            disabled={loading}
+            <Button
+              onClick={handleClick}
+              text="Continue"
+              loading={loading}
+              disabled={loading}
+            />
+          </form>
+        </div>
+      ) : (
+        <div className="auth-forms-div">
+          <FormTop
+            activeStepNumber={0}
+            totalStepNumbers={0}
+            title="Whoops... An Error Occurred"
+            accountText={accountText}
           />
-        </form>
-      </div>
+          <br /> <br />
+          <form className="create-account-container">
+            <div>
+              <div style={{ display: "none" }}>
+                <PasswordInput
+                  label="Create Password"
+                  value={formData.createPassword}
+                  onChange={handleChange}
+                  id="createPassword"
+                  name="createPassword"
+                  placeholder="Password"
+                  required
+                  error={errors.createPassword}
+                />
+
+                <div style={{ visibility: "hidden", height: 1 }}>
+                  <TextInput
+                    label="First Name"
+                    value={"ddd"}
+                    onChange={handleChange}
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="First Name"
+                  />
+                </div>
+                <PasswordInput
+                  label="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Password"
+                  required
+                  error={errors.confirmPassword}
+                />
+              </div>
+              <img
+                src={errorImage}
+                style={{ maxWidth: 280 }}
+                alt={errorImage}
+              />
+              <br /> <br /> <br />
+              <Button
+                onClick={() => navigate("/create-account")}
+                text="Proceed to Create Account"
+                loading={loading}
+                disabled={loading}
+              />
+            </div>
+          </form>
+        </div>
+      )}
       <div className="auth-image">
         <ImageContainer />
       </div>

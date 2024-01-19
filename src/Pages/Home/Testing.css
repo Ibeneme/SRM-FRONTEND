@@ -1,0 +1,33 @@
+/* NotFound.css */
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 16px
+  }
+  
+  .not-found-content {
+    text-align: center;
+  }
+  .not-found-content-h {
+    text-align: center;
+  }
+  .not-found-content-p {
+    text-align: center;
+  }
+  .not-found-content img {
+    width: 200px; /* Adjust the size as needed */
+    margin-bottom: 20px;
+  }
+  
+  .link-to-home {
+    color: #0095f6;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .link-to-home:hover {
+    text-decoration: underline;
+  }
+  

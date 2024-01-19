@@ -1,8 +1,7 @@
-// NotFound.tsx
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Testing.css"; // Import a separate CSS file for styling
-import NotFoundImage from "../../assets/Dashboard/NotFoundImage.png";
+import "./NotFound.css";
+import NotFoundImage from "../../../assets/Dashboard/NotFoundImage.png";
 
 const NotFound: React.FC = () => {
   return (

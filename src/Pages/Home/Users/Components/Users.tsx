@@ -20,6 +20,7 @@ import {
   updateStaff,
 } from "../../../../../Redux/Profile/Profile";
 import { addStaff } from "../../../../../Redux/Auth/Auth";
+import ShimmerLoaderPage from "../../../Utils/ShimmerLoader/ShimmerLoaderPage";
 
 interface UsersLogItem {
   department: string | null;
@@ -75,6 +76,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState("");
   const [fetchedUsers, setFetchedUsers] = useState<UsersLogItem[]>([]);
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
     permission_type: "",
@@ -110,13 +112,29 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   };
 
   useEffect(() => {
-    dispatch(getAllUsers()).then((result) => {
-      setFetchedUsers(result.payload);
-    });
-    dispatch(getDepartments()).then((result) => {
-      setDepartments(result.payload);
-    });
+    const fetchUsers = async () => {
+      try {
+        setPageLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        const result = await dispatch(getAllUsers());
+        setFetchedUsers(result.payload);
+      } catch (error) {
+      } finally {
+        setPageLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, [dispatch]);
+
+ useEffect(() => {
+  //   dispatch(getAllUsers()).then((result) => {
+  //     setFetchedUsers(result.payload);
+  //   });
+  dispatch(getDepartments()).then((result) => {
+    setDepartments(result.payload);
+  });
+}, [dispatch]);
 
   const handleDeleteStaff = async () => {
     try {
@@ -808,92 +826,96 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         className="history-log"
         style={{ padding: 0, margin: 0, width: "100%" }}
       >
-        <table className="log-table" style={{ width: "100%" }}>
-          <thead>
-            <tr>
-              <th>Staff</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th>Department</th>
-              <th>Permission</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fetchedUsers?.map((item, index) => {
-              const profilePicStyle: React.CSSProperties = {
-                backgroundColor: item?.image
-                  ? "transparent"
-                  : getRandomColor(item?.first_name[1]),
-              };
+        {pageLoading ? (
+          <ShimmerLoaderPage />
+        ) : (
+          <table className="log-table" style={{ width: "100%" }}>
+            <thead>
+              <tr>
+                <th>Staff</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Department</th>
+                <th>Permission</th>
+              </tr>
+            </thead>
+            <tbody>
+              {fetchedUsers?.map((item, index) => {
+                const profilePicStyle: React.CSSProperties = {
+                  backgroundColor: item?.image
+                    ? "transparent"
+                    : getRandomColor(item?.first_name[1]),
+                };
 
-              return (
-                <tr
-                  key={index}
-                  className="log-item"
-                  onClick={() => openModal(item)}
-                >
-                  <td>
-                    <span className="center-column-span">
-                      {item?.image ? (
-                        <img
-                          className="center-column-image"
-                          src={item?.image}
-                          alt="item"
-                        />
-                      ) : (
-                        <div
-                          className="profile-pic-dashboard"
-                          style={profilePicStyle}
-                        >
-                          {item?.image ? (
-                            <img
-                              src={item?.image}
-                              alt={`${item?.first_name} ${item?.last_name}`}
-                            />
-                          ) : (
-                            <span
-                              style={{
-                                color: "#fff",
-                                fontSize: 13,
-                              }}
-                            >
-                              {item?.first_name[0]}
-                              {item?.last_name[0]}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      <span className="center-column">
-                        <p className="center-column-title">
-                          {item.first_name} {item?.last_name}
-                        </p>
-                        <p className="center-column-p">{item.email}</p>
+                return (
+                  <tr
+                    key={index}
+                    className="log-item"
+                    onClick={() => openModal(item)}
+                  >
+                    <td>
+                      <span className="center-column-span">
+                        {item?.image ? (
+                          <img
+                            className="center-column-image"
+                            src={item?.image}
+                            alt="item"
+                          />
+                        ) : (
+                          <div
+                            className="profile-pic-dashboard"
+                            style={profilePicStyle}
+                          >
+                            {item?.image ? (
+                              <img
+                                src={item?.image}
+                                alt={`${item?.first_name} ${item?.last_name}`}
+                              />
+                            ) : (
+                              <span
+                                style={{
+                                  color: "#fff",
+                                  fontSize: 13,
+                                }}
+                              >
+                                {item?.first_name[0]}
+                                {item?.last_name[0]}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        <span className="center-column">
+                          <p className="center-column-title">
+                            {item.first_name} {item?.last_name}
+                          </p>
+                          <p className="center-column-p">{item.email}</p>
+                        </span>
                       </span>
-                    </span>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>{item.department || "Missing Field"}</td>
-                  <td>
-                    <p>
-                      {item.permission_type.toLowerCase() === "executive"
-                        ? "Executive"
-                        : "Support"}
-                    </p>
-                  </td>
-                  <td>
-                    {" "}
-                    <p className="view-tickets">
-                      View User <MdSend />{" "}
-                    </p>{" "}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{item.department || "Missing Field"}</td>
+                    <td>
+                      <p>
+                        {item.permission_type.toLowerCase() === "executive"
+                          ? "Executive"
+                          : "Support"}
+                      </p>
+                    </td>
+                    <td>
+                      {" "}
+                      <p className="view-tickets">
+                        View User <MdSend />{" "}
+                      </p>{" "}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}

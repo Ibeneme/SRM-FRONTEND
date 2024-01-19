@@ -18,12 +18,14 @@ import {
   AuthResetPassword,
 } from "./Pages/Auth/Index.Auth";
 import Dashboard from "./Pages/Home/Dashboard/Dashboard";
-import YourComponent from "./Pages/Home/Testing";
 import Profile from "./Pages/Home/Profile/Index";
 import UsersPage from "./Pages/Home/Users/Index";
 import Settings from "./Pages/Home/Settings/Index";
 import Frontdesk from "./Pages/Home/Settings/FrontDeskDepartments";
 import TicketDashboard from "./Pages/Home/Tickets/Tickets";
+import MyComponent from "./Pages/Home/Testing";
+import NotFound from "./Pages/Utils/NotFound/NotFound";
+import ShimmerLoaderPage from "./Pages/Utils/ShimmerLoader/ShimmerLoaderPage";
 
 // const App: React.FC = () => {
 //   const access_token = localStorage.getItem("access_token");
@@ -73,16 +75,21 @@ const App: React.FC = () => {
           element={isLoggedIn ? <Navigate to="/home" /> : <AuthOTPReset />}
         />
         <Route
-          path="/user-create-password"
-          element={isLoggedIn ? <Navigate to="/home" /> : <AuthNewUserSetPassword />}
+          path="/user-create-password?"
+          element={
+            isLoggedIn ? <Navigate to="/home" /> : <AuthNewUserSetPassword />
+          }
         />
         <Route path="/home" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/test" element={<YourComponent />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/frontdesk" element={<Frontdesk />} />
         <Route path="/tickets" element={<TicketDashboard />} />
+        <Route path="/tesst?" element={<MyComponent />} />
+
+        <Route path="*" element={<NotFound />} />
+        <Route path="/shim" element={<ShimmerLoaderPage />} />
       </Routes>
     </Router>
   );

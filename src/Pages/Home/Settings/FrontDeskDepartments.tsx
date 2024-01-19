@@ -31,6 +31,7 @@ import departmentsImage from "../../../assets/Dashboard/Departments.png";
 import DepartmentsComponent from "./DepartmentsComponents";
 import { useNavigate } from "react-router-dom";
 import UsersLogFD from "../Users/Components/UsersFD";
+import ShimmerLoaderPage from "../../Utils/ShimmerLoader/ShimmerLoaderPage";
 
 interface FormData {
   email: string;
@@ -50,7 +51,7 @@ interface UsersLogFDItem {
   email: string;
   image: string;
   last_name: string;
-  id: string
+  id: string;
 }
 
 interface Department {
@@ -85,6 +86,7 @@ const Frontdesk: React.FC = () => {
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
   const [formErrors, setFormErrors] = useState("");
   const [fetchedUsers, setFetchedUsers] = useState<UsersLogFDItem[]>([]);
+  const [pageLoading, setPageLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
     permission_type: "",
@@ -99,14 +101,18 @@ const Frontdesk: React.FC = () => {
       last_name: "",
     });
   useEffect(() => {
+    setPageLoading(true);
     dispatch(getOrganizationProfile()).then((result) => {
+      setPageLoading(false);
       setOrganizationProfile(result.payload);
     });
 
     dispatch(getProfile()).then((result) => {
+      setPageLoading(false);
       setUserProfile(result.payload);
     });
     dispatch(getDepartments()).then((result) => {
+      setPageLoading(false);
       setDepartments(result.payload);
     });
   }, [dispatch]);
@@ -117,6 +123,7 @@ const Frontdesk: React.FC = () => {
     }
   }, [userProfile]);
 
+  console.log(pageLoading, "pageLoading");
   useEffect(() => {
     if (loading) {
       dispatch(getDepartments()).then((result) => {
@@ -941,38 +948,42 @@ const Frontdesk: React.FC = () => {
   return (
     <div className="dashboard-container">
       <Sidebar />
-      <div className="main-content-container">
-        <div className="dashboard-cards-container">
-          <div className="dashboard-content">
-            <div className="main-content-container">
-              <div className="main-content-dashboard-div">
-                <div>
+      {pageLoading ? (
+        <ShimmerLoaderPage />
+      ) : (
+        <div className="main-content-container">
+          <div className="dashboard-cards-container">
+            <div className="dashboard-content">
+              <div className="main-content-container">
+                <div className="main-content-dashboard-div">
                   <div>
-                    <h2 className="main-content-dashboard-h2">
-                      Hello, {userProfile?.first_name} {userProfile?.last_name}{" "}
-                      👋
-                    </h2>
-                    <p className="main-content-dashboard-p">
-                      Here's what's going on today.
-                    </p>
-                  </div>{" "}
+                    <div>
+                      <h2 className="main-content-dashboard-h2">
+                        Hello, {userProfile?.first_name}{" "}
+                        {userProfile?.last_name} 👋
+                      </h2>
+                      <p className="main-content-dashboard-p">
+                        Here's what's going on today.
+                      </p>
+                    </div>{" "}
+                  </div>
                 </div>
-              </div>
 
-              <div
-                className="main-content-dashboard-div"
-                style={{ marginTop: 12 }}
-              >
-                <SettingsToggle
-                  accountSettingsContent={accountSettingsContent}
-                  departmentsSettingsContent={departmentsSettingsContent}
-                  // onToggleDepartments={handleToggleDepartments}
-                />
+                <div
+                  className="main-content-dashboard-div"
+                  style={{ marginTop: 12 }}
+                >
+                  <SettingsToggle
+                    accountSettingsContent={accountSettingsContent}
+                    departmentsSettingsContent={departmentsSettingsContent}
+                    // onToggleDepartments={handleToggleDepartments}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <Modal
         isOpen={isModalOpen}
         onOpen={openModal}
