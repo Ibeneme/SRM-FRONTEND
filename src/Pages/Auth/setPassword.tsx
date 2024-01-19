@@ -18,7 +18,7 @@ interface FormData {
   createPassword: string;
 }
 
-const CreatePassword: React.FC = () => {
+const SetAddedUserPassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const [formErrors, setFormErrors] = useState("");
@@ -45,7 +45,7 @@ const CreatePassword: React.FC = () => {
   };
 
   const handleClick = () => {
-    //openModal();
+    openModal()
     setLoading(true);
     setFormErrors("");
     setErrors({ confirmPassword: "", createPassword: "" });
@@ -67,42 +67,37 @@ const CreatePassword: React.FC = () => {
       return;
     }
     setErrors({});
+    dispatch(
+      setPassword({
+        email: email,
+        password: formData.createPassword,
+      })
+    )
+      .then((response) => {
+        setLoading(false);
+        console.log("Registration successful", response);
 
-    if (formData.createPassword === formData.confirmPassword) {
-      dispatch(
-        setPassword({
-          email: email,
-          password: formData.createPassword,
-        })
-      )
-        .then((response) => {
-          setLoading(false);
-          console.log("Registration successful", response);
-
-          switch (response?.payload) {
-            case 200:
-              console.log("success");
-              openModal();
-              break;
-            case 400:
-              setFormErrors("Network Error");
-              break;
-            case 422:
-              setFormErrors("An Error Ocurred");
-              break;
-            default:
-              console.log(response?.payload, "lo");
-              setFormErrors("Network Error");
-              break;
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log("Registration failed", error);
-        });
-    } else {
-      setFormErrors("Passwords do not match");
-    }
+        switch (response?.payload) {
+          case 200:
+            console.log("success");
+            openModal();
+            break;
+          case 400:
+            setFormErrors("Network Error");
+            break;
+          case 422:
+            setFormErrors("An Error Ocurred");
+            break;
+          default:
+            console.log(response?.payload, "lo");
+            setFormErrors("Network Error");
+            break;
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("Registration failed", error);
+      });
   };
 
   const accountText = (
@@ -219,4 +214,4 @@ const CreatePassword: React.FC = () => {
   );
 };
 
-export default CreatePassword;
+export default SetAddedUserPassword;

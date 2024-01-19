@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 400px;
   margin-bottom: 16px;
+
 }
 .div-for-auth-text-input-label,
 .error-auth-label {
@@ -20,12 +21,15 @@
   height: 24px;
   width: auto;
   font-family: var(--font-family);
+  cursor: pointer;
+
 }
 
 .div-for-auth-text-input-input-error {
   color: red;
   font-size: 13px;
   margin-top: 7px;
+
 }
 .error-auth-label {
   color: red;
@@ -33,6 +37,7 @@
 .error-auth-input {
   border: 1px solid red;
   color: red;
+  border: 1px solid red
 }
 .div-for-auth-text-input-input:focus,
 .error-auth-input:focus {

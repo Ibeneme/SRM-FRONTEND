@@ -6,8 +6,8 @@ import Overdue from "../../../assets/Dashboard/NewOverDue.png";
 import Due from "../../../assets/Dashboard/NewDue.png";
 import Recent from "../../../assets/Dashboard/NewRecent.png";
 import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
-import FilterBar from "./Components/Filter";
-import HistoryLog from "./Components/HistoryLog";
+// import FilterBar from "./Components/Filter";
+// import HistoryLog from "./Components/HistoryLog";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,26 +58,26 @@ const dashboardData = [
     color: "#0FC136",
   },
 ];
-const historyLogData = [
-  {
-    assignedTo: "Ibeneme Ikenna",
-    title: "Fixing Bugs....",
-    ticketId: "123456",
-    status: "Overdue",
-    date: "2022-01-01",
-    email: "ib@gmail.com",
-    image: image,
-  },
-  {
-    assignedTo: "Ibeneme Ikenna",
-    title: "Fixing Bugs....",
-    ticketId: "789012",
-    status: "Due",
-    date: "2022-01-01",
-    email: "ib@gmail.com",
-    image: image,
-  },
-];
+// const historyLogData = [
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     title: "Fixing Bugs....",
+//     ticketId: "123456",
+//     status: "Overdue",
+//     date: "2022-01-01",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+//   {
+//     assignedTo: "Ibeneme Ikenna",
+//     title: "Fixing Bugs....",
+//     ticketId: "789012",
+//     status: "Due",
+//     date: "2022-01-01",
+//     email: "ib@gmail.com",
+//     image: image,
+//   },
+// ];
 interface FormData {
   email: string;
   first_name: string;

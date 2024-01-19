@@ -17,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
+      style={{ cursor: "pointer" }}
       className={` ${loading ? "loading" : "custom-container"}`}
       onClick={onClick}
       disabled={loading || disabled}

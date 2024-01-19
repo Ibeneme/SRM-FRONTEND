@@ -12,6 +12,7 @@ import {
   AuthCreatePassword,
   AuthForgotPassword,
   AuthLogin,
+  AuthNewUserSetPassword,
   AuthOTPConfirmation,
   AuthOTPReset,
   AuthResetPassword,
@@ -21,6 +22,8 @@ import YourComponent from "./Pages/Home/Testing";
 import Profile from "./Pages/Home/Profile/Index";
 import UsersPage from "./Pages/Home/Users/Index";
 import Settings from "./Pages/Home/Settings/Index";
+import Frontdesk from "./Pages/Home/Settings/FrontDeskDepartments";
+import TicketDashboard from "./Pages/Home/Tickets/Tickets";
 
 // const App: React.FC = () => {
 //   const access_token = localStorage.getItem("access_token");
@@ -69,11 +72,17 @@ const App: React.FC = () => {
           path="/otp-reset-password"
           element={isLoggedIn ? <Navigate to="/home" /> : <AuthOTPReset />}
         />
+        <Route
+          path="/user-create-password"
+          element={isLoggedIn ? <Navigate to="/home" /> : <AuthNewUserSetPassword />}
+        />
         <Route path="/home" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/test" element={<YourComponent />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/frontdesk" element={<Frontdesk />} />
+        <Route path="/tickets" element={<TicketDashboard />} />
       </Routes>
     </Router>
   );

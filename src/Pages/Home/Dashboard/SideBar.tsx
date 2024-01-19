@@ -13,6 +13,7 @@ import {
   TbSettings,
   TbMessage,
   TbUserEdit,
+  TbUsers,
 } from "react-icons/tb";
 
 interface MenuItem {
@@ -40,7 +41,7 @@ const menuData: MenuCategory[] = [
   {
     title: "MENU",
     items: [
-      { icon: <TbTicket />, text: "Tickets", to: "/" },
+      { icon: <TbTicket />, text: "Tickets", to: "/tickets" },
       { icon: <TbMail />, text: "Mails", to: "/" },
       { icon: <TbMessage />, text: "Chats", to: "/" },
       { icon: <TbClipboardList />, text: "Feedback Forms", to: "/" },
@@ -51,6 +52,11 @@ const menuData: MenuCategory[] = [
     items: [
       { icon: <TbSettings />, text: "Organisation Settings", to: "/settings" },
       { icon: <TbUserEdit />, text: "Account Settings", to: "/Profile" },
+      {
+        icon: <TbUsers />,
+        text: "Departments & Front Desk",
+        to: "/frontdesk",
+      },
     ],
   },
 ];

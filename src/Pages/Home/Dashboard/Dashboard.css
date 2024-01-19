@@ -246,3 +246,21 @@
   font-family: var(--font-family);
   margin-top: 24px;
 }
+
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.no_tickets-div-img {
+  animation: bounce 3s infinite; /*3You can adjust the duration as needed */
+}
+

@@ -3,7 +3,7 @@ import "../Profile/Components/SettingToggle.css";
 
 interface SettingsToggleProps {
   accountSettingsContent: ReactNode;
-  orgSettingsContent: ReactNode;
+  orgSettingsContent?: ReactNode;
   departmentsSettingsContent?: ReactNode; // New content for departments
 }
 
@@ -33,29 +33,35 @@ const SettingsToggle: React.FC<SettingsToggleProps> = ({
             color: selectedItem === "account" ? "#fff" : "#ff5f05",
           }}
         >
-          Users
+          {orgSettingsContent ? "Users" : "Frontdesk"}
         </button>
-       
-        <button
-          className="account-settings-toggle"
-          onClick={() => handleToggle("org")}
-          style={{
-            backgroundColor: selectedItem === "org" ? "#ff5f05" : "transparent",
-            color: selectedItem === "org" ? "#fff" : "#ff5f05",
-          }}
-        >
-          Organisation Profile
-        </button> <button
-          className="account-settings-toggle"
-          onClick={() => handleToggle("departments")}
-          style={{
-            backgroundColor:
-              selectedItem === "departments" ? "#ff5f05" : "transparent",
-            color: selectedItem === "departments" ? "#fff" : "#ff5f05",
-          }}
-        >
-          Departments
-        </button>
+        {orgSettingsContent ? (
+          <button
+            className="account-settings-toggle"
+            onClick={() => handleToggle("org")}
+            style={{
+              backgroundColor:
+                selectedItem === "org" ? "#ff5f05" : "transparent",
+              color: selectedItem === "org" ? "#fff" : "#ff5f05",
+            }}
+          >
+            Organisation Profile
+          </button>
+        ) : null}
+
+        {departmentsSettingsContent ? (
+          <button
+            className="account-settings-toggle"
+            onClick={() => handleToggle("departments")}
+            style={{
+              backgroundColor:
+                selectedItem === "departments" ? "#ff5f05" : "transparent",
+              color: selectedItem === "departments" ? "#fff" : "#ff5f05",
+            }}
+          >
+            Departments
+          </button>
+        ) : null}
       </div>
       <br />
       <div className="width-settings">

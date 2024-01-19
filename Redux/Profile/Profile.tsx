@@ -110,6 +110,39 @@ export const createDepartment = createAsyncThunk(
   }
 );
 
+
+export const AddFrontDesk = createAsyncThunk(
+  "auth/AddFrontDesk",
+  async (AddFrontDesk: any, { rejectWithValue }) => {
+    const token = localStorage.getItem("srm_access_token");
+
+    try {
+      // const formData = new FormData();
+      // Object.keys(AddFrontDesk).forEach((key) => {
+      //   formData.append(key, AddFrontDesk[key]);
+      // });
+
+      const response = await axios.post(
+        `${baseApiUrl}/profile/add-frontdesk/`,
+        AddFrontDesk,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(AddFrontDesk, "fm");
+      return response.status;
+    } catch (error) {
+      console.error(error, "Organization Profile Update Error");
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.status);
+      }
+      return rejectWithValue("Network Error");
+    }
+  }
+);
+
 export const editDepartment = createAsyncThunk(
   "auth/editDepartment",
   async (
@@ -139,6 +172,64 @@ export const editDepartment = createAsyncThunk(
     }
   }
 );
+
+export const updateStaff = createAsyncThunk(
+  "auth/updateStaff",
+  async (
+    { updateStaff, user_id }: { updateStaff: any; user_id: string },
+    { rejectWithValue }
+  ) => {
+    const token = localStorage.getItem("srm_access_token");
+    console.log(updateStaff, user_id, "user_iduser_id");
+    try {
+      const response = await axios.put(
+        `${baseApiUrl}/profile/update-staff/${user_id}/`,
+        updateStaff, // Pass updateStaff directly as the request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response, "fm");
+      return response.status;
+    } catch (error) {
+      console.error(error, "Organization Profile Update Error");
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.status);
+      }
+      return rejectWithValue("Network Error");
+    }
+  }
+);
+
+export const deleteStaff = createAsyncThunk(
+  "auth/deleteStaff",
+  async (user_id: any, { rejectWithValue }) => {
+
+    const token = localStorage.getItem("srm_access_token");
+    console.log(user_id, user_id, "departmentdepartment");
+    try {
+      const response = await axios.delete(
+        `${baseApiUrl}/profile/delete-staff/${user_id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response, "fm");
+      return response.status;
+    } catch (error) {
+      console.error(error, "Organization Profile Update Error");
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.status);
+      }
+      return rejectWithValue("Network Error");
+    }
+  }
+);
+
 
 export const deleteDepartment = createAsyncThunk(
   "auth/deleteDepartment",
@@ -453,6 +544,51 @@ const profileSlice = createSlice({
         state.profile = action.payload;
       })
       .addCase(deleteDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload
+          ? (action.payload as string)
+          : "Failed to update profile";
+      });
+      builder
+      .addCase(updateStaff.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateStaff.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(updateStaff.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload
+          ? (action.payload as string)
+          : "Failed to update profile";
+      });
+      builder
+      .addCase(deleteStaff.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteStaff.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(deleteStaff.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload
+          ? (action.payload as string)
+          : "Failed to update profile";
+      });
+      builder
+      .addCase(AddFrontDesk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(AddFrontDesk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(AddFrontDesk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload
           ? (action.payload as string)

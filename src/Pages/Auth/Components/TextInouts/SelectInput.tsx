@@ -26,11 +26,18 @@ const SelectInput: React.FC<SelectInputProps> = ({
 }) => {
   const renderOptions = () => {
     if (Array.isArray(options)) {
-      return options.map((option, index) => (
-        <option key={index} value={typeof option === "string" ? option : ""}>
-          {option}
-        </option>
-      ));
+      return (
+        <>
+          <option value="" disabled>
+            {placeholder}
+          </option>
+          {options.map((option, index) => (
+            <option key={index} value={typeof option === "string" ? option : ""}>
+              {option}
+            </option>
+          ))}
+        </>
+      );
     } else {
       console.error("Options should be an array.");
       return null;
@@ -51,18 +58,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
         style={{ height: 48, padding: 12, width: "100%" }}
         className={`${error ? "error-select-input" : "select-dashboard"}`}
       >
-        {/* <option value="" disabled>
-          {placeholder}
-        </option>
-        {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))} */}
-
         {renderOptions()}
       </select>
-      <p>{error}</p>
+      <p className="div-for-auth-text-input-input-error">{error}</p>
     </div>
   );
 };

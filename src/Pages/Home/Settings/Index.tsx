@@ -4,10 +4,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../Redux/Store";
 import {
-  createDepartment,
-  deleteDepartment,
-  editDepartment,
-  getDepartments,
+  getAllUsers,
   getOrganizationProfile,
   getProfile,
   updateOrganizationProfile,
@@ -21,19 +18,12 @@ import PasswordWarning from "../../../components/Error/ErrorWarning";
 import Sidebar from "../Dashboard/SideBar";
 import "../Profile/Profile.css";
 import SettingsToggle from "./SettingsToggle";
-import { MdDeleteOutline, MdEdit } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import "./settings.css";
 import orgImage from "../../../assets/Dashboard/Company.png";
 import NoTicketsMessage from "../Dashboard/Components/NoTickets";
-import { MdOutlineCancel } from "react-icons/md";
-import { addStaff } from "../../../../Redux/Auth/Auth";
-import departmentsImage from "../../../assets/Dashboard/Departments.png";
-import DepartmentComponent from "./DepartmentsComponents";
-import DepartmentsComponent from "./DepartmentsComponents";
-import GridComponent from "../Users/Components/Department";
-import HalfButtonNonCta from "../../Auth/Components/Buttons/HalfbtnNonCta";
-import { useNavigate } from "react-router-dom";
-import { toggleToDepartments } from "./SettingsToggle";
+//import { useNavigate } from "react-router-dom";
+import UsersLog from "../Users/Components/Users";
 
 interface FormData {
   email: string;
@@ -44,35 +34,35 @@ interface FormData {
   department: string;
 }
 
-interface Department {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  reference: string;
+interface UsersLogItem {
+  department: string | null;
+  status: string;
+  permission_type: string;
+  first_name: string;
+  title: string;
+  email: string;
+  image: string;
+  last_name: string;
 }
 
 const Settings: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
-  // const navigate = useNavigate();
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
-  const navigate = useNavigate();
-  const [fetchedDepartments, setDepartments] = useState<Department[]>([]);
-  const [fetchedSpecificDepartments, setSpecificDepartments] = useState<
-    any | null
-  >(null);
+  //const navigate = useNavigate();
+  //const [fetchedDepartments, setDepartments] = useState<Department[]>([]);
+  // const [fetchedSpecificDepartments, setSpecificDepartments] = useState<
+  //   any | null
+  // >(null);
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const profile = useSelector((state: RootState) => state.profile.profile);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalDeparment, setIsModalDepartment] = useState(false);
-  const [isModalDepartmentDelete, setIsModalDepartmentDelete] = useState(false);
-  const [isModalDepartmentEdit, setIsModalDepartmentEdit] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
   const [formErrors, setFormErrors] = useState("");
+  const [fetchedUsers, setFetchedUsers] = useState<UsersLogItem[]>([]);
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
     permission_type: "",
@@ -83,46 +73,30 @@ const Settings: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(getOrganizationProfile()).then((result) => {
-      setOrganizationProfile(result.payload);
-    });
-
-    dispatch(getProfile()).then((result) => {
-      setUserProfile(result.payload);
-    });
-    dispatch(getDepartments()).then((result) => {
-      setDepartments(result.payload);
-    });
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (userProfile?.org_setup_complete === false) {
-      openModal();
-    }
-  }, [userProfile]);
-
-  useEffect(() => {
     if (loading) {
-      dispatch(getDepartments()).then((result) => {
-        setDepartments(result.payload);
-      });
       dispatch(getOrganizationProfile()).then((result) => {
         setOrganizationProfile(result.payload);
-      });
-
-      dispatch(getProfile()).then((result) => {
-        setUserProfile(result.payload);
-        console.log("lal", result);
       });
     }
   }, [profile]);
 
+  useEffect(() => {
+    dispatch(getAllUsers()).then((result) => {
+      setFetchedUsers(result.payload);
+    });
+    dispatch(getOrganizationProfile()).then((result) => {
+      setOrganizationProfile(result.payload);
+    });
+    dispatch(getProfile()).then((result) => {
+      setUserProfile(result.payload);
+    });
+  }, [dispatch]);
+
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-  const [selectedValue, setSelectedValue] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
 
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setFormErrors("");
@@ -132,43 +106,6 @@ const Settings: React.FC = () => {
     setFormErrors("");
     setSelectedValue(e.target.value);
   };
-  const [departmentsVisible, setDepartmentsVisible] = useState(false);
-
-  const handleToggleDepartments = () => {
-    //setDepartmentsVisible(!departmentsVisible);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const openModalDepartment = () => {
-    setIsModalDepartment(true);
-  };
-
-  const closemodalDepartment = () => {
-    setIsModalDepartment(false);
-  };
-
-  const openModalDepartmentDelete = () => {
-    setIsModalDepartmentDelete(true);
-  };
-
-  const closemodalDepartmentDelete = () => {
-    setIsModalDepartmentDelete(false);
-  };
-
-  const openModalDepartmentEdit = () => {
-    setIsModalDepartmentEdit(true);
-  };
-
-  const closemodalDepartmentEdit = () => {
-    setIsModalDepartmentEdit(false);
-  };
 
   const openSecondModal = () => {
     setIsSecondModalOpen(true);
@@ -176,109 +113,14 @@ const Settings: React.FC = () => {
 
   const closeSecondModal = () => {
     setIsSecondModalOpen(false);
-  };
-  const handlePermissionTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormErrors("");
-    console.log(e.target.value);
-    setFormData((prevData) => ({
-      ...prevData,
-      permission_type: e.target.value,
-    }));
-  };
-  const handleCreateDepartment = async () => {
-    try {
-      setFormErrors("");
-      if (formData?.first_name?.length > 0) {
-        setLoading(true);
-
-        const response = await dispatch(
-          createDepartment({
-            name: formData?.first_name,
-            description: formData?.last_name,
-          })
-        );
-        setLoading(false);
-        switch (response?.payload) {
-          case 200:
-            console.log("Profile successfully updated:", response);
-            closemodalDepartment();
-            break;
-          case 400:
-            setFormErrors("Please Fill these forms correctly to Proceed.");
-            break;
-          default:
-            console.log("Unexpected response payload:", response);
-            break;
-        }
-      } else {
-        setFormErrors("Please Fill these forms correctly to Proceed.");
-      }
-    } catch (error) {
-      setLoading(false);
-      //console.error("Error updating organization profile:", error);
-    }
-  };
-
-  const handleEditDepartments = async () => {
-    try {
-      setFormErrors("");
-      if (formData?.first_name?.length > 0) {
-        setLoading(true);
-
-        const payload = {
-          editDepartment: {
-            name: formData?.first_name,
-            description: formData?.last_name,
-          },
-          department: fetchedSpecificDepartments?.id,
-        };
-
-        const response = await dispatch(editDepartment(payload));
-        setLoading(false);
-        switch (response?.payload) {
-          case 200:
-            console.log("Profile successfully updated:", response);
-            closemodalDepartmentEdit();
-            break;
-          case 400:
-            setFormErrors("Please Fill these forms correctly to Proceed.");
-            break;
-          default:
-            console.log("Unexpected response payload:", response);
-            break;
-        }
-      } else {
-        setFormErrors("Please Fill these forms correctly to Proceed.");
-      }
-    } catch (error) {
-      setLoading(false);
-      //console.error("Error updating organization profile:", error);
-    }
-  };
-
-  const handleDeleteDepartment = async () => {
-    try {
-      setFormErrors("");
-      setLoading(true);
-      const department_id = fetchedSpecificDepartments?.id;
-      const response = await dispatch(deleteDepartment(department_id));
-      setLoading(false);
-      switch (response?.payload) {
-        case 200:
-          console.log("Profile successfully updated:", response);
-          closemodalDepartmentDelete();
-          break;
-        case 400:
-          setFormErrors("Please Fill these forms correctly to Proceed.");
-          break;
-        default:
-          console.log("Unexpected response payload:", response);
-          break;
-      }
-    } catch (error) {
-      setLoading(false);
-      //console.error("Error updating organization profile:", error);
-    }
+    setFormData({
+      first_name: "",
+      permission_type: "",
+      phone_number: "",
+      email: "",
+      department: "",
+      last_name: "",
+    });
   };
 
   const handleFirstModalContinue = () => {
@@ -301,11 +143,14 @@ const Settings: React.FC = () => {
         switch (response?.payload) {
           case 200:
             console.log(response?.payload);
-            // setFormData({
-            //   first_name: "",
-            //   last_name: "",
-            //   email: "",
-            // });
+            setFormData({
+              first_name: "",
+              permission_type: "",
+              phone_number: "",
+              email: "",
+              department: "",
+              last_name: "",
+            });
             closeSecondModal();
             break;
           case 400:
@@ -326,92 +171,6 @@ const Settings: React.FC = () => {
         setLoading(false);
         console.error("Error updating organization profile:", error);
       });
-  };
-  const handleSecondModalContinue = async () => {
-    try {
-      setFormErrors("");
-      if (formData) {
-        setLoading(true);
-        const response = await dispatch(addStaff(formData));
-        console.log("addstaff:", response);
-        setLoading(false);
-        switch (response?.payload) {
-          case 200:
-            console.log("Profile successfully updated:", response);
-            // setFormData({
-            //   first_name: " ",
-            //   email: " ",
-            // });
-            closeModal();
-            break;
-          case 400:
-            setFormErrors("Please Enter a Business Name to Proceed.");
-            break;
-          default:
-            console.log("Unexpected response payload:", response);
-            break;
-        }
-      } else {
-        setFormErrors("Please Enter a Business Name to Proceed.");
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error("Error updating organization profile:", error);
-    }
-  };
-
-  const handleChangeDepartment = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormErrors("");
-    console.log("Event:", e);
-    console.log("Current formData.department:", formData.department);
-    const selectedDepartmentId = e.target.value;
-    console.log("Selected Department Id:", selectedDepartmentId);
-    const selectedDepartment = fetchedDepartments.find(
-      (department) => department.id === selectedDepartmentId
-    );
-    if (selectedDepartment) {
-      console.log(
-        "Selected Department Name:",
-        selectedDepartmentId,
-        selectedDepartment.name
-      );
-    }
-    setFormData((prevData) => ({
-      ...prevData,
-      department: selectedDepartmentId,
-    }));
-  };
-
-  const handleAddDepartment = () => {
-    console.log("Add department clicked");
-  };
-
-  const handleEditDepartment = () => {
-    setIsModalDepartmentEdit(true);
-    console.log("Edisgfsss ID:");
-  };
-
-  // const handleDeleteDepartment = () => {
-  //   setIsModalDepartmentDelete(true);
-  //   console.log("delelelle", fetchedSpecificDepartments, "delelelle");
-  // };
-
-  const renderOptions = () => {
-    if (fetchedDepartments.length > 0) {
-      return fetchedDepartments.map((department) => (
-        <option key={department.id} value={department.id}>
-          {department.name}
-          {/* <span onClick={() => handleEditDepartment(department.id)}>🖊️</span>
-          <span onClick={() => handleDeleteDepartment(department.id)}>🗑️</span> */}
-        </option>
-      ));
-    } else {
-      return (
-        <option value="" disabled>
-          Add a Department
-        </option>
-      );
-    }
   };
 
   const formContentFirstModal = (
@@ -485,181 +244,28 @@ const Settings: React.FC = () => {
     </div>
   );
 
-  const formContentSecondModal = (
-    <div className="form_content_display-dashboard">
-      <br />
-      <MdOutlineCancel style={{ fontSize: 24 }} onClick={closeModal} />
-      <FormHeaders
-        activeStepNumber={0}
-        totalStepNumbers={0}
-        title="Add a User"
-        //errorText={formErrors}
-        accountText={"Add a User to expand your team"}
-      />{" "}
-      <PasswordWarning formErrors={formErrors} />
-      <br /> <br />
-      <TextInputDashboard
-        label="First Name"
-        value={formData.first_name}
-        onChange={handleChange}
-        type="text"
-        id="first_name"
-        name="first_name"
-        placeholder="Enter Users First Name"
-      />
-      <TextInputDashboard
-        label="Last Name"
-        value={formData.last_name}
-        onChange={handleChange}
-        type="text"
-        id="last_name"
-        name="last_name"
-        placeholder="Enter Users Last Name"
-      />
-      <TextInputDashboard
-        label="Email Address"
-        value={formData.email}
-        onChange={handleChange}
-        type="text"
-        id="email"
-        name="email"
-        placeholder="Enter an Email Address"
-      />
-      <TextInputDashboard
-        label="Phone Number"
-        value={formData.phone_number}
-        onChange={handleChange}
-        type="text"
-        id="phone_number"
-        name="phone_number"
-        placeholder="Enter a Phone Number"
-      />
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label className="business-name-label"> Select a Department </label>
-
-        <select
-          style={{ height: 48, padding: 12, width: "100%" }}
-          className={`${"select-dashboard"}`}
-          value={formData.department}
-          onChange={handleChangeDepartment}
-        >
-          {renderOptions()}
-        </select>
-        <p
-          className="business-name-label"
-          style={{
-            marginTop: 4,
-            marginBottom: -12,
-            color: "#FF7342",
-            textAlign: "right",
-          }}
-          
-         // onClick={handleToggleDepartments}
-        >
-          {fetchedDepartments?.length > 0
-            ? "View Departments"
-            : "Add Department"}
-        </p>
-      </div>
-      <br /> <br />
-      {/* <SelectInput
-        placeholder="Select a Department"
-        label="Choose a Department"
-        value={formData.department}
-        onChange={handleChangeDepartment}
-        id="selectDepartment"
-        name="selectDepartment"
-        options={renderOptions()}
-        required
-      /> */}
-      <SelectInput
-        placeholder="Select a Permission Type"
-        label="Choose a Permission Type"
-        value={formData.permission_type}
-        onChange={handlePermissionTypeChange}
-        id="selectPermissionType"
-        name="selectPermissionType"
-        options={["executive", "manager", "support"]}
-        required
-      />
-      <HalfButton
-        onClick={handleSecondModalContinue}
-        text="Continue"
-        loading={loading}
-        disabled={loading}
-      />
-      <div></div>
-    </div>
-  );
-
-  const confirmDeleteModal = (
-    <div className="form_content_display-dashboard">
-      <br />
-      <h3
-        style={{
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
-        Confirm you want to Delete
-        <span style={{ color: "orangered" }}>
-          {" "}
-          {fetchedSpecificDepartments?.name}
-        </span>
-      </h3>
-      <p
-        style={{
-          fontSize: 14,
-          color: "#808080",
-          paddingBottom: 20,
-          textAlign: "center",
-          marginTop: 0,
-          width: "100%",
-        }}
-      >
-        This action cannot be undone
-      </p>
-      <div style={{ display: "flex", gap: 12, width: "100%" }}>
-        <div style={{ width: "100%" }}>
-          <button
-            style={{ width: "100%" }}
-            className={`custom-containers`}
-            onClick={closemodalDepartmentDelete}
-          >
-            Go Back
-          </button>
-        </div>
-        <button
-          className={` ${loading ? "loading" : "custom-container"}`}
-          onClick={handleDeleteDepartment}
-        >
-          {loading ? (
-            <div className="loader">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          ) : (
-            "Delete Department"
-          )}
-        </button>
-      </div>
-      <div>{/* ... (other form elements) */}</div>
-    </div>
-  );
-
   const accountSettingsContent = (
     <div>
       <br />
-      <NoTicketsMessage
-        heading="Whoops... No Users Added yet"
-        paragraph="No users created yet"
-        imageUrl={orgImage}
-        imageAlt="No Tickets"
-        buttonText="+ Create a User"
-        onClick={() => setIsModalOpen(true)}
-      />
+
+      {fetchedUsers?.length === 0 ? (
+        <NoTicketsMessage
+          heading="Whoops... No Users Added yet"
+          paragraph="No users created yet"
+          imageUrl={orgImage}
+          imageAlt="No Tickets"
+          buttonText="+ Create a User"
+          onClick={() => console.log("true")}
+        />
+      ) : (
+        <div>
+          <div
+            style={{ backgroundColor: "#fff", padding: 12, borderRadius: 24 }}
+          >
+            <UsersLog isLoading={loading} />
+          </div>
+        </div>
+      )}
     </div>
   );
   const orgSettingsContent = (
@@ -699,162 +305,6 @@ const Settings: React.FC = () => {
     </div>
   );
 
-  const departmentsSettingsContent = (
-    <div>
-      <div className="org-settings-content">
-        {/* <CSVViewer url={usersInCSV} /> */}
-        {fetchedDepartments?.length === 0 ? (
-          <div className="empty-departments-container">
-            <h3>No Departments Created yet</h3>
-            <p className="dept-texts">Whoops no have no Departments</p>
-            <img src={departmentsImage} width="250" />
-            <br /> <br /> <br />
-            <div>
-              <HalfButton
-                onClick={openModalDepartment}
-                text="+ Create a Department"
-                loading={loading}
-                disabled={loading}
-              />{" "}
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div
-              style={{
-                width: "100%",
-                borderRadius: 24,
-                paddingBottom: 36,
-                margin: 0,
-              }}
-              className="departments-container"
-            >
-              <div
-                className="create-department-button-container"
-                style={{ padding: 16, marginBottom: -20 }}
-              >
-                <HalfButton
-                  onClick={openModalDepartment}
-                  text="+ Create a Department"
-                  loading={loading}
-                  disabled={loading}
-                />
-              </div>
-              <div style={{ display: "flex" }}>
-                <div style={{ padding: 24, width: "70%" }}>
-                  <DepartmentsComponent
-                    onEditClick={handleEditDepartment}
-                    onDeleteClick={openModalDepartmentDelete}
-                    department={fetchedDepartments}
-                    onClickDepartment={(department) => {
-                      setSpecificDepartments(department);
-                    }}
-                  />
-                </div>
-                <div
-                  className="account-settings-background"
-                  style={{ width: "30%" }}
-                >
-                  <img src={departmentsImage} width="300" />
-                </div>
-              </div>
-            </div>
-          </div>
-          // </div>
-          // </div>
-        )}
-      </div>
-    </div>
-  );
-
-  const ModalForCreateDepartment = (
-    <div className="form_content_display-dashboard">
-      <br />
-      <FormHeaders
-        activeStepNumber={0}
-        totalStepNumbers={0}
-        title="Create a Department"
-        //errorText={formErrors}
-        accountText={"Complete these to create a department"}
-      />{" "}
-      <PasswordWarning formErrors={formErrors} />
-      <br /> <br />
-      <TextInputDashboard
-        label="Department Name"
-        value={formData.first_name}
-        onChange={handleChange}
-        type="text"
-        id="first_name"
-        name="first_name"
-        placeholder="Enter a Department Name"
-      />
-      <TextInputDashboard
-        label="Description - 20 words"
-        value={formData.last_name}
-        onChange={handleChange}
-        type="text"
-        id="last_name"
-        name="last_name"
-        placeholder="Enter a Description"
-        height
-      />
-      <HalfButton
-        onClick={handleCreateDepartment}
-        text="Continue"
-        loading={loading}
-        disabled={loading}
-      />
-      <div></div>
-    </div>
-  );
-  const ModalForEditeDepartment = (
-    <div className="form_content_display-dashboard">
-      <br />
-      <MdOutlineCancel
-        style={{ fontSize: 24 }}
-        onClick={closemodalDepartmentEdit}
-      />
-      <FormHeaders
-        activeStepNumber={0}
-        totalStepNumbers={0}
-        title={`Edit Department ${fetchedSpecificDepartments?.name}`}
-        //errorText={formErrors}
-        accountText={"Complete these to edit this department"}
-      />{" "}
-      <PasswordWarning formErrors={formErrors} />
-      <br /> <br />
-      <TextInputDashboard
-        label="Department Name"
-        value={formData.first_name}
-        onChange={handleChange}
-        type="text"
-        id="first_name"
-        name="first_name"
-        placeholder={`A new name for ${fetchedSpecificDepartments?.name}`}
-      />
-      <TextInputDashboard
-        label="Description - 20 words"
-        value={
-          formData.last_name
-            ? formData?.last_name
-            : fetchedSpecificDepartments?.description
-        }
-        onChange={handleChange}
-        type="text"
-        id="last_name"
-        name="last_name"
-        placeholder={`A new description for ${fetchedSpecificDepartments?.name}`}
-        height
-      />
-      <HalfButton
-        onClick={handleEditDepartments}
-        text="Continue"
-        loading={loading}
-        disabled={loading}
-      />
-      <div></div>
-    </div>
-  );
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -883,38 +333,14 @@ const Settings: React.FC = () => {
                 <SettingsToggle
                   accountSettingsContent={accountSettingsContent}
                   orgSettingsContent={orgSettingsContent}
-                  departmentsSettingsContent={departmentsSettingsContent}
-                  onToggleDepartments={handleToggleDepartments}
+                  //departmentsSettingsContent={departmentsSettingsContent}
+                  // onToggleDepartments={handleToggleDepartments}
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onOpen={openModal}
-        onClose={closeModal}
-        formContent={formContentSecondModal}
-      />
-      <Modal
-        isOpen={isModalDeparment}
-        onOpen={openModalDepartment}
-        onClose={closemodalDepartment}
-        formContent={ModalForCreateDepartment}
-      />
-      <Modal
-        isOpen={isModalDepartmentDelete}
-        onOpen={openModalDepartmentDelete}
-        onClose={closemodalDepartmentDelete}
-        formContent={confirmDeleteModal}
-      />{" "}
-      <Modal
-        isOpen={isModalDepartmentEdit}
-        onOpen={openModalDepartmentEdit}
-        onClose={closemodalDepartmentEdit}
-        formContent={ModalForEditeDepartment}
-      />
       <Modal
         isOpen={isSecondModalOpen}
         onOpen={openSecondModal}

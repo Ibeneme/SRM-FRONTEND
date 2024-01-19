@@ -22,8 +22,17 @@ const NoTicketsMessage: React.FC<NoTicketsMessageProps> = ({
       <div className="no_tickets-div">
         <h2 className="no_tickets-div-h2">{heading}</h2>
         <p className="no_tickets-div-p">{paragraph}</p>
-        <img src={imageUrl} style={{ height: 300 }} alt={imageAlt} />
-        <button className="no_tickets-div-button" style={{ color: "white" }} onClick={onClick}>
+        <img
+          className="no_tickets-div-img"
+          src={imageUrl}
+          style={{ height: 300 }}
+          alt={imageAlt}
+        />
+        <button
+          className="no_tickets-div-button"
+          style={{ color: "white" }}
+          onClick={onClick}
+        >
           {buttonText}
         </button>
       </div>
