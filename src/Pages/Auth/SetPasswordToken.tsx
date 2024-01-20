@@ -145,9 +145,8 @@ const SetAddedUserPasswordToken: React.FC = () => {
     <div className="auth-container">
       <div className="auth-forms-div">
         <FormTop
-          step="Step"
-          activeStepNumber={3}
-          totalStepNumbers={3}
+          activeStepNumber={0}
+          totalStepNumbers={0}
           title="Create a Password"
           accountText={accountText}
           errorText={formErrors}
