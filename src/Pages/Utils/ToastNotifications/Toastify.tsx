@@ -29,8 +29,8 @@ const useCustomToasts = () => {
       pauseOnHover: true,
       draggable: true,
       style: {
-        background: "#fff",
-        color: "#078E5D",
+        background: "#8E0F07",
+        color: "#fff",
       },
       className: "custom-error-toast",
       progressClassName: "custom-progress-error",

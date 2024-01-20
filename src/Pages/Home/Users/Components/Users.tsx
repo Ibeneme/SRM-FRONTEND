@@ -2,7 +2,12 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import "./SettingToggle.css";
 import Modal from "../../../../components/Modal/Modal";
 import "../../Dashboard/Components/Filter.css";
-import { MdDeleteOutline, MdOutlineCancel, MdSend } from "react-icons/md";
+import {
+  MdDeleteOutline,
+  MdEdit,
+  MdOutlineCancel,
+  MdSend,
+} from "react-icons/md";
 import Profilecard from "../../../../assets/Dashboard/ProfileCard.png";
 import { IoTicket } from "react-icons/io5";
 import FormHeaders from "../../../Auth/Components/FormHeaders";
@@ -163,7 +168,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
             ...prevLoadingMap,
             [item.id]: false,
           }));
-          showErrorToast("This is an error toast!");
+          showErrorToast("An Error Occurred");
           console.error("Error sending Token", errorStatus);
         });
     }, 800);
@@ -284,12 +289,13 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     console.log("Open Edit Modal for item:", item);
     setEditedUser(item);
     setEditModalOpen(true);
-    console.log(editedUser);
+    console.log(editedUser, 'LLL');
     setModalOpen(false);
   };
 
   const closeEditModal = () => {
     setEditModalOpen(false);
+    resetForms()
   };
 
   const openDeleteModal = (item: UsersLogItem) => {
@@ -423,23 +429,23 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       setFormErrors("");
       if (formData) {
         setLoading(true);
-        const user_id = clickedUser?.id;
+        const user_id = editedUser?.id;
         const response = await dispatch(
           updateStaff({
             updateStaff: {
               first_name: formData.first_name
                 ? formData.first_name
-                : clickedUser?.first_name,
+                : editedUser?.first_name,
               last_name: formData.last_name
                 ? formData.last_name
-                : clickedUser?.last_name,
+                : editedUser?.last_name,
               phone_number: formData.phone_number
                 ? formData.phone_number
-                : clickedUser?.phone_number,
+                : editedUser?.phone_number,
               permission_type: formData.permission_type
                 ? formData.permission_type
-                : clickedUser?.permission_type,
-              email: formData.email ? formData.email : clickedUser?.email,
+                : editedUser?.permission_type,
+              email: formData.email ? formData.email : editedUser?.email,
             },
             user_id: user_id ?? "",
           })
@@ -797,7 +803,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       <FormHeaders
         activeStepNumber={0}
         totalStepNumbers={0}
-        title={`Edit a User,  ${clickedUser?.first_name} ${clickedUser?.last_name}`}
+        title={`Edit a User,  ${editedUser?.first_name} ${editedUser?.last_name}`}
         //errorText={formErrors}
         accountText={"Edit your user"}
       />{" "}
@@ -810,7 +816,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         type="text"
         id="first_name"
         name="first_name"
-        placeholder="Enter Users First Name"
+        placeholder=" First Name"
       />
       <TextInputDashboard
         label="Last Name"
@@ -819,7 +825,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         type="text"
         id="last_name"
         name="last_name"
-        placeholder="Enter Users Last Name"
+        placeholder="Last Name"
       />
       <TextInputDashboard
         label="Email Address"
@@ -828,7 +834,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         type="text"
         id="email"
         name="email"
-        placeholder="Enter an Email Address"
+        placeholder="Email Address"
       />
       <TextInputDashboard
         label="Phone Number"
@@ -837,7 +843,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         type="text"
         id="phone_number"
         name="phone_number"
-        placeholder="Enter a Phone Number"
+        placeholder=" Phone Number"
       />
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label className="business-name-label"> Select a Department </label>
@@ -999,7 +1005,11 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                             </p>
                             <MdDeleteOutline
                               className="mddelete"
-                              onClick={()=>openDeleteModal(item)}
+                              onClick={() => openDeleteModal(item)}
+                            />
+                            <MdEdit
+                              className="mddelete"
+                              onClick={() => openEditModal(item)}
                             />
                           </div>
                         )}

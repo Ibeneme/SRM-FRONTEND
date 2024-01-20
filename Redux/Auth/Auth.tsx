@@ -82,10 +82,10 @@ export const otpVerification = createAsyncThunk(
         otpData
       );
       console.log(response, "OTP Verification Response");
-      return response.status;
+      return response.data;
     } catch (error) {
       console.log(error, "OTP Verification Error");
-      return (error as AxiosError).response?.status;
+      return (error as AxiosError).response?.data;
     }
   }
 );

@@ -26,6 +26,7 @@ import TicketDashboard from "./Pages/Home/Tickets/Tickets";
 import MyComponent from "./Pages/Home/Testing";
 import NotFound from "./Pages/Utils/NotFound/NotFound";
 import ShimmerLoaderPage from "./Pages/Utils/ShimmerLoader/ShimmerLoaderPage";
+import SetAddedUserPasswordToken from "./Pages/Auth/SetPasswordToken";
 
 // const App: React.FC = () => {
 //   const access_token = localStorage.getItem("access_token");
@@ -68,6 +69,12 @@ const App: React.FC = () => {
           path="/forgot-password"
           element={
             isLoggedIn ? <Navigate to="/home" /> : <AuthForgotPassword />
+          }
+        />
+        <Route
+          path="/user-set-password"
+          element={
+            isLoggedIn ? <Navigate to="/home" /> : <SetAddedUserPasswordToken />
           }
         />
         <Route
