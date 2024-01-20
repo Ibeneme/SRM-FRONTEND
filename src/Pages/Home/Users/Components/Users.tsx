@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import "./SettingToggle.css";
 import Modal from "../../../../components/Modal/Modal";
 import "../../Dashboard/Components/Filter.css";
-import { MdOutlineCancel, MdSend } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineCancel, MdSend } from "react-icons/md";
 import Profilecard from "../../../../assets/Dashboard/ProfileCard.png";
 import { IoTicket } from "react-icons/io5";
 import FormHeaders from "../../../Auth/Components/FormHeaders";
@@ -168,6 +168,46 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         });
     }, 800);
   };
+
+  // const handleDeleteStaffs = async (item: UsersLogItem) => {
+  //   try {
+  //     setFormErrors("");
+  //     setLoading(true);
+
+  //     const payload = item?.id;
+
+  //     if (payload === undefined) {
+  //       setLoading(false);
+  //       console.error("Invalid payload for deletion.");
+  //       return;
+  //     }
+
+  //     const response = await dispatch(deleteStaff(payload));
+
+  //     if (response.payload) {
+  //       // Assuming response.payload contains the status code
+  //       switch (response.payload) {
+  //         case 200:
+  //           console.log("Profile successfully deleted:", response);
+  //           closeDeleteModal();
+  //           break;
+  //         case 400:
+  //           setFormErrors("Please fill out the form correctly to proceed.");
+  //           break;
+  //         default:
+  //           console.warn("Unexpected response payload:", response);
+  //       }
+  //     } else {
+  //       console.error("Invalid response payload:", response);
+  //     }
+
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Error during staff deletion:", error);
+  //     // Handle the error as needed
+  //   }
+  // };
 
   const handleDeleteStaff = async () => {
     try {
@@ -697,7 +737,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
           minWidth: 300,
         }}
       >
-        Confirm you want to Delete
+        Confirm you want to Delete{" "}
         <span style={{ color: "orangered" }}>
           {clickedUser?.first_name} {""}
           {clickedUser?.last_name}
@@ -943,19 +983,25 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                             View User <MdSend />{" "}
                           </p>
                         ) : (
-                          <p
-                            className={` ${
-                              resendTokenLoading[item.id]
-                                ? "view-tickets-loading"
-                                : "view-tickets-token"
-                            }`}
-                            onClick={() => handleResendOTP(item)}
-                          >
-                            {resendTokenLoading[item.id]
-                              ? "Loading..."
-                              : "Resend Token"}{" "}
-                            <MdSend />
-                          </p>
+                          <div className="flex">
+                            <p
+                              className={` ${
+                                resendTokenLoading[item.id]
+                                  ? "view-tickets-loading"
+                                  : "view-tickets-token"
+                              }`}
+                              onClick={() => handleResendOTP(item)}
+                            >
+                              {resendTokenLoading[item.id]
+                                ? "Loading..."
+                                : "Resend Token"}{" "}
+                              <MdSend />
+                            </p>
+                            <MdDeleteOutline
+                              className="mddelete"
+                              onClick={()=>openDeleteModal(item)}
+                            />
+                          </div>
                         )}
                       </td>
                     </tr>
