@@ -58,24 +58,32 @@ const OTPConfirmation: React.FC = () => {
         .then((response) => {
           setLoading(false);
           console.log("Registration successful", response);
-
-          switch (response?.payload) {
-            case 200:
-              navigate("/create-password", { state: { email: email } });
-              break;
-            case 400:
-              setFormErrors("Your token is either expired or invalid.");
-              break;
-            case undefined:
-              setFormErrors("Network Error");
-              break;
-            default:
-              setFormErrors("An Error Occurred");
-              break;
+          if (response?.payload?.user) {
+            console.log(response?.payload?.user?.email);
+            const email = response?.payload?.user?.email;
+            navigate("/create-password", { state: { email: email } });
+          } else {
+            setFormErrors("Your token is either expired or invalid.");
+            console.log(response?.payload);
           }
+          // switch (response?.payload) {
+          //   case 200:
+          //     navigate("/create-password", { state: { email: email } });
+          //     break;
+          //   case 400:
+          //     setFormErrors("Your token is either expired or invalid.");
+          //     break;
+          //   case undefined:
+          //     setFormErrors("Network Error");
+          //     break;
+          //   default:
+          //     setFormErrors("An Error Occurred");
+          //     break;
+          // }
         })
         .catch((error) => {
           setLoading(false);
+          setFormErrors("Network Error");
           console.log("Registration failed", error);
         });
     }

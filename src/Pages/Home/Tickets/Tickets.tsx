@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../Redux/Store";
 import {
+  getAllUsers,
   getOrganizationProfile,
   getProfile,
   updateOrganizationProfile,
@@ -24,6 +25,10 @@ import NoTickets from "../../../assets/Dashboard/NoTickets.png";
 import NoTicketsMessage from "../Dashboard/Components/NoTickets";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
+import { createTicket } from "../../../../Redux/Tickets/Tickets";
+import { useNavigate } from "react-router-dom";
+import { MdCancel } from "react-icons/md";
+import useCustomToasts from "../../Utils/ToastNotifications/Toastify";
 // import NoTicketsMessage from "./Components/NoTickets";
 
 const notificationsData = [
@@ -46,14 +51,27 @@ const notificationsData = [
 
 interface FormData {
   email: string;
-  first_name: string;
+  stakeholder_name: string;
   last_name: string;
   company_name: string;
 }
-
+interface UsersLogItem {
+  department: string | null;
+  status: string;
+  permission_type: string;
+  first_name: string;
+  title: string;
+  email: string;
+  image: string;
+  last_name: string;
+  id: string;
+  phone_number: string;
+  email_verified: string;
+}
 const TicketDashboard: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { showSuccessToast, showErrorToast } = useCustomToasts();
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
@@ -63,15 +81,34 @@ const TicketDashboard: React.FC = () => {
   const profile = useSelector((state: RootState) => state.profile.profile);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetchedUsers, setFetchedUsers] = useState<UsersLogItem[]>([]);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
+  const [createTicketLoading, setCreateTicketLoading] = useState(false);
   const [formErrors, setFormErrors] = useState("");
   const [formData, setFormData] = useState<FormData>({
-    first_name: "",
+    stakeholder_name: "",
     last_name: "",
     company_name: "",
     email: "",
   });
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        const result = await dispatch(getAllUsers());
+        setFetchedUsers(result.payload);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [dispatch]);
+
+  console.log(fetchedUsers, userProfile, "fetchedUsers");
   useEffect(() => {
     dispatch(getOrganizationProfile()).then((result) => {
       setOrganizationProfile(result.payload);
@@ -81,6 +118,22 @@ const TicketDashboard: React.FC = () => {
       setUserProfile(result.payload);
     });
   }, [dispatch]);
+
+  const renderOptions = () => {
+    if (fetchedUsers?.length > 0) {
+      return fetchedUsers?.map((users) => (
+        <option key={users.id} value={users.id}>
+          {users.first_name} {users.last_name}
+        </option>
+      ));
+    } else {
+      return (
+        <option value={userProfile?.id} disabled>
+          {userProfile?.first_name} {userProfile?.last_name}
+        </option>
+      );
+    }
+  };
 
   useEffect(() => {
     if (userProfile?.org_setup_complete === false) {
@@ -96,7 +149,7 @@ const TicketDashboard: React.FC = () => {
 
       dispatch(getProfile()).then((result) => {
         setUserProfile(result.payload);
-        console.log("lal", result);
+        //console.log("lal", result);
       });
     }
   }, [profile]);
@@ -192,21 +245,21 @@ const TicketDashboard: React.FC = () => {
 
   const handleSecondModalContinue = () => {
     setFormErrors("");
-    if (formData?.first_name?.length > 0) {
+    if (formData?.stakeholder_name?.length > 0) {
       setLoading(true);
       dispatch(
         updateOrganizationProfile({
-          nature_of_business: formData?.first_name,
+          nature_of_business: formData?.stakeholder_name,
         })
       )
         .then((response) => {
           setLoading(false);
           switch (response?.payload) {
             case 200:
-              console.log(
-                "Organization profile updated successfully:",
-                response
-              );
+              // console.log(
+              //   "Organization profile updated successfully:",
+              //   response
+              // );
               closeSecondModal();
               break;
             case 400:
@@ -276,6 +329,7 @@ const TicketDashboard: React.FC = () => {
         loading={loading}
         disabled={loading}
       />
+      <PasswordWarning formErrors={formErrors} />
       <div>{/* ... (other form elements) */}</div>
     </div>
   );
@@ -298,11 +352,11 @@ const TicketDashboard: React.FC = () => {
       </div>
       <TextInputDashboard
         label="Nature of Business"
-        value={formData.first_name}
+        value={formData.stakeholder_name}
         onChange={handleChange}
         type="text"
-        id="first_name"
-        name="first_name"
+        id="stakeholder_name"
+        name="stakeholder_name"
         placeholder="Nature of Business"
       />
       <HalfButton
@@ -311,6 +365,8 @@ const TicketDashboard: React.FC = () => {
         loading={loading}
         disabled={loading}
       />
+      <br />
+      <PasswordWarning formErrors={formErrors} />
       <div>{/* ... (other form elements) */}</div>
     </div>
   );
@@ -331,11 +387,11 @@ const TicketDashboard: React.FC = () => {
         <h3 className="vw-text">Search</h3>
         {/* <p style={{ display: "none" }}>{searchTerm}</p> */}
         <TextInputDashboard
-          value={formData.first_name}
+          value={formData.stakeholder_name}
           onChange={handleChange}
           type="text"
-          id="first_name"
-          name="first_name"
+          id="stakeholder_name"
+          name="stakeholder_name"
           placeholder="Search"
         />
       </div>
@@ -357,10 +413,7 @@ const TicketDashboard: React.FC = () => {
     type: "",
     title: "",
     description: "",
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    address: "",
+    stakeholder_name: "",
     handler_id: "",
     email: "",
   });
@@ -371,10 +424,7 @@ const TicketDashboard: React.FC = () => {
     type: "",
     title: "",
     description: "",
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    address: "",
+    stakeholder_name: "",
     handler_id: "",
     email: "",
   });
@@ -396,31 +446,23 @@ const TicketDashboard: React.FC = () => {
   };
 
   const handleCreateTicket = () => {
-    console.log(createTicketFormData, "dgdg");
+    // console.log(createTicketFormData, "dgdg");
     let hasErrors = false;
     const newErrors = { ...createTicketFormDataErrors };
 
-    // Validate first_name
-    if (!createTicketFormData.first_name.trim()) {
-      newErrors.first_name = "First Name is required";
+    // Validate stakeholder_name
+    if (!createTicketFormData.stakeholder_name.trim()) {
+      newErrors.stakeholder_name = "Stakholders Name is required";
       hasErrors = true;
     }
-
-    // Validate last_name
-    if (!createTicketFormData.last_name.trim()) {
-      newErrors.last_name = "Last Name is required";
+    if (!createTicketFormData.email.trim()) {
+      newErrors.email = "Email is required";
       hasErrors = true;
     }
 
     // Validate title
     if (!createTicketFormData.title.trim()) {
       newErrors.title = "Title is required";
-      hasErrors = true;
-    }
-
-    // Validate phone_number
-    if (!createTicketFormData.phone_number.trim()) {
-      newErrors.phone_number = "Phone number is required";
       hasErrors = true;
     }
 
@@ -435,35 +477,60 @@ const TicketDashboard: React.FC = () => {
     }
 
     if (!createTicketFormData.sla_category.trim()) {
-        newErrors.sla_category = "Select a SLA Category it is required";
-        hasErrors = true;
-      }
+      newErrors.sla_category = "Select a SLA Category it is required";
+      hasErrors = true;
+    }
+    if (!createTicketFormData.description.trim()) {
+      newErrors.description = "Ticket description is required";
+      hasErrors = true;
+    }
 
-  
     if (hasErrors) {
       setCreateTicketFormDataErrors(newErrors);
       return;
     }
 
+    console.log(createTicketFormData, "createTicketFormData");
+    //    setCreateTicketLoading(false);
     setFormErrors("");
-    // setCreateTicketLoading(true);
-    // dispatch(createTicket(createTicketFormData))
-    //   .then((response) => {
-    //     setCreateTicketLoading(false);
-    //     // Handle the response, close modal, etc.
-    //     console.log("Ticket created successfully:", response);
-    //     closeCreateTicketModal();
-    //   })
-    //   .catch((error) => {
-    //     setCreateTicketLoading(false);
-    //     console.error("Error creating ticket:", error);
-    //     // Handle the error, show error message, etc.
-    //   });
+    setCreateTicketLoading(true);
+    dispatch(createTicket(createTicketFormData))
+      .then((response) => {
+        setCreateTicketLoading(false);
+        console.log("Ticket created successfully:", response);
+        //closeCreateTicketModal();
+        switch (response?.payload) {
+          case 201:
+            console.log("Profile successfully updated:", response);
+            closeCreateTicketModal();
+            showSuccessToast("Ticket Created Successfully");
+            break;
+          case 400:
+            setFormErrors("Please Fill these forms correctly to Proceed.");
+            break;
+          default:
+            console.log("Unexpected response payload:", response);
+            showErrorToast("An Error Occurred");
+            break;
+        }
+      })
+
+      .catch((error) => {
+        setCreateTicketLoading(false);
+        console.error("Error creating ticket:", error);
+      });
+    setCreateTicketLoading(false);
   };
 
   const openCreateTicketModalContent = (
     <div className="form_content_display-dashboard">
       <br />
+      <MdCancel
+        onClick={closeCreateTicketModal}
+        size={24}
+        color={"#FF7342"}
+        style={{ cursor: "pointer" }}
+      />
       <FormHeaders
         step=""
         activeStepNumber={1}
@@ -477,25 +544,26 @@ const TicketDashboard: React.FC = () => {
       <br />
       <br />
       <TextInputDashboard
-        label="First Name"
-        value={createTicketFormData.first_name}
+        label="Email"
+        value={createTicketFormData.email}
         onChange={handleCreateTicketInputChange}
-        type="text"
-        id="first_name"
-        name="first_name"
-        placeholder="Enter First Name"
-        error={createTicketFormDataErrors.first_name}
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email Address"
+        error={createTicketFormDataErrors.email}
       />
       <TextInputDashboard
-        label="Last Name"
-        value={createTicketFormData.last_name}
+        label="Stakeholders Name"
+        value={createTicketFormData.stakeholder_name}
         onChange={handleCreateTicketInputChange}
         type="text"
-        id="last_name"
-        name="last_name"
-        placeholder="Enter Last Name"
-        error={createTicketFormDataErrors.last_name}
+        id="stakeholder_name"
+        name="stakeholder_name"
+        placeholder="Stakeholders Name"
+        error={createTicketFormDataErrors.stakeholder_name}
       />
+
       <TextInputDashboard
         label="Ticket Title"
         value={createTicketFormData.title}
@@ -505,17 +573,6 @@ const TicketDashboard: React.FC = () => {
         name="title"
         placeholder="Enter a ticket title"
         error={createTicketFormDataErrors.title}
-        required
-      />
-      <TextInputDashboard
-        label="Phone Number"
-        value={createTicketFormData.phone_number}
-        onChange={handleCreateTicketInputChange}
-        type="text"
-        id="phone_number"
-        name="phone_number"
-        placeholder="Enter a Phone Number"
-        error={createTicketFormDataErrors.phone_number}
         required
       />
 
@@ -531,7 +588,7 @@ const TicketDashboard: React.FC = () => {
         }
         id="selectPriority"
         name="selectPriority"
-        options={["Low", "Medium", "High", "Critical"]}
+        options={["low", "medium", "high"]}
         error={createTicketFormDataErrors.priority}
         required
       />
@@ -548,11 +605,40 @@ const TicketDashboard: React.FC = () => {
         }
         id="selectPriority"
         name="selectPriority"
-        options={["Low", "Medium", "High", "Critical"]}
+        options={["standard", "medium", "complex"]}
         error={createTicketFormDataErrors.sla_category}
         required
       />
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <label className="business-name-label"> Select a Department </label>
 
+        <select
+          style={{ height: 48, padding: 12, width: "100%" }}
+          className={`${"select-dashboard"}`}
+          value={createTicketFormData.handler_id}
+          onChange={(e) =>
+            setCreateTicketFormData((prevData) => ({
+              ...prevData,
+              handler_id: e.target.value,
+            }))
+          }
+        >
+          {renderOptions()}
+        </select>
+        <p
+          className="business-name-label"
+          style={{
+            marginTop: 4,
+            marginBottom: -0,
+            color: "#FF7342",
+            textAlign: "right",
+          }}
+          onClick={() => navigate("/users")}
+        >
+          {fetchedUsers?.length > 0 ? null : "Add More Users to handle tickets"}
+        </p>
+      </div>
+      <br />
       <SelectInput
         placeholder="Select Ticket Type"
         label="Select Ticket Type"
@@ -565,17 +651,35 @@ const TicketDashboard: React.FC = () => {
         }
         id="selectType"
         name="selectType"
-        options={["Standard", "Medium", "Complex"]}
+        options={["standard", "medium", "complex"]}
         error={createTicketFormDataErrors.type}
         required
       />
-
+      <TextInputDashboard
+        label="Description"
+        value={createTicketFormData.description}
+        onChange={(e) =>
+          setCreateTicketFormData((prevData) => ({
+            ...prevData,
+            description: e.target.value,
+          }))
+        }
+        type="text"
+        id="description"
+        name="description"
+        placeholder="Description"
+        height
+        error={createTicketFormDataErrors.description}
+      />
       <HalfButton
         onClick={handleCreateTicket}
         text="Create Ticket"
-        loading={loading}
-        disabled={loading}
+        loading={createTicketLoading}
+        disabled={createTicketLoading}
       />
+      <br />
+      <PasswordWarning formErrors={formErrors} />
+
       <div>{/* ... (other form elements) */}</div>
     </div>
   );
@@ -583,7 +687,7 @@ const TicketDashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       <Sidebar
-      // user_first_name={`${userProfile?.first_name} `}
+      // user_stakeholder_name={`${userProfile?.stakeholder_name} `}
       // user_last_name={`${userProfile?.last_name}`}
       // usersemail={`${userProfile?.email}
       // `}

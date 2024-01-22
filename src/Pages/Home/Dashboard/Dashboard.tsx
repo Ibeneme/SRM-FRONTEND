@@ -6,8 +6,6 @@ import Overdue from "../../../assets/Dashboard/NewOverDue.png";
 import Due from "../../../assets/Dashboard/NewDue.png";
 import Recent from "../../../assets/Dashboard/NewRecent.png";
 import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
-// import FilterBar from "./Components/Filter";
-// import HistoryLog from "./Components/HistoryLog";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +16,6 @@ import {
   updateOrganizationProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
-//import { useNavigate } from "react-router-dom";
 import FormHeaders from "../../Auth/Components/FormHeaders";
 import TextInputDashboard from "../../Auth/Components/TextInouts/TextInputDashboard";
 import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
@@ -58,26 +55,6 @@ const dashboardData = [
     color: "#0FC136",
   },
 ];
-// const historyLogData = [
-//   {
-//     assignedTo: "Ibeneme Ikenna",
-//     title: "Fixing Bugs....",
-//     ticketId: "123456",
-//     status: "Overdue",
-//     date: "2022-01-01",
-//     email: "ib@gmail.com",
-//     image: image,
-//   },
-//   {
-//     assignedTo: "Ibeneme Ikenna",
-//     title: "Fixing Bugs....",
-//     ticketId: "789012",
-//     status: "Due",
-//     date: "2022-01-01",
-//     email: "ib@gmail.com",
-//     image: image,
-//   },
-// ];
 interface FormData {
   email: string;
   first_name: string;
@@ -87,13 +64,10 @@ interface FormData {
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
-  // const navigate = useNavigate();
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
   const [userProfile, setUserProfile] = useState<any | null>(null);
-  // const isLoading = useSelector((state: RootState) => state.profile.loading);
-  // const error = useSelector((state: RootState) => state.profile.error);
   const profile = useSelector((state: RootState) => state.profile.profile);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -269,7 +243,6 @@ const Dashboard: React.FC = () => {
         totalStepNumbers={2}
         colored="gray"
         title="Setup your Organisation"
-        //errorText={formErrors}
         accountText={"Complete these to set up your organisation"}
       />
       <PasswordWarning formErrors={formErrors} />
@@ -310,7 +283,6 @@ const Dashboard: React.FC = () => {
         loading={loading}
         disabled={loading}
       />
-      <div>{/* ... (other form elements) */}</div>
     </div>
   );
 
@@ -349,21 +321,10 @@ const Dashboard: React.FC = () => {
     </div>
   );
 
-  // if(!isLoading){
-  //   return (
-  //     <ShimmerLoader />
-  //   )
-  // }
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-  // const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setSearchTerm(event.target.value);
-  //   // You can perform additional search-related logic here
-  // };
   const SearchContent = (
     <div className="FormHeader">
       <div className="vw">
         <h3 className="vw-text">Search</h3>
-        {/* <p style={{ display: "none" }}>{searchTerm}</p> */}
         <TextInputDashboard
           value={formData.first_name}
           onChange={handleChange}
@@ -385,13 +346,7 @@ const Dashboard: React.FC = () => {
   );
   return (
     <div className="dashboard-container">
-      <Sidebar
-      // user_first_name={`${userProfile?.first_name} `}
-      // user_last_name={`${userProfile?.last_name}`}
-      // usersemail={`${userProfile?.email}
-      // `}
-      />
-
+      <Sidebar />
       <div className="main-content-container">
         <div className="dashboard-cards-container">
           <div className="dashboard-content">
@@ -453,14 +408,6 @@ const Dashboard: React.FC = () => {
                         ) : null}
                       </span>
                     </div>
-                    {/* <div className="div-main-overdue-image">
-                      <img
-                        src={item.image}
-                        style={{ height: 24 }}
-                        className="image-main-overdue-image"
-                        alt={item.title}
-                      /> 
-                    </div>*/}
                   </div>
                 ))}
               </div>
@@ -473,36 +420,6 @@ const Dashboard: React.FC = () => {
                 buttonText="+ Create a Ticket"
                 onClick={() => console.log("clicked")}
               />
-              {/* <div className="">
-                <div className="no_tickets">
-                  <div className="no_tickets-div">
-                    <h2 className="no_tickets-div-h2">
-                      {" "}
-                      Whoops... No Tickets Logged
-                    </h2>
-                    <p className="no_tickets-div-p"> No tickets created yet</p>
-                    <img
-                      src={NoTickets}
-                      style={{ height: 300 }}
-                      // className="image-main-overdue-image"
-                      alt={NoTickets}
-                    />{" "}
-                    <button
-                      className="no_tickets-div-button"
-                      style={{ color: "white" }}
-                    >
-                      + Create a Ticket
-                    </button>
-                  </div>{" "}
-                </div>
-              </div> */}
-
-              {/* <div className="div-split-tickets full-width">
-                <FilterBar />
-              </div>
-              <div>
-                <HistoryLog data={historyLogData} />
-              </div> */}
             </div>
           </div>
         </div>

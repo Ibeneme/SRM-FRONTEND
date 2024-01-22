@@ -13,6 +13,7 @@ import { otpVerification } from "../../../Redux/Auth/Auth";
 import Modal from "../../components/Modal/Modal";
 import success_image from "../../assets/Illustrations/AuthSuccessImage.png";
 import errorImage from "../../assets/Dashboard/404.png";
+import ShimmerLoaderPage from "../Utils/ShimmerLoader/ShimmerLoaderPage";
 interface FormData {
   confirmPassword: string;
   createPassword: string;
@@ -21,6 +22,7 @@ interface FormData {
 const SetAddedUserPassword: React.FC = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
+  const [errorLoading, setErrorLoading] = useState(false);
   //  const [formErrors, setFormErrors] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const SetAddedUserPassword: React.FC = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const token = urlParams.get("token");
-    console.log(token);
+    console.log(token, "tokkkk");
 
     dispatch(
       otpVerification({
@@ -49,6 +51,7 @@ const SetAddedUserPassword: React.FC = () => {
           const email = response?.payload?.user?.email;
           navigate("/user-set-password", { state: { email } });
         } else {
+          setErrorLoading(true);
           console.log(response?.payload);
         }
       })
@@ -115,73 +118,82 @@ const SetAddedUserPassword: React.FC = () => {
   );
 
   return (
-    <div className="auth-container">
-      <div className="auth-forms-div">
-        <FormTop
-          activeStepNumber={0}
-          totalStepNumbers={0}
-          title="Whoops... An Error Occurred"
-          accountText={accountText}
-        />
-        <br /> <br />
-        <form className="create-account-container">
-          <div>
-            <div style={{ display: "none" }}>
-              <PasswordInput
-                label="Create Password"
-                value={formData.createPassword}
-                onChange={handleChange}
-                id="createPassword"
-                name="createPassword"
-                placeholder="Password"
-                required
-                error={errors.createPassword}
-              />
+    <>
+      {errorLoading ? (
+        <div className="auth-container">
+          <div className="auth-forms-div">
+            <FormTop
+              activeStepNumber={0}
+              totalStepNumbers={0}
+              title="Whoops... An Error Occurred"
+              accountText={accountText}
+            />
+            <br /> <br />
+            <form className="create-account-container">
+              <div>
+                <div style={{ display: "none" }}>
+                  <PasswordInput
+                    label="Create Password"
+                    value={formData.createPassword}
+                    onChange={handleChange}
+                    id="createPassword"
+                    name="createPassword"
+                    placeholder="Password"
+                    required
+                    error={errors.createPassword}
+                  />
 
-              <div style={{ visibility: "hidden", height: 1 }}>
-                <TextInput
-                  label="First Name"
-                  value={"ddd"}
-                  onChange={handleChange}
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  placeholder="First Name"
+                  <div style={{ visibility: "hidden", height: 1 }}>
+                    <TextInput
+                      label="First Name"
+                      value={"ddd"}
+                      onChange={handleChange}
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      placeholder="First Name"
+                    />
+                  </div>
+                  <PasswordInput
+                    label="Confirm Password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Password"
+                    required
+                    error={errors.confirmPassword}
+                  />
+                </div>
+                <img
+                  src={errorImage}
+                  style={{ maxWidth: 280 }}
+                  alt={errorImage}
+                />
+                <br /> <br /> <br />
+                <Button
+                  onClick={() => navigate("/create-account")}
+                  text="Proceed to Create Account"
+                  loading={loading}
+                  disabled={loading}
                 />
               </div>
-              <PasswordInput
-                label="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Password"
-                required
-                error={errors.confirmPassword}
-              />
-            </div>
-            <img src={errorImage} style={{ maxWidth: 280 }} alt={errorImage} />
-            <br /> <br /> <br />
-            <Button
-              onClick={() => navigate("/create-account")}
-              text="Proceed to Create Account"
-              loading={loading}
-              disabled={loading}
-            />
+            </form>
           </div>
-        </form>
-      </div>
-
-      <div className="auth-image">
-        <ImageContainer />
-      </div>
+          <div className="auth-image">
+            <ImageContainer />
+          </div>
+        </div>
+      ) : (
+        <ShimmerLoaderPage />
+      )}
       <Modal
         isOpen={isModalOpen}
         onOpen={openModal}
         onClose={closeModal}
         formContent={formContent}
       />
-    </div>
+    </>
   );
 };
 

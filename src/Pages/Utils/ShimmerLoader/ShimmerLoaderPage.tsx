@@ -1,7 +1,7 @@
-// ShimmerLoaderPage.tsx
-import React from "react";
-import "./ShimmerLoaderPage.css"; // Import a separate CSS file for styling
 
+import React from "react";
+import "./ShimmerLoaderPage.css";
+ 
 const ShimmerLoaderPage: React.FC = () => {
   return (
     <div className="shimmer-loader-container">

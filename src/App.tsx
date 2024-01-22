@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
 } from "react-router-dom";
-import LandingPageIndex from "./LandingPage/LandingPageIndex";
 import Navbar from "./LandingPage/Navbar/Navbar";
 import {
   AuthCreateAccount,
@@ -23,98 +22,82 @@ import UsersPage from "./Pages/Home/Users/Index";
 import Settings from "./Pages/Home/Settings/Index";
 import Frontdesk from "./Pages/Home/Settings/FrontDeskDepartments";
 import TicketDashboard from "./Pages/Home/Tickets/Tickets";
-import MyComponent from "./Pages/Home/Testing";
 import NotFound from "./Pages/Utils/NotFound/NotFound";
-import ShimmerLoaderPage from "./Pages/Utils/ShimmerLoader/ShimmerLoaderPage";
 import SetAddedUserPasswordToken from "./Pages/Auth/SetPasswordToken";
+import LandingPageIndex from "./LandingPage/LandingPageIndex";
 
-// const App: React.FC = () => {
-//   const access_token = localStorage.getItem("access_token");
-//   const isLoggedIn = !!access_token;
 const App: React.FC = () => {
-  const [isLoggedIn] = useState(() => {
-    const srm_access_token = localStorage.getItem("srm_access_token");
-    return !!srm_access_token;
-  });
+  const isLoggedIn = !!localStorage.getItem("srm_access_token");
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Content />} />
-
-        <Route
-          path="/create-account"
-          element={isLoggedIn ? <Navigate to="/home" /> : <AuthCreateAccount />}
-        />
-        <Route
-          path="/login"
-          element={isLoggedIn ? <Navigate to="/home" /> : <AuthLogin />}
-        />
-        <Route
-          path="/otp"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <AuthOTPConfirmation />
-          }
-        />
-        <Route
-          path="/create-password"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <AuthCreatePassword />
-          }
-        />
-        <Route
-          path="/reset-password"
-          element={isLoggedIn ? <Navigate to="/home" /> : <AuthResetPassword />}
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <AuthForgotPassword />
-          }
-        />
-        <Route
-          path="/user-set-password"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <SetAddedUserPasswordToken />
-          }
-        />
-        <Route
-          path="/otp-reset-password"
-          element={isLoggedIn ? <Navigate to="/home" /> : <AuthOTPReset />}
-        />
-        <Route
-          path="/user-create-password?"
-          element={
-            isLoggedIn ? <Navigate to="/home" /> : <AuthNewUserSetPassword />
-          }
-        />
+        {[
+          "create-account",
+          "login",
+          "otp",
+          "create-password",
+          "reset-password",
+          "forgot-password",
+          "user-set-password",
+          "otp-reset-password",
+          "user-create-password",
+        ].map((path) => (
+          <Route
+            key={path}
+            path={`/${path}`}
+            element={
+              isLoggedIn ? (
+                <Navigate to="/home" />
+              ) : (
+                React.createElement(AuthRoutes[path as keyof typeof AuthRoutes])
+              )
+            }
+          />
+        ))}
         <Route path="/home" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/frontdesk" element={<Frontdesk />} />
         <Route path="/tickets" element={<TicketDashboard />} />
-        <Route path="/tesst?" element={<MyComponent />} />
-
         <Route path="*" element={<NotFound />} />
-        <Route path="/shim" element={<ShimmerLoaderPage />} />
       </Routes>
     </Router>
   );
 };
 
-const Content: React.FC = () => {
-  return (
-    <>
-      <Navbar />
-      <LandingPageIndex />
-    </>
-  );
+const Content: React.FC = () => (
+  <>
+    <Navbar />
+    <LandingPageIndex />
+  </>
+);
+
+type AuthRoutes = {
+  [key in
+    | "create-account"
+    | "login"
+    | "otp"
+    | "create-password"
+    | "reset-password"
+    | "forgot-password"
+    | "user-set-password"
+    | "otp-reset-password"
+    | "user-create-password"]: React.FC;
+};
+
+const AuthRoutes: AuthRoutes = {
+  "create-account": AuthCreateAccount,
+  'login': AuthLogin,
+  'otp': AuthOTPConfirmation,
+  "create-password": AuthCreatePassword,
+  "reset-password": AuthResetPassword,
+  "forgot-password": AuthForgotPassword,
+  "user-set-password": SetAddedUserPasswordToken,
+  "otp-reset-password": AuthOTPReset,
+  "user-create-password": AuthNewUserSetPassword,
 };
 
 export default App;
-
-// const App: React.FC = () => {
-//   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-//     const access_token = localStorage.getItem("access_token");
-//     return !!access_token; // Use !! to convert to boolean
-//   });

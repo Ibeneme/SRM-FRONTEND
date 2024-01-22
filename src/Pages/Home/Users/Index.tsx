@@ -1,8 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
-// import Overdue from "../../../assets/Dashboard/NewOverDue.png";
-// import Due from "../../../assets/Dashboard/NewDue.png";
-// import Recent from "../../../assets/Dashboard/NewRecent.png";
 import { TbBell, TbSearch } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
@@ -14,37 +11,23 @@ import {
   getDepartments,
   getOrganizationProfile,
   getProfile,
-  getUserCSV,
   updateOrganizationProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
-//import { useNavigate } from "react-router-dom";
 import FormHeaders from "../../Auth/Components/FormHeaders";
 import TextInputDashboard from "../../Auth/Components/TextInouts/TextInputDashboard";
 import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
 import HalfButton from "../../Auth/Components/Buttons/HalfBtn";
 import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
-// import FilterBar from "../Dashboard/Components/Filter";
-// import HistoryLog from "../Dashboard/Components/HistoryLog";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
-// import SettingsToggle from "./Components/SettingsToggle";
 import profileImage from "../../../assets/Dashboard/Profile.png";
-// import orgImage from "../../../assets/Dashboard/Company.png";
 import "../Profile/Profile.css";
-// import { MdEdit } from "react-icons/md";
-// import SettingsToggle from "../Profile/Components/SettingsToggle";
 import "./Index.css";
 import UsersToggle from "./Components/SettingsToggle";
-// import DepartmentList from "./Components/Department";
-// import CsvReaderComponent from "./Components/CSVReaderComponent";
-// import CSVReader from "./Components/CSVReaderComponent";
-// import CSVViewer from "./Components/CSVReaderComponent";
-// import ShimmerLoader from "../../../components/ShimmerLoader/Shimmer";
 import UsersLog from "./Components/Users";
 import GridComponent from "./Components/Department";
-
 
 const notificationsData = [
   {
@@ -64,31 +47,6 @@ const notificationsData = [
   },
 ];
 
-// const dashboardData = [
-//   { title: "Overdue Tickets", image: Overdue, number: "50+" },
-//   { title: "Due Tickets", image: Due },
-//   { title: "Recently Created Tickets", image: Recent, number: 3 },
-// ];
-// const historyLogData = [
-//   {
-//     assignedTo: "Ibeneme Ikenna",
-//     ticketId: "T123ABS",
-//     status: "Overdue",
-//     date: "2022-01-01",
-//     title: "Fixing Bugs",
-//     email: "ib@gmail.com",
-//     image: image,
-//   },
-//   {
-//     assignedTo: "Ibeneme Ikenna",
-//     ticketId: "T1SNDH23",
-//     status: "Due",
-//     date: "2022-01-01",
-//     title: "Fixing Bugs",
-//     email: "ib@gmail.com",
-//     image: image,
-//   },
-// ];
 interface FormData {
   email: string;
   first_name: string;
@@ -97,16 +55,19 @@ interface FormData {
 
 const UsersPage: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
-  // const navigate = useNavigate();
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
-  const [usersInCSV, setUsersInCSV] = useState<any | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
+
+  const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
+  const [isModalOpenNotifications, setIsModalOpenNotifications] =
+    useState(false);
   const [users, setUsers] = useState<any | null>(null);
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const [departments, setDepartment] = useState<any | null>(null);
   const profile = useSelector((state: RootState) => state.profile.profile);
-  // const isLoading = useSelector((state: RootState) => state.profile.loading);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
@@ -128,19 +89,10 @@ const UsersPage: React.FC = () => {
     dispatch(getProfile()).then((result) => {
       setUserProfile(result.payload);
     });
-    dispatch(getUserCSV()).then((result) => {
-      setUsersInCSV(result.payload);
-    });
     dispatch(getAllUsers()).then((result) => {
       setUsers(result.payload);
     });
   }, [dispatch]);
-
-  //   useEffect(() => {
-  //     dispatch(getProfile()).then((result) => {
-  //       setUserProfile(result.payload);
-  //     });
-  //   }, [userProfile]);
 
   useEffect(() => {
     if (loading) {
@@ -150,19 +102,10 @@ const UsersPage: React.FC = () => {
 
       dispatch(getDepartments()).then((result) => {
         setDepartment(result.payload);
-        //  console.log("lal", result);
       });
     }
   }, [profile]);
-  console.log("users", users);
-
-  if (userProfile?.length === 0) {
-    // console.log("lolp", userProfile);
-  }
-  console.log("usersInCSV", usersInCSV);
-  const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
-  const [isModalOpenNotifications, setIsModalOpenNotifications] =
-    useState(false);
+  
   const openModalSearch = () => {
     setIsModalOpenSearch(true);
   };
@@ -182,9 +125,6 @@ const UsersPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-  const [selectedValue, setSelectedValue] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setFormErrors("");
     setSelectedCountry(e.target.value);
@@ -281,13 +221,9 @@ const UsersPage: React.FC = () => {
       }
     } catch (error) {
       setLoading(false);
-      //console.error("Error updating organization profile:", error);
     }
   };
-  //   if (isLoading) {
-  //     return;
-  //     <ShimmerLoader />;
-  //   }
+
   const formContentFirstModal = (
     <div className="form_content_display-dashboard">
       <br />
@@ -297,11 +233,8 @@ const UsersPage: React.FC = () => {
         totalStepNumbers={0}
         colored="gray"
         title="Create a Department"
-        //errorText={formErrors}
         accountText={"Complete these to create a department"}
       />
-      {/* <PasswordWarning formErrors={formErrors} /> */}
-
       <br />
       <br />
       <TextInputDashboard
@@ -355,7 +288,6 @@ const UsersPage: React.FC = () => {
         loading={loading}
         disabled={loading}
       />
-      <div>{/* ... (other form elements) */}</div>
     </div>
   );
 
@@ -399,17 +331,6 @@ const UsersPage: React.FC = () => {
       <div></div>
     </div>
   );
-
-  // if(!isLoading){
-  //   return (
-  //     <ShimmerLoader />
-  //   )
-  // }
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-  // const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setSearchTerm(event.target.value);
-  // };
-
   const SearchContent = (
     <div className="FormHeader">
       <div className="vw">
@@ -433,27 +354,6 @@ const UsersPage: React.FC = () => {
       </div>
     </div>
   );
-
-  // const [file, setFile] = useState<File | null>(null);
-
-  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     setFile(event.target.files[0]);
-  //   }
-  // };
-
-  // const handleImportClick = () => {
-  //   dispatch(getUserCSV())
-  //     .then((actionResult) => {
-  //       const response = actionResult.payload; // Access the payload from the action result
-  //       console.log("Response:", response);
-  //       setUsers(response);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
-  console.log("Success:", users);
 
   const accountSettingsContent = (
     <div>
@@ -527,13 +427,7 @@ const UsersPage: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <Sidebar
-        // user_first_name={`${userProfile?.first_name} `}
-        // user_last_name={`${userProfile?.last_name}`}
-        // usersemail={`${userProfile?.email}
-        // `}
-      />
-
+      <Sidebar />
       <div className="main-content-container">
         <div className="dashboard-cards-container">
           <div className="dashboard-content">
@@ -556,10 +450,7 @@ const UsersPage: React.FC = () => {
                 </div>
               </div>
 
-              <div
-              // className="main-content-dashboard-div"
-              // style={{ marginTop: 12 }}
-              >
+              <div>
                 <UsersToggle
                   usersSettingsContent={accountSettingsContent}
                   orgSettingsContent={orgSettingsContent}

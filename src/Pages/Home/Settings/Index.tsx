@@ -6,7 +6,6 @@ import { RootState } from "../../../../Redux/Store";
 import {
   getAllUsers,
   getOrganizationProfile,
-  getProfile,
   updateOrganizationProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
@@ -21,7 +20,6 @@ import SettingsToggle from "./SettingsToggle";
 import { MdEdit } from "react-icons/md";
 import "./settings.css";
 import orgImage from "../../../assets/Dashboard/Company.png";
-//import { useNavigate } from "react-router-dom";
 import UsersLog from "../Users/Components/Users";
 
 interface FormData {
@@ -49,12 +47,6 @@ const Settings: React.FC = () => {
   const [organizationProfile, setOrganizationProfile] = useState<any | null>(
     null
   );
-  //const navigate = useNavigate();
-  //const [fetchedDepartments, setDepartments] = useState<Department[]>([]);
-  // const [fetchedSpecificDepartments, setSpecificDepartments] = useState<
-  //   any | null
-  // >(null);
-  const [userProfile, setUserProfile] = useState<any | null>(null);
   const profile = useSelector((state: RootState) => state.profile.profile);
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -85,9 +77,6 @@ const Settings: React.FC = () => {
     });
     dispatch(getOrganizationProfile()).then((result) => {
       setOrganizationProfile(result.payload);
-    });
-    dispatch(getProfile()).then((result) => {
-      setUserProfile(result.payload);
     });
   }, [dispatch]);
 
@@ -298,11 +287,10 @@ const Settings: React.FC = () => {
                 <div>
                   <div>
                     <h2 className="main-content-dashboard-h2">
-                      Hello, {userProfile?.first_name} {userProfile?.last_name}{" "}
-                      👋
+                      Organisation Settings 👋
                     </h2>
                     <p className="main-content-dashboard-p">
-                      Here's what's going on today.
+                      Set Up and edit your Organisation
                     </p>
                   </div>{" "}
                 </div>
@@ -315,8 +303,6 @@ const Settings: React.FC = () => {
                 <SettingsToggle
                   accountSettingsContent={accountSettingsContent}
                   orgSettingsContent={orgSettingsContent}
-                  //departmentsSettingsContent={departmentsSettingsContent}
-                  // onToggleDepartments={handleToggleDepartments}
                 />
               </div>
             </div>

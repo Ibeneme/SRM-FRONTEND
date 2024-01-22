@@ -22,6 +22,7 @@ import {
   deleteStaff,
   getAllUsers,
   getDepartments,
+  getProfile,
   updateStaff,
 } from "../../../../../Redux/Profile/Profile";
 import { addStaff, resendOTP } from "../../../../../Redux/Auth/Auth";
@@ -41,6 +42,8 @@ interface UsersLogItem {
   phone_number: string;
   email_verified: string;
 }
+
+type FormDataWithIndex = FormData & { [key: string]: string };
 
 interface UsersLogProps {
   data?: UsersLogItem[];
@@ -73,6 +76,7 @@ interface SubmitErrors {
 }
 
 const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
+  const profile = useSelector((state: RootState) => state.profile.profile);
   const { showSuccessToast, showErrorToast } = useCustomToasts();
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -83,6 +87,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const [fetchedDepartments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState("");
+  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
   const [fetchedUsers, setFetchedUsers] = useState<UsersLogItem[]>([]);
   const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [resendTokenLoading, setResendTokenLoading] = useState<
@@ -107,8 +112,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const handleFetchUsers = () => {
     dispatch(getAllUsers()).then((result) => {
       setFetchedUsers(result.payload);
-      // Assuming result.payload contains the fetched users
-      console.log("new-second");
     });
   };
   const resetForms = () => {
@@ -117,7 +120,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       permission_type: "",
       email: "",
       last_name: "",
-      phone_number: "", // Include the missing properties
+      phone_number: "",
       department: "",
     });
   };
@@ -139,13 +142,20 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    //   dispatch(getAllUsers()).then((result) => {
-    //     setFetchedUsers(result.payload);
-    //   });
     dispatch(getDepartments()).then((result) => {
       setDepartments(result.payload);
     });
   }, [dispatch]);
+  useEffect(() => {
+    if (isLoading === true) {
+      handleFetchUsers();
+      dispatch(getProfile()).then(() => {});
+    }
+    if (loading === true) {
+      handleFetchUsers();
+      dispatch(getProfile()).then(() => {});
+    }
+  }, [profile]);
 
   const handleResendOTP = (item: UsersLogItem) => {
     console.log(item);
@@ -173,47 +183,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         });
     }, 800);
   };
-
-  // const handleDeleteStaffs = async (item: UsersLogItem) => {
-  //   try {
-  //     setFormErrors("");
-  //     setLoading(true);
-
-  //     const payload = item?.id;
-
-  //     if (payload === undefined) {
-  //       setLoading(false);
-  //       console.error("Invalid payload for deletion.");
-  //       return;
-  //     }
-
-  //     const response = await dispatch(deleteStaff(payload));
-
-  //     if (response.payload) {
-  //       // Assuming response.payload contains the status code
-  //       switch (response.payload) {
-  //         case 200:
-  //           console.log("Profile successfully deleted:", response);
-  //           closeDeleteModal();
-  //           break;
-  //         case 400:
-  //           setFormErrors("Please fill out the form correctly to proceed.");
-  //           break;
-  //         default:
-  //           console.warn("Unexpected response payload:", response);
-  //       }
-  //     } else {
-  //       console.error("Invalid response payload:", response);
-  //     }
-
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Error during staff deletion:", error);
-  //     // Handle the error as needed
-  //   }
-  // };
-
   const handleDeleteStaff = async () => {
     try {
       setFormErrors("");
@@ -242,18 +211,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       setLoading(false);
     }
   };
-  const profile = useSelector((state: RootState) => state.profile.profile);
-
-  useEffect(() => {
-    if (isLoading === true) {
-      handleFetchUsers();
-    }
-    if (loading === true) {
-      handleFetchUsers();
-    }
-  }, [profile]);
-
-  console.log(loading, "ll");
 
   const handleChangeDepartment = (e: ChangeEvent<HTMLSelectElement>) => {
     setFormErrors("");
@@ -285,17 +242,31 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     }));
   };
 
+  const openSecondModal = () => {
+    setIsSecondModalOpen(true);
+  };
+
+  const closeSecondModal = () => {
+    setIsSecondModalOpen(false);
+    setFormData({
+      first_name: "",
+      permission_type: "",
+      phone_number: "",
+      email: "",
+      department: "",
+      last_name: "",
+    });
+  };
   const openEditModal = (item: UsersLogItem) => {
     console.log("Open Edit Modal for item:", item);
     setEditedUser(item);
     setEditModalOpen(true);
-    console.log(editedUser, 'LLL');
     setModalOpen(false);
   };
 
   const closeEditModal = () => {
     setEditModalOpen(false);
-    resetForms()
+    resetForms();
   };
 
   const openDeleteModal = (item: UsersLogItem) => {
@@ -307,6 +278,15 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
 
   const closeDeleteModal = () => {
     setDeleteModalOpen(false);
+  };
+
+  const openModal = (item: UsersLogItem) => {
+    setClickedUser(item);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -330,22 +310,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       );
     }
   };
-  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
-  const openSecondModal = () => {
-    setIsSecondModalOpen(true);
-  };
-
-  const closeSecondModal = () => {
-    setIsSecondModalOpen(false);
-    setFormData({
-      first_name: "",
-      permission_type: "",
-      phone_number: "",
-      email: "",
-      department: "",
-      last_name: "",
-    });
-  };
 
   const handleSecondModalContinue = async () => {
     setSubmitErrors({
@@ -361,9 +325,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       !formData.last_name.trim() ||
       !formData.email.trim() ||
       !formData.phone_number.trim()
-      //||
-      // !formData.department.trim() ||
-      // !formData.permission_type.trim()
     ) {
       setSubmitErrors({
         first_name: !formData.first_name.trim() ? "First Name is required" : "",
@@ -372,8 +333,8 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         phone_number: !formData.phone_number.trim()
           ? "Phone Number is required"
           : "",
-        department: "", // Set to an empty string or provide a default message
-        permission_type: "", // Set to an empty string or provide a default message
+        department: "",
+        permission_type: "",
       });
 
       return;
@@ -427,54 +388,42 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const handleEditStaff = async () => {
     try {
       setFormErrors("");
-      if (formData) {
-        setLoading(true);
-        const user_id = editedUser?.id;
-        const response = await dispatch(
-          updateStaff({
-            updateStaff: {
-              first_name: formData.first_name
-                ? formData.first_name
-                : editedUser?.first_name,
-              last_name: formData.last_name
-                ? formData.last_name
-                : editedUser?.last_name,
-              phone_number: formData.phone_number
-                ? formData.phone_number
-                : editedUser?.phone_number,
-              permission_type: formData.permission_type
-                ? formData.permission_type
-                : editedUser?.permission_type,
-              email: formData.email ? formData.email : editedUser?.email,
-            },
-            user_id: user_id ?? "",
-          })
-        );
-
-        console.log("addstaff:", response);
-        setLoading(false);
-        switch (response?.payload) {
-          case 200:
-            console.log("Profile successfully updated:", response);
-            resetForms();
-            handleFetchUsers();
-            closeEditModal();
-            break;
-          case 400:
-            setLoading(false);
-            setFormErrors("An account with this email already exists.");
-            break;
-          case 422:
-            setLoading(false);
-            setFormErrors("Please Enter a Details Correctly to Proceed.");
-            break;
-          default:
-            setLoading(false);
-            console.log("Unexpected response payload:", response);
-            break;
-        }
-      } else {
-        setFormErrors("Please Enter a Details Correctly to Proceed.");
+      if (!formData) {
+        setFormErrors("Please Enter Details Correctly to Proceed.");
+        return;
+      }
+      setLoading(true);
+      const user_id = editedUser?.id;
+      const response = await dispatch(
+        updateStaff({
+          updateStaff: {
+            first_name: formData.first_name || editedUser?.first_name,
+            last_name: formData.last_name || editedUser?.last_name,
+            phone_number: formData.phone_number || editedUser?.phone_number,
+            permission_type:
+              formData.permission_type || editedUser?.permission_type,
+            email: formData.email || editedUser?.email,
+          },
+          user_id: user_id ?? "",
+        })
+      );
+      setLoading(false);
+      switch (response?.payload) {
+        case 200:
+          console.log("Profile successfully updated:", response);
+          resetForms();
+          handleFetchUsers();
+          closeEditModal();
+          break;
+        case 400:
+          setFormErrors("An account with this email already exists.");
+          break;
+        case 422:
+          setFormErrors("Please Enter Details Correctly to Proceed.");
+          break;
+        default:
+          console.log("Unexpected response payload:", response);
+          break;
       }
     } catch (error) {
       setLoading(false);
@@ -577,6 +526,8 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         loading={loading}
         disabled={loading}
       />
+      <br />
+      <PasswordWarning formErrors={formErrors} />
       <div></div>
     </div>
   );
@@ -595,15 +546,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     ];
     const index = (letter?.charCodeAt(0) ?? 0) % colors.length;
     return colors[index];
-  };
-
-  const openModal = (item: UsersLogItem) => {
-    console.log("Clicked item:", item);
-    setClickedUser(item);
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
   };
 
   if (!fetchedUsers) {
@@ -643,54 +585,20 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       </div>
       <div
         className="profile-image-container"
-        style={{
-          backgroundColor: profilePicStyle.backgroundColor,
-          height: 100,
-          borderRadius: 8,
-          zIndex: -1,
-        }}
+        style={{ backgroundColor: profilePicStyle.backgroundColor }}
       >
         <img className="profile-image" src={Profilecard} alt={Profilecard} />
       </div>
-      <div
-        className="profile-info-container"
-        style={{
-          marginTop: -32,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="profile-info-container">
         <div
           className="initials-container"
-          style={{
-            backgroundColor: profilePicStyle.backgroundColor,
-            width: 24,
-            height: 24,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 488,
-            padding: 12,
-            color: "white",
-            fontSize: 15,
-            borderColor: "white",
-            borderStyle: "solid",
-            borderWidth: 6,
-            zIndex: 2,
-          }}
+          style={{ backgroundColor: profilePicStyle.backgroundColor }}
           onClick={(e) => e.stopPropagation()}
         >
-          {clickedUser?.first_name[0]}
-          {clickedUser?.last_name[0]}
+          {`${clickedUser?.first_name[0]}${clickedUser?.last_name[0]}`}
         </div>
         <div>
-          {/* <p className="name-users-style">Name:</p> */}
-          <p className="name-users-style-bold">
-            {clickedUser?.first_name} {clickedUser?.last_name}
-          </p>
+          <p className="name-users-style-bold">{`${clickedUser?.first_name} ${clickedUser?.last_name}`}</p>
         </div>
         <div>
           <p className="name-users-style">{clickedUser?.email}</p>
@@ -706,28 +614,17 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
             Team
           </p>
         </div>
-        <br />{" "}
-        <div
-          style={{
-            display: "flex",
-            gap: 24,
-          }}
-        >
-          <div className="customStyledBox">
-            <IoTicket />
-          </div>
-          <div
-            className="customStyledBox"
-            style={{ backgroundColor: "#FDBA10" }}
-          >
-            <IoTicket />
-          </div>
-          <div
-            className="customStyledBox"
-            style={{ backgroundColor: "#0FC136" }}
-          >
-            <IoTicket />
-          </div>
+        <br />
+        <div style={{ display: "flex", gap: 24 }}>
+          {["#000", "#FDBA10", "#0FC136"].map((color, index) => (
+            <div
+              key={index}
+              className="customStyledBox"
+              style={{ backgroundColor: color }}
+            >
+              <IoTicket />
+            </div>
+          ))}
         </div>
         <br />
       </div>
@@ -737,37 +634,15 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const confirmDeleteModal = (
     <div className="form_content_display-dashboard">
       <br />
-      <h3
-        style={{
-          textAlign: "center",
-          minWidth: 300,
-        }}
-      >
+      <h3 className="clickedUser-h3">
         Confirm you want to Delete{" "}
         <span style={{ color: "orangered" }}>
           {clickedUser?.first_name} {""}
           {clickedUser?.last_name}
         </span>
       </h3>
-      <p
-        style={{
-          fontSize: 14,
-          color: "#808080",
-          paddingBottom: 20,
-          textAlign: "center",
-          marginTop: 0,
-          width: "100%",
-        }}
-      >
-        This action cannot be undone
-      </p>
-      <div
-        style={{
-          display: "flex",
-          gap: 12,
-          width: "100%",
-        }}
-      >
+      <p className="clickedUser-p">This action cannot be undone</p>
+      <div className="clickedUser-p-div">
         <div style={{ width: "100%" }}>
           <button
             style={{ width: "100%" }}
@@ -778,15 +653,14 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
           </button>
         </div>
         <button
-          className={` ${loading ? "loading" : "custom-container"}`}
+          className={`${loading ? "loading" : "custom-container"}`}
           onClick={handleDeleteStaff}
         >
           {loading ? (
             <div className="loader">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
+              {[...Array(5)].map((_, index) => (
+                <div key={index}></div>
+              ))}
             </div>
           ) : (
             "Delete User"
@@ -803,51 +677,31 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       <FormHeaders
         activeStepNumber={0}
         totalStepNumbers={0}
-        title={`Edit a User,  ${editedUser?.first_name} ${editedUser?.last_name}`}
-        //errorText={formErrors}
+        title={`Edit a User, ${editedUser?.first_name} ${editedUser?.last_name}`}
         accountText={"Edit your user"}
-      />{" "}
+      />
       <PasswordWarning formErrors={formErrors} />
       <br /> <br />
-      <TextInputDashboard
-        label="First Name"
-        value={formData.first_name}
-        onChange={handleChange}
-        type="text"
-        id="first_name"
-        name="first_name"
-        placeholder=" First Name"
-      />
-      <TextInputDashboard
-        label="Last Name"
-        value={formData.last_name}
-        onChange={handleChange}
-        type="text"
-        id="last_name"
-        name="last_name"
-        placeholder="Last Name"
-      />
-      <TextInputDashboard
-        label="Email Address"
-        value={formData.email}
-        onChange={handleChange}
-        type="text"
-        id="email"
-        name="email"
-        placeholder="Email Address"
-      />
-      <TextInputDashboard
-        label="Phone Number"
-        value={formData.phone_number}
-        onChange={handleChange}
-        type="text"
-        id="phone_number"
-        name="phone_number"
-        placeholder=" Phone Number"
-      />
+      {["First Name", "Last Name", "Email Address", "Phone Number"].map(
+        (label, index) => (
+          <TextInputDashboard
+            key={index}
+            label={label}
+            value={
+              (formData as FormDataWithIndex)[
+                label.toLowerCase().replace(/\s+/g, "_")
+              ]
+            }
+            onChange={handleChange}
+            type="text"
+            id={label.toLowerCase().replace(/\s+/g, "_")}
+            name={label.toLowerCase().replace(/\s+/g, "_")}
+            placeholder={label}
+          />
+        )
+      )}
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label className="business-name-label"> Select a Department </label>
-
         <select
           style={{ height: 48, padding: 12, width: "100%" }}
           className={`${"select-dashboard"}`}
@@ -864,8 +718,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
             color: "#FF7342",
             textAlign: "right",
           }}
-
-          // onClick={handleToggleDepartments}
         >
           {fetchedDepartments?.length > 0
             ? null
@@ -928,6 +780,8 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                       : getRandomColor(item?.first_name[1]),
                   };
 
+                  const isEmailVerified = item?.email_verified === "True";
+
                   return (
                     <tr key={index} className="log-item">
                       <td>
@@ -949,12 +803,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                                   alt={`${item?.first_name} ${item?.last_name}`}
                                 />
                               ) : (
-                                <span
-                                  style={{
-                                    color: "#fff",
-                                    fontSize: 13,
-                                  }}
-                                >
+                                <span style={{ color: "#fff", fontSize: 13 }}>
                                   {item?.first_name[0]}
                                   {item?.last_name[0]}
                                 </span>
@@ -981,17 +830,17 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                         </p>
                       </td>
                       <td>
-                        {item?.email_verified === "True" ? (
+                        {isEmailVerified ? (
                           <p
                             onClick={() => openModal(item)}
                             className="view-tickets"
                           >
-                            View User <MdSend />{" "}
+                            View User <MdSend />
                           </p>
                         ) : (
                           <div className="flex">
                             <p
-                              className={` ${
+                              className={`${
                                 resendTokenLoading[item.id]
                                   ? "view-tickets-loading"
                                   : "view-tickets-token"
@@ -1020,32 +869,28 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
               </tbody>
             </table>
           )}
-          <Modal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            formContent={content}
-          />
-          <Modal
-            isOpen={isEditModalOpen}
-            onClose={closeEditModal}
-            formContent={editModalContent}
-          />
-          <Modal
-            isOpen={isDeleteModalOpen}
-            onClose={closeDeleteModal}
-            formContent={confirmDeleteModal}
-          />
-          <Modal
-            isOpen={isSecondModalOpen}
-            onOpen={openSecondModal}
-            onClose={closeSecondModal}
-            formContent={formContentSecondModal}
-          />
-          <Modal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            formContent={content}
-          />
+          {[
+            isModalOpen,
+            isEditModalOpen,
+            isDeleteModalOpen,
+            isSecondModalOpen,
+            isModalOpen,
+          ].map((isOpen, index) => (
+            <Modal
+              key={index}
+              isOpen={isOpen}
+              onClose={index === 4 ? closeSecondModal : closeModal}
+              formContent={
+                index === 1
+                  ? editModalContent
+                  : index === 2
+                  ? confirmDeleteModal
+                  : index === 3
+                  ? formContentSecondModal
+                  : content
+              }
+            />
+          ))}
         </div>
       </div>
     </div>

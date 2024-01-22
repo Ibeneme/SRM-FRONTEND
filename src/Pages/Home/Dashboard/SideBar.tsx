@@ -105,8 +105,8 @@ const Sidebar: React.FC<SidebarProps> = ({ image }) => {
       }
     };
 
-    fetchAccessToken(); // Initial fetch
-    fetchSrmUser(); // Initial fetch
+    fetchAccessToken();
+    fetchSrmUser();
 
     const handleStorageChange = () => {
       fetchAccessToken();
@@ -115,11 +115,10 @@ const Sidebar: React.FC<SidebarProps> = ({ image }) => {
 
     window.addEventListener("storage", handleStorageChange);
 
-    // Cleanup the listener on component unmount
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []); // Refetch if srmAccessToken or srmUser changes
+  }, []);
 
   console.log(isAccessTokenAvailable, "isAccessTokenAvailable");
 

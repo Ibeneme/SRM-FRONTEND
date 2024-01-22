@@ -27,7 +27,7 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
 }) => {
   const inputElement = height ? (
     <textarea
-      style={{ height: 100 }}
+      style={{ minHeight: 150 }}
       className={`${
         error ? "error-auth-input" : "div-for-auth-text-input-input"
       }`}
