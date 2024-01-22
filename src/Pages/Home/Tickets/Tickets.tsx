@@ -25,7 +25,7 @@ import NoTickets from "../../../assets/Dashboard/NoTickets.png";
 import NoTicketsMessage from "../Dashboard/Components/NoTickets";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
-import { createTicket } from "../../../../Redux/Tickets/Tickets";
+import { createTicket, getAllTickets } from "../../../../Redux/Tickets/Tickets";
 import { useNavigate } from "react-router-dom";
 import { MdCancel } from "react-icons/md";
 import useCustomToasts from "../../Utils/ToastNotifications/Toastify";
@@ -85,6 +85,9 @@ const TicketDashboard: React.FC = () => {
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
   const [createTicketLoading, setCreateTicketLoading] = useState(false);
   const [formErrors, setFormErrors] = useState("");
+  const [allTickets, setAllTickets] = useState<any | null>(
+    null
+  );
   const [formData, setFormData] = useState<FormData>({
     stakeholder_name: "",
     last_name: "",
@@ -113,7 +116,9 @@ const TicketDashboard: React.FC = () => {
     dispatch(getOrganizationProfile()).then((result) => {
       setOrganizationProfile(result.payload);
     });
-
+    dispatch(getAllTickets()).then((result) => {
+      setAllTickets(result.payload);
+    });
     dispatch(getProfile()).then((result) => {
       setUserProfile(result.payload);
     });
@@ -149,11 +154,11 @@ const TicketDashboard: React.FC = () => {
 
       dispatch(getProfile()).then((result) => {
         setUserProfile(result.payload);
-        //console.log("lal", result);
+        //console.log("lal", allTickets);
       });
     }
   }, [profile]);
-
+  console.log("lal", allTickets)
   const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
   const [isModalOpenNotifications, setIsModalOpenNotifications] =
     useState(false);

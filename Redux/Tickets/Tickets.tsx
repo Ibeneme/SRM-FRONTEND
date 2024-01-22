@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface ProfileState {
-  profile: any; // Adjust the type based on your profile data structure
+interface TicketsState {
+  tickets: any; // Adjust the type based on your profile data structure
   loading: boolean;
   error: string | null;
 }
@@ -11,8 +11,8 @@ interface ProfileState {
 //   first_name: string;
 // }
 
-const initialState: ProfileState = {
-  profile: null,
+const initialState: TicketsState = {
+  tickets: null,
   loading: false,
   error: null,
 };
@@ -72,22 +72,25 @@ export const deleteStaff = createAsyncThunk(
   }
 );
 
-// export const getAllUsers = createAsyncThunk("profile/getAllUsers", async () => {
-//   const token = localStorage.getItem("srm_access_token");
+export const getAllTickets = createAsyncThunk(
+  "profile/getAllTickets",
+  async () => {
+    const token = localStorage.getItem("srm_access_token");
 
-//   try {
-//     const response = await axios.get(`${baseApiUrl}/profile/all-users/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     console.log(response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// });
+    try {
+      const response = await axios.get(`${baseApiUrl}/ticket/all-tickets/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+);
 
 const TicketSlice = createSlice({
   name: "ticket",
@@ -101,9 +104,24 @@ const TicketSlice = createSlice({
       })
       .addCase(createTicket.fulfilled, (state, action) => {
         state.loading = false;
-        state.profile = action.payload;
+        state.tickets = action.payload;
       })
       .addCase(createTicket.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload
+          ? (action.payload as string)
+          : "Failed to fetch tickets";
+      });
+    builder
+      .addCase(getAllTickets.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllTickets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tickets = action.payload;
+      })
+      .addCase(getAllTickets.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload
           ? (action.payload as string)

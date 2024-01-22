@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import {
   TbClipboardList,
-  TbMail,
+  //TbMail,
   TbTicket,
   TbSettings,
   TbMessage,
@@ -42,7 +42,7 @@ const menuData: MenuCategory[] = [
     title: "MENU",
     items: [
       { icon: <TbTicket />, text: "Tickets", to: "/tickets" },
-      { icon: <TbMail />, text: "Mails", to: "/" },
+      // { icon: <TbMail />, text: "Mails", to: "/" },
       { icon: <TbMessage />, text: "Chats", to: "/" },
       { icon: <TbClipboardList />, text: "Feedback Forms", to: "/" },
     ],
