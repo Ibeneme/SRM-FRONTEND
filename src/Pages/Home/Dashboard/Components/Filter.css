@@ -141,7 +141,7 @@ h2 {
   cursor: pointer
 }
 
-@media (max-width: 589px) {
+/* @media (max-width: 589px) {
   .log-table th:nth-child(4),
   .log-table th:nth-child(1),
   .log-table td:nth-child(4),
@@ -179,7 +179,7 @@ h2 {
     align-items: center;
     margin-top: 12px;
   }
-}
+} */
 
 .name-users-style-bold {
   font-size: 16px;
@@ -219,168 +219,4 @@ h2 {
   font-size: 14px;
   margin-bottom: -12px;
   color: #ff7342
-}
-
-
-/* General styling for the entire component */
-.amosn5 {
-  width: 300px;
-}
-
-/* Top bar with close button and action buttons */
-.amosn5 .top-bar {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-/* Close button */
-.amosn5 .close-button {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-/* Action buttons */
-.amosn5 .action-buttons {
-  display: flex;
-  gap: 12px;
-  font-size: 13px;
-  color: #808080;
-}
-
-/* Profile image container */
-.amosn5 .profile-image-container {
-
-  height: 100px;
-  border-radius: 8px;
-  z-index: -1;
-}
-
-/* Profile image */
-.amosn5 .profile-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* Profile information container */
-.amosn5 .profile-info-container {
-  margin-top: -32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Circular initials container */
-.amosn5 .initials-container {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 488px;
-  padding: 12px;
-  color: white;
-  font-size: 15px;
-  border: 6px solid white;
-  z-index: 2;
-}
-
-/* Profile initials */
-.amosn5 .initials {
-  font-weight: bold;
-}
-
-/* User details */
-.amosn5 .user-details {
-  margin-top: 8px;
-}
-
-/* User name */
-.amosn5 .user-name {
-  font-weight: bold;
-}
-
-/* User email */
-.amosn5 .user-email {
-  color: #808080;
-}
-
-/* Permission type */
-.amosn5 .permission-type {
-  font-weight: bold;
-  color: #ff7342;
-}
-
-/* Tickets section */
-.amosn5 .tickets-section {
-  display: flex;
-  gap: 24px;
-}
-
-/* Ticket box */
-.amosn5 .ticket-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-}
-
-/* Customize the colors as needed */
-.amosn5 .ticket-box:nth-child(1) {
-  background-color: var(--ticket-color-1);
-}
-
-.amosn5 .ticket-box:nth-child(2) {
-  background-color: var(--ticket-color-2);
-}
-
-.amosn5 .ticket-box:nth-child(3) {
-  background-color: var(--ticket-color-3);
-}
-
-.view-tickets {
-  display: inline-block;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 588px;
-  padding: 8px 16px;
-  margin: 5px;
-  display: flex;
-}
-
-.view-tickets-loading {
-  background-color: #80808020;
-  color: #808080;
-  pointer-events: none;
-  cursor: not-allowed;
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 24px;
-  border-radius: 239px;
-  cursor: pointer;
-  margin: 0
-}
-
-
-.view-tickets-token {
-  background-color: #80808020;
-  color: #808080;
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 24px;
-  border-radius: 239px;
-  cursor: pointer;
-  margin: 0
 }

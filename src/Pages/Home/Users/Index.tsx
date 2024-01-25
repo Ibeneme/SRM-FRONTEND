@@ -105,7 +105,7 @@ const UsersPage: React.FC = () => {
       });
     }
   }, [profile]);
-  
+
   const openModalSearch = () => {
     setIsModalOpenSearch(true);
   };
@@ -380,7 +380,6 @@ const UsersPage: React.FC = () => {
   const orgSettingsContent = (
     <div className="org-settings-content">
       <div className="header-container"></div>
-      {/* <CSVViewer url={usersInCSV} /> */}
       {departments?.length === 0 ? (
         <div className="empty-departments-container">
           <h3>No Departments Created yet</h3>

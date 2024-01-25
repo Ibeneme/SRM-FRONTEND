@@ -616,7 +616,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         </div>
         <br />
         <div style={{ display: "flex", gap: 24 }}>
-          {["#000", "#FDBA10", "#0FC136"].map((color, index) => (
+          {["#ff0000", "#FDBA10", "#0FC136"].map((color, index) => (
             <div
               key={index}
               className="customStyledBox"

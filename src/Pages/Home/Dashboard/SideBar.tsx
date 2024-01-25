@@ -15,6 +15,7 @@ import {
   TbUserEdit,
   TbUsers,
 } from "react-icons/tb";
+import RandomColorComponent from "./RandomColor";
 
 interface MenuItem {
   icon: React.ReactNode;
@@ -61,27 +62,11 @@ const menuData: MenuCategory[] = [
   },
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ image }) => {
-  const getRandomColor = (letter: string): string => {
-    const colors = [
-      "orange",
-      "#16B4A1",
-      "#1962EF",
-      "#B45816",
-      "#DE4D93",
-      "brown",
-      "#7B4DDE",
-      "#4D64DE",
-      "orangered",
-    ];
-    const index = letter.charCodeAt(0) % colors.length;
-    return colors[index];
-  };
-
+const Sidebar: React.FC<SidebarProps> = () => {
   const navigate = useNavigate();
 
-  const [isAccessTokenAvailable, setIsAccessTokenAvailable] =
-    useState<boolean>(false);
+  // const [isAccessTokenAvailable, setIsAccessTokenAvailable] =
+  //   useState<boolean>(false);
   const [srmAccessToken, setSrmAccessToken] = useState<string | null>(null);
   const [srmUser, setSrmUser] = useState<User | null>(null);
 
@@ -91,9 +76,9 @@ const Sidebar: React.FC<SidebarProps> = ({ image }) => {
       const isAvailable = !!srm_access_token;
       if (isAvailable && srm_access_token !== srmAccessToken) {
         setSrmAccessToken(srm_access_token);
-        setIsAccessTokenAvailable(isAvailable);
-        console.log("Is SRM Access Token Available:", isAvailable);
-        console.log("SRM Access Token:", srm_access_token);
+       // setIsAccessTokenAvailable(isAvailable);
+        //console.log("Is SRM Access Token Available:", isAvailable);
+        //console.log("SRM Access Token:", srm_access_token);
       }
     };
 
@@ -101,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ image }) => {
       const srm_user = localStorage.getItem("srm_user");
       if (srm_user !== srmUser) {
         setSrmUser(JSON.parse(srm_user || "{}"));
-        console.log("SRM User:", srm_user);
+        //console.log("SRM User:", srm_user);
       }
     };
 
@@ -120,13 +105,7 @@ const Sidebar: React.FC<SidebarProps> = ({ image }) => {
     };
   }, []);
 
-  console.log(isAccessTokenAvailable, "isAccessTokenAvailable");
-
-  const profilePicStyle: React.CSSProperties = {
-    backgroundColor: image
-      ? "transparent"
-      : getRandomColor(srmUser?.first_name[1] || ""),
-  };
+  //console.log(isAccessTokenAvailable, "isAccessTokenAvailable");
 
   return (
     <div className="sidebar">
@@ -135,24 +114,13 @@ const Sidebar: React.FC<SidebarProps> = ({ image }) => {
           <h2 className="sidebar-title">SRM</h2>
         </div>
         <div className="bottom" onClick={() => navigate("/profile")}>
-          <div className="profile-pic-dashboard" style={profilePicStyle}>
-            {image ? (
-              <img
-                src={image}
-                alt={`${srmUser?.first_name} ${srmUser?.last_name}`}
-              />
-            ) : (
-              <span
-                style={{
-                  color: "#fff",
-                  fontSize: 13,
-                }}
-              >
-                {srmUser?.first_name[0]}
-                {srmUser?.last_name[0]}
-              </span>
-            )}
+          <div className="profile-pic-dashboard">
+            <RandomColorComponent
+              firstName={srmUser?.first_name || ""}
+              lastName={srmUser?.last_name || ""}
+            />
           </div>
+
           <div className="">
             <h2 className="sidebar-names">
               {srmUser?.first_name} {srmUser?.last_name}

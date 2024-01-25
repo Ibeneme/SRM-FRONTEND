@@ -2,10 +2,10 @@ import React from "react";
 import { MdSend } from "react-icons/md";
 
 interface HistoryLogItem {
-  ticketId: string;
+  reference: string;
   status: string;
-  date: string;
-  assignedTo: string;
+  created_at: string;
+  customer: any;
   title: string;
   email: string;
   image: string;
@@ -31,7 +31,7 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <tr key={index} className="log-item">
               <td>
                 <span className="center-column-span">
@@ -41,8 +41,11 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                     alt="item"
                   />
                   <span className="center-column">
-                    <p className="center-column-title">{item.assignedTo}</p>
-                    <p className="center-column-p">{item.email}</p>
+                    <p className="center-column-title">
+                      {item.customer?.first_name} {""}{" "}
+                      {item.customer?.last_name}
+                    </p>
+                    <p className="center-column-p"> {item.customer?.email}</p>
                   </span>
                 </span>
                 <p className="center-column-p-title">
@@ -51,7 +54,8 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                 </p>
               </td>
               <td>{item.title}</td>
-              <td>{item.ticketId}</td>
+              <td>{item.reference}</td>
+
               {/*     <td>
             <p
                   style={{
@@ -68,7 +72,7 @@ const HistoryLog: React.FC<HistoryLogProps> = ({ data }) => {
                   {item.status}
                 </p> 
               </td>*/}
-              <td>{item.date}</td>
+              <td>{item.created_at?.toLocaleString()}</td>
               <td>
                 {" "}
                 <p className="view-tickets">

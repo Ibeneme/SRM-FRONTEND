@@ -12,6 +12,7 @@ interface TextInputDashboardProps {
   placeholder: string;
   error?: string;
   height?: boolean;
+  placeholderVisible?: boolean;
 }
 const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
   label,
@@ -24,6 +25,7 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
   required = false,
   height,
   error,
+  placeholderVisible,
 }) => {
   const inputElement = height ? (
     <textarea
@@ -36,7 +38,9 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
       value={value}
       onChange={onChange}
       required={required}
-      placeholder={`${"Enter your"} ${placeholder}`}
+      placeholder={
+        placeholderVisible ? `${placeholder}` : `Enter your ${placeholder}`
+      }
     />
   ) : (
     <input
@@ -49,7 +53,9 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
       value={value}
       onChange={onChange}
       required={required}
-      placeholder={`${"Enter your"} ${placeholder}`}
+      placeholder={
+        placeholderVisible ? `${placeholder}` : `Enter your ${placeholder}`
+      }
     />
   );
 
