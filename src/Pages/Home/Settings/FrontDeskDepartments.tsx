@@ -25,7 +25,7 @@ import SettingsToggle from "./SettingsToggle";
 import "./settings.css";
 // import orgImage from "../../../assets/Dashboard/Company.png";
 // import NoTicketsMessage from "../Dashboard/Components/NoTickets";
-import { MdOutlineCancel } from "react-icons/md";
+import { MdClose, MdOutlineCancel } from "react-icons/md";
 import { addStaff } from "../../../../Redux/Auth/Auth";
 import departmentsImage from "../../../assets/Dashboard/Departments.png";
 import DepartmentsComponent from "./DepartmentsComponents";
@@ -852,6 +852,10 @@ const Frontdesk: React.FC = () => {
   const ModalForCreateDepartment = (
     <div className="form_content_display-dashboard">
       <br />
+      <MdClose
+        style={{ cursor: "pointer", fontSize: 20 }}
+        onClick={closemodalDepartment}
+      />
       <FormHeaders
         activeStepNumber={0}
         totalStepNumbers={0}

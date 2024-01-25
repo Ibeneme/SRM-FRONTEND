@@ -29,6 +29,7 @@ import {
   createTicket,
   deleteTicket,
   getAllTickets,
+  setHandler,
   updateTicket,
 } from "../../../../Redux/Tickets/Tickets";
 import { useNavigate } from "react-router-dom";
@@ -597,6 +598,46 @@ const TicketDashboard: React.FC = () => {
           ticket_id: payload,
         })
       )
+        .then((response) => {
+          switch (response?.payload) {
+            case 200:
+              setIsTicketDetailsModalOpen(false);
+              setTimeout(() => {
+                fetchTickets();
+                setCreateTicketLoading(false);
+                setIsTicketDetailsModalOpen(true);
+                console.log("Ticket successfully resolved:", response);
+              }, 2000);
+              break;
+            case 400:
+              setCreateTicketLoading(false);
+              setFormErrors("Please fill out the forms correctly to proceed.");
+              break;
+            default:
+              setCreateTicketLoading(false);
+              console.log("Unexpected response payload:", response);
+              break;
+          }
+        })
+        .catch((error) => {
+          console.error("Error resolving ticket:", error);
+        })
+        .finally(() => {
+          setCreateTicketLoading(false);
+        });
+    } catch (error) {
+      console.error("Error in handleResolveTicket:", error);
+      setCreateTicketLoading(false);
+    }
+  };
+
+  const handleReAssignTicket = async () => {
+    try {
+      setFormErrors("");
+      setCreateTicketLoading(true);
+      const payload = clickedUser?.id;
+      console.log("Resolving ticket with ID:", payload);
+      dispatch(setHandler({ user_id: selectedUserId, ticket_id: payload }))
         .then((response) => {
           switch (response?.payload) {
             case 200:
@@ -1261,6 +1302,11 @@ const TicketDashboard: React.FC = () => {
                   </div>
                 </div>
               ))}
+              {selectedUserId ? (
+                <div onClick={handleReAssignTicket} className="save-reassign">
+                  Confirm Re-assign
+                </div>
+              ) : null}
             </div>
           </div>
         )}

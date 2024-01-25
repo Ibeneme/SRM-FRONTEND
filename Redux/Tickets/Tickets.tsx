@@ -126,7 +126,7 @@ export const setHandler = createAsyncThunk(
     console.log(user_id, ticket_id, "ticket_idticket_id");
     try {
       const response = await axios.get(
-        `${baseApiUrl}/ticket/set-handler/${ticket_id}/${user_id}`,
+        `${baseApiUrl}/ticket/set-handler/${ticket_id}/${user_id}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
