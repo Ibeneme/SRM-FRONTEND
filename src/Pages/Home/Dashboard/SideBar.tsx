@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./styles/ssidebar.css";
 import {
   MdLabelImportantOutline,
+  MdNewLabel,
   MdOutlineLabelImportant,
+  MdOutlineTag,
   MdSpaceDashboard,
+  MdOutlineFolderCopy,
+  MdOutlineFolderSpecial,
+  MdOutlineDevicesFold,
 } from "react-icons/md";
 import {
-  TbClipboardList,
+  // TbClipboardList,
   //TbMail,
   TbTicket,
   TbSettings,
-  TbMessage,
+  // TbMessage,
   TbUserEdit,
   TbUsers,
 } from "react-icons/tb";
-import RandomColorComponent from "./RandomColor";
+//import RandomColorComponent from "./RandomColor";
 
 interface MenuItem {
   icon: React.ReactNode;
@@ -40,14 +45,71 @@ interface SidebarProps {
 
 const menuData: MenuCategory[] = [
   {
-    title: "MENU",
+    title: "Tickets",
     items: [
-      { icon: <TbTicket />, text: "Tickets", to: "/tickets" },
-      // { icon: <TbMail />, text: "Mails", to: "/" },
-      { icon: <TbMessage />, text: "Chats", to: "/" },
-      { icon: <TbClipboardList />, text: "Feedback Forms", to: "/" },
+      { icon: <TbTicket />, text: "All Tickets", to: "/tickets" },
+      // {
+      //   icon: <TbTicket />,
+      //   text: "Tickets by Prority",
+      //   to: "/ticket-by-prority",
+      // },
     ],
   },
+
+  {
+    title: "Tickets by Status",
+    items: [
+      {
+        icon: <MdOutlineFolderSpecial />,
+        text: "Priority High Tickets",
+        to: "/priority-high-tickets",
+      },
+      {
+        icon: <MdOutlineFolderCopy />,
+        text: "Priority Medium Tickets",
+        to: "/priority-medium-tickets",
+      },
+
+      {
+        icon: <MdOutlineDevicesFold />,
+        text: "Priority Low Tickets",
+        to: "/priority-low-tickets",
+      },
+    ],
+  },
+
+  {
+    title: "Tickets by Prority",
+    items: [
+      {
+        icon: <MdOutlineLabelImportant />,
+        text: "Overdue Tickets",
+        to: "/overdue-tickets",
+      },
+      {
+        icon: <MdLabelImportantOutline />,
+        text: "Due Tickets",
+        to: "/due-tickets",
+      },
+
+      {
+        icon: <MdNewLabel />,
+        text: "New Tickets",
+        to: "/new-tickets",
+      },
+      {
+        icon: <MdOutlineTag />,
+        text: "Resolved Tickets",
+        to: "/resolved-tickets",
+      },
+      {
+        icon: <MdOutlineTag />,
+        text: "Closed Tickets",
+        to: "/closed-tickets",
+      },
+    ],
+  },
+
   {
     title: "SETTINGS",
     items: [
@@ -63,7 +125,7 @@ const menuData: MenuCategory[] = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   // const [isAccessTokenAvailable, setIsAccessTokenAvailable] =
   //   useState<boolean>(false);
@@ -76,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       const isAvailable = !!srm_access_token;
       if (isAvailable && srm_access_token !== srmAccessToken) {
         setSrmAccessToken(srm_access_token);
-       // setIsAccessTokenAvailable(isAvailable);
+        // setIsAccessTokenAvailable(isAvailable);
         //console.log("Is SRM Access Token Available:", isAvailable);
         //console.log("SRM Access Token:", srm_access_token);
       }
@@ -113,7 +175,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <div className="sidebar-title-div">
           <h2 className="sidebar-title">SRM</h2>
         </div>
-        <div className="bottom" onClick={() => navigate("/profile")}>
+        {/* <div className="bottom" onClick={() => navigate("/profile")}>
           <div className="profile-pic-dashboard">
             <RandomColorComponent
               firstName={srmUser?.first_name || ""}
@@ -127,7 +189,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </h2>
             <p className="sidebar-email">{srmUser?.email}</p>
           </div>
-        </div>
+        </div> */}
         <br /> <br /> <br /> <br />
         <div className="sidebar-headers">
           <NavLink to="/home" end>
@@ -135,16 +197,16 @@ const Sidebar: React.FC<SidebarProps> = () => {
           </NavLink>
         </div>
         <br />
-        <div className="sidebar-headers mt mtt">
+        {/* <div className="sidebar-headers mt mtt">
           <NavLink to="/" end>
             <MdOutlineLabelImportant /> Overdue Tickets
           </NavLink>
-        </div>
-        <div className="sidebar-headers mt">
+        </div> */}
+        {/* <div className="sidebar-headers mt">
           <NavLink to="/" end>
             <MdLabelImportantOutline /> Due Tickets
           </NavLink>
-        </div>
+        </div> */}
         {menuData.map((menu, index) => (
           <div key={index}>
             <p className="title-sidebar-p">{menu.title}</p>

@@ -782,8 +782,8 @@ const Frontdesk: React.FC = () => {
           <div className="empty-departments-container">
             <h3>No Departments Created yet</h3>
             <p className="dept-texts">Whoops no have no Departments</p>
-            <img src={departmentsImage} width="250" />
-            <br /> <br /> <br />
+            <img src={departmentsImage} width="180" />
+            <br />
             <div>
               <HalfButton
                 onClick={openModalDepartment}

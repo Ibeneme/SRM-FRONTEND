@@ -104,7 +104,15 @@ interface UsersLogItem {
   phone_number: string;
   email_verified: string;
 }
-const TicketDashboard: React.FC = () => {
+
+interface OverdueTicketDashboardProps {
+  headersTickets: string;
+  ticketStatusProps: string;
+}
+const OverdueTicketDashboard: React.FC<OverdueTicketDashboardProps> = ({
+  headersTickets,
+  ticketStatusProps,
+}) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
   const navigate = useNavigate();
   const { showErrorToast, showSuccessToast } = useCustomToasts();
@@ -235,7 +243,7 @@ const TicketDashboard: React.FC = () => {
     }
   }, [searchQuery, allTickets]);
 
-  console.log(filteredTickets, allTickets, "filteredTickets");
+
   const fetchTickets = async () => {
     try {
       setLoading(true);
@@ -1584,6 +1592,15 @@ const TicketDashboard: React.FC = () => {
     </div>
   );
 
+  const resolvedItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+    }) => ticket.status === `${ticketStatusProps}`
+  );
+
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -1594,7 +1611,9 @@ const TicketDashboard: React.FC = () => {
               <div className="main-content-dashboard-div">
                 <div>
                   <div>
-                    <h2 className="main-content-dashboard-h2">Tickets</h2>
+                    <h2 className="main-content-dashboard-h2">
+                      {headersTickets}
+                    </h2>
                     <p className="main-content-dashboard-p">
                       Create and view all your tickets here
                     </p>
@@ -1619,7 +1638,7 @@ const TicketDashboard: React.FC = () => {
                 </div>
               ) : (
                 <div>
-                  {allTickets?.length < 0 ? (
+                  {resolvedItems?.length < 0 ? (
                     <div
                       style={{
                         marginTop: 44,
@@ -1640,7 +1659,7 @@ const TicketDashboard: React.FC = () => {
                       />
                     </div>
                   ) : null}
-                  {allTickets?.length > 0 ? (
+                  {resolvedItems?.length > 0 ? (
                     <div
                       style={{
                         marginTop: 44,
@@ -1651,29 +1670,6 @@ const TicketDashboard: React.FC = () => {
                         flexDirection: "column",
                       }}
                     >
-                      <div className="search-filtered-tickets">
-                        {" "}
-                        <input
-                          className="search-filtered-tickets-input"
-                          type="text"
-                          value={searchQuery}
-                          onChange={handleSearchInputChange}
-                          placeholder="Search by title, handler's name, or priority..."
-                        />
-                        <button
-                          className="no_tickets-div-button"
-                          style={{
-                            color: "white",
-                            height: 50,
-                            fontSize: 14,
-                            margin: 0,
-                          }}
-                          onClick={openCreateTicketModal}
-                        >
-                          + Create a Ticket
-                        </button>
-                      </div>
-
                       <div className="tickets-history-log">
                         {noItemsFound ? (
                           <NoTicketsMessage
@@ -1697,8 +1693,8 @@ const TicketDashboard: React.FC = () => {
                             </thead>
                           )}
                           <tbody>
-                            {allTickets
-                              ? filteredTickets?.map((item: Ticket) => (
+                            {resolvedItems
+                              ? resolvedItems?.map((item: Ticket) => (
                                   <tr
                                     key={item?.id}
                                     className="tickets-log-item"
@@ -1872,4 +1868,4 @@ const TicketDashboard: React.FC = () => {
   );
 };
 
-export default TicketDashboard;
+export default OverdueTicketDashboard;

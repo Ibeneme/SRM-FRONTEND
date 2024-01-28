@@ -25,6 +25,14 @@ import TicketDashboard from "./Pages/Home/Tickets/Tickets";
 import NotFound from "./Pages/Utils/NotFound/NotFound";
 import SetAddedUserPasswordToken from "./Pages/Auth/SetPasswordToken";
 import LandingPageIndex from "./LandingPage/LandingPageIndex";
+import OverdueTickets from "./Pages/Home/Tickets/TicketsStatus/Overdue";
+import ClosedTickets from "./Pages/Home/Tickets/TicketsStatus/Closed";
+import NewTickets from "./Pages/Home/Tickets/TicketsStatus/NewTickets";
+import ResolvedTickets from "./Pages/Home/Tickets/TicketsStatus/Resolved";
+import DueTickets from "./Pages/Home/Tickets/TicketsStatus/Due";
+import MediumTickets from "./Pages/Home/Tickets/TicketsPrority/Medium";
+import LowTickets from "./Pages/Home/Tickets/TicketsPrority/Low";
+import HighTickets from "./Pages/Home/Tickets/TicketsPrority/High";
 
 const App: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem("srm_access_token");
@@ -62,6 +70,16 @@ const App: React.FC = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/frontdesk" element={<Frontdesk />} />
         <Route path="/tickets" element={<TicketDashboard />} />
+        <Route path="/ticket-by-prority" element={<OverdueTickets />} />
+        <Route path="/overdue-tickets" element={<OverdueTickets />} />
+        <Route path="/due-tickets" element={<DueTickets />} />
+        <Route path="/closed-tickets" element={<ClosedTickets />} />
+        <Route path="/new-tickets" element={<NewTickets />} />
+        <Route path="/resolved-tickets" element={<ResolvedTickets />} />
+        <Route path="/priority-medium-tickets" element={<MediumTickets />} />
+        <Route path="/priority-low-tickets" element={<LowTickets />} />
+        <Route path="/priority-high-tickets" element={<HighTickets />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
@@ -90,8 +108,8 @@ type AuthRoutes = {
 
 const AuthRoutes: AuthRoutes = {
   "create-account": AuthCreateAccount,
-  'login': AuthLogin,
-  'otp': AuthOTPConfirmation,
+  login: AuthLogin,
+  otp: AuthOTPConfirmation,
   "create-password": AuthCreatePassword,
   "reset-password": AuthResetPassword,
   "forgot-password": AuthForgotPassword,

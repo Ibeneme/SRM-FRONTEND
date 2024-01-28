@@ -24,8 +24,9 @@ import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
 import NotificationListComponent from "./Components/Notifications/NotificationsList";
 import { IoTicket } from "react-icons/io5";
-import NoTickets from "../../../assets/Dashboard/NoTickets.png";
-import NoTicketsMessage from "./Components/NoTickets";
+//import TicketComponentDashboard from "../Tickets/TicketComponent";
+// import NoTickets from "../../../assets/Dashboard/NoTickets.png";
+// import NoTicketsMessage from "./Components/NoTickets";
 
 const notificationsData = [
   {
@@ -411,7 +412,8 @@ const Dashboard: React.FC = () => {
                   </div>
                 ))}
               </div>
-
+         
+              {/* 
               <NoTicketsMessage
                 heading="Whoops... No Tickets Logged"
                 paragraph="No tickets created yet"
@@ -419,7 +421,7 @@ const Dashboard: React.FC = () => {
                 imageAlt="No Tickets"
                 buttonText="+ Create a Ticket"
                 onClick={() => console.log("clicked")}
-              />
+              /> */}
             </div>
           </div>
         </div>

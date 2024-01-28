@@ -558,7 +558,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   };
 
   const content = (
-    <div className="amosn5">
+    <div className="amosn5" style={{ minWidth: 360 }}>
       <div className="top-bar">
         <span
           className="close-button"

@@ -104,7 +104,17 @@ interface UsersLogItem {
   phone_number: string;
   email_verified: string;
 }
-const TicketDashboard: React.FC = () => {
+
+interface TicketComponentDashboardProps {
+  headersTickets: string;
+  ticketStatusProps?: string;
+  ticketPriorityProps?: string;
+}
+const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
+  headersTickets,
+  ticketStatusProps,
+  ticketPriorityProps,
+}) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
   const navigate = useNavigate();
   const { showErrorToast, showSuccessToast } = useCustomToasts();
@@ -124,7 +134,7 @@ const TicketDashboard: React.FC = () => {
   const [createTicketLoading, setCreateTicketLoading] = useState(false);
   const [formErrors, setFormErrors] = useState("");
   const [allTickets, setAllTickets] = useState<any | null>(null);
-  const [filteredTickets, setFilteredTickets] = useState<Ticket[] | null>(null);
+  //const [filteredTickets, setFilteredTickets] = useState<Ticket[] | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [noItemsFound, setShowNoItemsFound] = useState(false);
   const [isTicketSuccessModalOpen, setIsTicketSuccessModalOpen] =
@@ -201,7 +211,7 @@ const TicketDashboard: React.FC = () => {
       try {
         setShimmerLoader(true);
         const result = await dispatch(getAllTickets());
-        setFilteredTickets(result.payload);
+        // setFilteredTickets(result.payload);
         setAllTickets(result.payload);
       } catch (error) {
         setShimmerLoader(false);
@@ -215,6 +225,7 @@ const TicketDashboard: React.FC = () => {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+
   useEffect(() => {
     if (allTickets) {
       const filtered = allTickets.filter(
@@ -227,20 +238,19 @@ const TicketDashboard: React.FC = () => {
       );
       if (filtered.length === 0) {
         setShowNoItemsFound(true);
-        setFilteredTickets(filtered);
+        //setFilteredTickets(filtered);
       } else {
-        setFilteredTickets(filtered);
+        // setFilteredTickets(filtered);
         setShowNoItemsFound(false);
       }
     }
   }, [searchQuery, allTickets]);
 
-  console.log(filteredTickets, allTickets, "filteredTickets");
   const fetchTickets = async () => {
     try {
       setLoading(true);
       const result = await dispatch(getAllTickets());
-      setFilteredTickets(result.payload);
+      //setFilteredTickets(result.payload);
       setAllTickets(result.payload);
     } catch (error) {
     } finally {
@@ -282,7 +292,7 @@ const TicketDashboard: React.FC = () => {
     }
     if (createTicketLoading) {
       dispatch(getAllTickets()).then((result) => {
-        setFilteredTickets(result.payload);
+        //setFilteredTickets(result.payload);
         setAllTickets(result.payload);
       });
     }
@@ -1584,6 +1594,25 @@ const TicketDashboard: React.FC = () => {
     </div>
   );
 
+  const resolvedItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (ticketStatusProps) {
+        return ticket.status === `${ticketStatusProps}`;
+      } else if (ticketPriorityProps) {
+        return ticket.priority === `${ticketPriorityProps}`;
+      } else {
+        return true;
+      }
+    }
+  );
+
+  console.log(resolvedItems, "resolvedItems");
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -1594,13 +1623,18 @@ const TicketDashboard: React.FC = () => {
               <div className="main-content-dashboard-div">
                 <div>
                   <div>
-                    <h2 className="main-content-dashboard-h2">Tickets</h2>
+                    <h2 className="main-content-dashboard-h2">
+                      {headersTickets}
+                    </h2>
                     <p className="main-content-dashboard-p">
                       Create and view all your tickets here
                     </p>
                   </div>{" "}
                 </div>
-
+                <input
+                  onChange={handleSearchInputChange}
+                  style={{ display: "none" }}
+                />
                 <div className="dashboard-bell-search-icons">
                   {/* <TbSearch className="hide" onClick={openModalSearch} />
                    */}{" "}
@@ -1619,7 +1653,7 @@ const TicketDashboard: React.FC = () => {
                 </div>
               ) : (
                 <div>
-                  {allTickets?.length < 0 ? (
+                  {resolvedItems?.length === 0 ? (
                     <div
                       style={{
                         marginTop: 44,
@@ -1631,16 +1665,20 @@ const TicketDashboard: React.FC = () => {
                       }}
                     >
                       <NoTicketsMessage
-                        heading="Whoops... No Tickets Logged"
+                        heading={`Whoops... no ${
+                          ticketStatusProps
+                            ? ticketStatusProps
+                            : ticketPriorityProps
+                        } tickets`}
                         paragraph="No tickets created yet"
                         imageUrl={NoTickets}
                         imageAlt="No Tickets"
-                        buttonText="+ Create a Ticket"
-                        onClick={openCreateTicketModal}
+                        // buttonText="+ Create a Ticket"
+                        // onClick={openCreateTicketModal}
                       />
                     </div>
                   ) : null}
-                  {allTickets?.length > 0 ? (
+                  {resolvedItems?.length > 0 ? (
                     <div
                       style={{
                         marginTop: 44,
@@ -1651,29 +1689,6 @@ const TicketDashboard: React.FC = () => {
                         flexDirection: "column",
                       }}
                     >
-                      <div className="search-filtered-tickets">
-                        {" "}
-                        <input
-                          className="search-filtered-tickets-input"
-                          type="text"
-                          value={searchQuery}
-                          onChange={handleSearchInputChange}
-                          placeholder="Search by title, handler's name, or priority..."
-                        />
-                        <button
-                          className="no_tickets-div-button"
-                          style={{
-                            color: "white",
-                            height: 50,
-                            fontSize: 14,
-                            margin: 0,
-                          }}
-                          onClick={openCreateTicketModal}
-                        >
-                          + Create a Ticket
-                        </button>
-                      </div>
-
                       <div className="tickets-history-log">
                         {noItemsFound ? (
                           <NoTicketsMessage
@@ -1697,8 +1712,8 @@ const TicketDashboard: React.FC = () => {
                             </thead>
                           )}
                           <tbody>
-                            {allTickets
-                              ? filteredTickets?.map((item: Ticket) => (
+                            {resolvedItems
+                              ? resolvedItems?.map((item: Ticket) => (
                                   <tr
                                     key={item?.id}
                                     className="tickets-log-item"
@@ -1872,4 +1887,4 @@ const TicketDashboard: React.FC = () => {
   );
 };
 
-export default TicketDashboard;
+export default TicketComponentDashboard;
