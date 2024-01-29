@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./styles/ssidebar.css";
 import {
   MdLabelImportantOutline,
@@ -22,9 +22,10 @@ import {
 } from "react-icons/tb";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../../Redux/Store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllTickets } from "../../../../Redux/Tickets/Tickets";
 import { getProfile } from "../../../../Redux/Profile/Profile";
+import RandomColorComponent from "./RandomColor";
 //import RandomColorComponent from "./RandomColor";
 
 interface MenuItem {
@@ -50,7 +51,7 @@ interface SidebarProps {
 }
 
 const MainSidebar: React.FC<SidebarProps> = () => {
-  const [srmAccessToken, setSrmAccessToken] = useState<string | null>(null);
+//  const [srmAccessToken, setSrmAccessToken] = useState<string | null>(null);
   const [srmUser, setSrmUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
@@ -216,62 +217,65 @@ const MainSidebar: React.FC<SidebarProps> = () => {
       ],
     },
   ];
+  const [loading, setLoading] = useState(false);
+  const profile = useSelector((state: RootState) => state.profile.profile);
+  useEffect(() => {
+    dispatch(getProfile()).then((result) => {
+      setSrmUser(result.payload);
+    });
+  }, [dispatch]);
 
   useEffect(() => {
-    const fetchAccessToken = () => {
-      const srm_access_token = localStorage.getItem("srm_access_token");
-      const isAvailable = !!srm_access_token;
-      if (isAvailable && srm_access_token !== srmAccessToken) {
-        setSrmAccessToken(srm_access_token);
-      }
-    };
+    if (loading) {
+      dispatch(getProfile()).then((result) => {
+        setUserProfile(result.payload);
+        console.log("lal", result);
+        setLoading(false);
+      });
+    }
+  }, [profile]);
 
-    const fetchSrmUser = () => {
-      const srm_user = localStorage.getItem("srm_user");
-      if (srm_user !== srmUser) {
-        setSrmUser(JSON.parse(srm_user || "{}"));
-        //console.log("SRM User:", srm_user);
-      }
-    };
+  //   useEffect(() => {
+  //     const fetchAccessToken = () => {
+  //       const srm_access_token = localStorage.getItem("srm_access_token");
+  //       const isAvailable = !!srm_access_token;
+  //       if (isAvailable && srm_access_token !== srmAccessToken) {
+  //         setSrmAccessToken(srm_access_token);
+  //       }
+  //     };
 
-    fetchAccessToken();
-    fetchSrmUser();
+  //     const fetchSrmUser = () => {
+  //       const srm_user = localStorage.getItem("srm_user");
+  //       if (srm_user !== srmUser) {
+  //         setSrmUser(JSON.parse(srm_user || "{}"));
+  //         //console.log("SRM User:", srm_user);
+  //       }
+  //     };
 
-    const handleStorageChange = () => {
-      fetchAccessToken();
-      fetchSrmUser();
-    };
+  //     fetchAccessToken();
+  //     fetchSrmUser();
 
-    window.addEventListener("storage", handleStorageChange);
+  //     const handleStorageChange = () => {
+  //       fetchAccessToken();
+  //       fetchSrmUser();
+  //     };
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  //     window.addEventListener("storage", handleStorageChange);
+
+  //     return () => {
+  //       window.removeEventListener("storage", handleStorageChange);
+  //     };
+  //   }, []);
 
   //console.log(isAccessTokenAvailable, "isAccessTokenAvailable");
+  const navigate = useNavigate();
 
   return (
-    <div className="sidebar-main" onClick={() => console.log("done")}>
+    <div className="sidebar-main" onClick={() => setLoading(true)}>
       <div>
         <div className="sidebar-title-div">
           <h2 className="sidebar-title">SRM</h2>
         </div>
-        {/* <div className="bottom" onClick={() => navigate("/profile")}>
-          <div className="profile-pic-dashboard">
-            <RandomColorComponent
-              firstName={srmUser?.first_name || ""}
-              lastName={srmUser?.last_name || ""}
-            />
-          </div>
-
-          <div className="">
-            <h2 className="sidebar-names">
-              {srmUser?.first_name} {srmUser?.last_name}
-            </h2>
-            <p className="sidebar-email">{srmUser?.email}</p>
-          </div>
-        </div> */}
         <br /> <br /> <br /> <br />
         <div className="sidebar-headers">
           <NavLink to="/home" end>
@@ -331,6 +335,21 @@ const MainSidebar: React.FC<SidebarProps> = () => {
             height: 100,
           }}
         ></div>
+        <div className="bottom" onClick={() => navigate("/profile")}>
+          <div className="profile-pic-dashboard">
+            <RandomColorComponent
+              firstName={srmUser?.first_name || ""}
+              lastName={srmUser?.last_name || ""}
+            />
+          </div>
+
+          <div className="">
+            <h2 className="sidebar-names">
+              {srmUser?.first_name} {srmUser?.last_name}
+            </h2>
+            <p className="sidebar-email">{srmUser?.email}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
