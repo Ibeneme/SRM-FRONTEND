@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -33,6 +33,11 @@ import DueTickets from "./Pages/Home/Tickets/TicketsStatus/Due";
 import MediumTickets from "./Pages/Home/Tickets/TicketsPrority/Medium";
 import LowTickets from "./Pages/Home/Tickets/TicketsPrority/Low";
 import HighTickets from "./Pages/Home/Tickets/TicketsPrority/High";
+import MainSidebar from "./Pages/Home/Dashboard/MainSidebar";
+
+interface ProtectedRoutesProps {
+  children: ReactNode;
+}
 
 const App: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem("srm_access_token");
@@ -89,21 +94,126 @@ const App: React.FC = () => {
             }
           />
         ))}
-        <Route path="/home" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/frontdesk" element={<Frontdesk />} />
-        <Route path="/tickets" element={<TicketDashboard />} />
-        <Route path="/ticket-by-prority" element={<OverdueTickets />} />
-        <Route path="/overdue-tickets" element={<OverdueTickets />} />
-        <Route path="/due-tickets" element={<DueTickets />} />
-        <Route path="/closed-tickets" element={<ClosedTickets />} />
-        <Route path="/new-tickets" element={<NewTickets />} />
-        <Route path="/resolved-tickets" element={<ResolvedTickets />} />
-        <Route path="/priority-medium-tickets" element={<MediumTickets />} />
-        <Route path="/priority-low-tickets" element={<LowTickets />} />
-        <Route path="/priority-high-tickets" element={<HighTickets />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoutes>
+              <Profile />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoutes>
+              <UsersPage />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoutes>
+              <Settings />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/frontdesk"
+          element={
+            <ProtectedRoutes>
+              <Frontdesk />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/tickets"
+          element={
+            <ProtectedRoutes>
+              <TicketDashboard />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/ticket-by-prority"
+          element={
+            <ProtectedRoutes>
+              <OverdueTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/overdue-tickets"
+          element={
+            <ProtectedRoutes>
+              <OverdueTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/due-tickets"
+          element={
+            <ProtectedRoutes>
+              <DueTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/closed-tickets"
+          element={
+            <ProtectedRoutes>
+              <ClosedTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/new-tickets"
+          element={
+            <ProtectedRoutes>
+              <NewTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/resolved-tickets"
+          element={
+            <ProtectedRoutes>
+              <ResolvedTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/priority-medium-tickets"
+          element={
+            <ProtectedRoutes>
+              <MediumTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/priority-low-tickets"
+          element={
+            <ProtectedRoutes>
+              <LowTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/priority-high-tickets"
+          element={
+            <ProtectedRoutes>
+              <HighTickets />
+            </ProtectedRoutes>
+          }
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -115,6 +225,17 @@ const Content: React.FC = () => (
   <>
     <Navbar />
     <LandingPageIndex />
+  </>
+);
+
+const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => (
+  <>
+    <div style={{ display: "flex" }}>
+      <div style={{ overflowY: "scroll" }}>
+        <MainSidebar />
+      </div>
+      <section style={{ flex: 1 }}>{children}</section>
+    </div>
   </>
 );
 

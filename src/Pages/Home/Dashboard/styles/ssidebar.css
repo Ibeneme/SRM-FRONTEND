@@ -1,7 +1,23 @@
 .active-link {
   color: white;
 }
-/* ssidebar.css *//* ssidebar.css */
+/* ssidebar.css */ /* ssidebar.css */
+
+.sidebar-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh; /* Set sidebar height to 100% of the viewport height */
+  width: 250px;
+  background: #fff;
+  color: #000;
+  padding: 20px;
+  z-index: 16;
+  overflow-y: auto; /* Allow vertical scrolling */
+  scroll-behavior: smooth;
+  padding-bottom: 120px; /* Add padding to accommodate content at the bottom */
+}
+
 .sidebar {
   width: 250px;
   background: #fff;
@@ -10,8 +26,30 @@
   z-index: 12;
   overflow-y: auto;
   scroll-behavior: smooth;
-  padding-bottom: 120px
+  padding-bottom: 120px;
 }
+
+/* Hide scrollbar for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Hide scrollbar for Firefox */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; /* handle and track color */
+}
+
+/* Optional: Provide a custom scrollbar style for Firefox */
+.sidebar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* Other styles remain unchanged */
 
 /* Hide scrollbar for WebKit browsers */
 .sidebar::-webkit-scrollbar {
@@ -102,7 +140,7 @@
   width: 250px;
 }
 
-.sidebar a {
+.sidebar-main a {
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Center content vertically */
   text-decoration: none;
@@ -158,11 +196,22 @@
 /* Add a media query to adjust styles for smaller screens */
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%; 
+    width: 100%;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 1;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    display: none;
+  }
+  .sidebar-main {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
     background: #333;
     color: #fff;
     padding: 10px;

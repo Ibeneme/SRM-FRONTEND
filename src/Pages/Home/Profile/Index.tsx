@@ -3,7 +3,7 @@ import "../Dashboard/Dashboard.css";
 // import Overdue from "../../../assets/Dashboard/NewOverDue.png";
 // import Due from "../../../assets/Dashboard/NewDue.png";
 // import Recent from "../../../assets/Dashboard/NewRecent.png";
-import { TbBell, TbSearch } from "react-icons/tb";
+import { TbSearch } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +27,7 @@ import SettingsToggle from "./Components/SettingsToggle";
 import profileImage from "../../../assets/Dashboard/Company.png";
 import orgImage from "../../../assets/Dashboard/Company.png";
 import "./Profile.css";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdLogout } from "react-icons/md";
 
 const notificationsData = [
   {
@@ -389,6 +389,12 @@ const Profile: React.FC = () => {
     </div>
   );
 
+  const Logout = () => {
+    localStorage.removeItem("srm_access_token");
+    window.location.reload();
+    console.log("User logged out.");
+  };
+
   const accountSettingsContent = (
     <div>
       <div className="acc-settings-row-reverse">
@@ -416,9 +422,10 @@ const Profile: React.FC = () => {
                 : null}
             </p>
           </div>
+          <br />
           <div className="slides-settings">
             <p className="slides-settings-edit" onClick={openModal}>
-              Edit <MdEdit />
+              <MdEdit /> Edit
             </p>
           </div>
         </div>
@@ -488,7 +495,7 @@ const Profile: React.FC = () => {
                 </div>
                 <div className="dashboard-bell-search-icons">
                   <TbSearch className="hide" onClick={openModalSearch} />
-                  <TbBell onClick={openModalNotifications} />
+                  <MdLogout onClick={Logout} style={{ cursor: "pointer" }} />
                 </div>
               </div>
 

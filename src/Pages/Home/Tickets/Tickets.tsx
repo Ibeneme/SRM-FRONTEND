@@ -145,6 +145,20 @@ const TicketDashboard: React.FC = () => {
     email: "",
     status: "",
   });
+  const resetFormData = () => {
+    // Set all values to empty strings
+    setCreateTicketFormData({
+      priority: "",
+      sla_category: "",
+      type: "",
+      title: "",
+      description: "",
+      name: "",
+      handler_id: "",
+      email: "",
+      status: "",
+    });
+  };
 
   const [createTicketFormDataErrors, setCreateTicketFormDataErrors] = useState({
     priority: "",
@@ -401,36 +415,45 @@ const TicketDashboard: React.FC = () => {
   };
   const openCreateTicketModal = () => {
     setIsCreateTicketModalOpen(true);
+    setCreateTicketLoading(false);
   };
   const openSuccessTicketModal = () => {
     setIsTicketSuccessModalOpen(true);
+    setCreateTicketLoading(false);
   };
   const closeSuccessTicketModal = () => {
     fetchTickets();
     setIsTicketSuccessModalOpen(false);
+    setCreateTicketLoading(false);
   };
   const openEditSuccessTicketModal = () => {
     setIsTicketEditSuccessModalOpen(true);
+    setCreateTicketLoading(false);
   };
   const closeEditSuccessTicketModal = () => {
     fetchTickets();
     setIsTicketEditSuccessModalOpen(false);
+    setCreateTicketLoading(false);
   };
   const openDetailsTicketModal = (item: Ticket) => {
     setClickedUser(item);
     console.log(item);
     setIsTicketDetailsModalOpen(true);
+    setCreateTicketLoading(false);
   };
   const closeDetailsTicketModal = () => {
     fetchTickets();
     setIsTicketDetailsModalOpen(false);
+    setCreateTicketLoading(false);
   };
 
   const closeCreateTicketModal = () => {
     setIsCreateTicketModalOpen(false);
+    setCreateTicketLoading(false);
   };
 
   const handleCreateTicket = () => {
+    setCreateTicketLoading(false);
     let hasErrors = false;
     const newErrors = { ...createTicketFormDataErrors };
 
@@ -463,13 +486,16 @@ const TicketDashboard: React.FC = () => {
         setCreateTicketLoading(false);
         switch (response?.payload) {
           case 201:
+            resetFormData();
             closeCreateTicketModal();
             openSuccessTicketModal();
             break;
           case 400:
+            setCreateTicketLoading(false);
             setFormErrors("Please Fill these forms correctly to Proceed.");
             break;
           default:
+            setCreateTicketLoading(false);
             console.log("Unexpected response payload:", response);
             showErrorToast("An Error Occurred");
             break;
@@ -591,24 +617,28 @@ const TicketDashboard: React.FC = () => {
             case 200:
               // Wait for 1 second before fetching tickets and completing the process
               setTimeout(() => {
+                setCreateTicketLoading(false);
                 closeDeleteModal();
                 fetchTickets();
-                setCreateTicketLoading(false);
+
                 console.log("Ticket successfully deleted:", response);
                 closeDeleteModal();
               }, 1000);
               break;
             case 400:
               setCreateTicketLoading(false);
+              setCreateTicketLoading(false);
               setFormErrors("Please fill out the forms correctly to proceed.");
               break;
             default:
+              setCreateTicketLoading(false);
               setCreateTicketLoading(false);
               console.log("Unexpected response payload:", response);
               break;
           }
         })
         .catch((error) => {
+          setCreateTicketLoading(false);
           console.error("Error deleting ticket:", error);
         })
         .finally(() => {
