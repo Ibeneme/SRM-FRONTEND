@@ -107,12 +107,6 @@ const Profile: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (userProfile?.org_setup_complete === false) {
-      openModal();
-    }
-  }, [userProfile]);
-
-  useEffect(() => {
     if (loading) {
       dispatch(getOrganizationProfile()).then((result) => {
         setOrganizationProfile(result.payload);
@@ -459,11 +453,14 @@ const Profile: React.FC = () => {
               {organizationProfile?.staff_count}
             </p>
           </div>
-          <div className="slides-settings">
-            <p className="slides-settings-edit" onClick={openSecondModal}>
-              Edit <MdEdit />
-            </p>
-          </div>
+
+          {userProfile?.permission_type === "executive" && (
+            <div className="slides-settings">
+              <p className="slides-settings-edit" onClick={openSecondModal}>
+                Edit <MdEdit />
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -533,17 +530,17 @@ const Profile: React.FC = () => {
         formContent={formContentFirstModal}
       />
 
-      {userProfile?.org_setup_complete ? null : (
-        <div>
-          {isSecondModalOpen && (
+      {userProfile?.permission_type === "executive" && (
+        <>
+          {!userProfile?.org_setup_complete && (
             <Modal
-              isOpen={isSecondModalOpen}
-              onOpen={openSecondModal}
-              onClose={closeSecondModal}
-              formContent={formContentSecondModal}
+              isOpen={isModalOpen}
+              onOpen={openModal}
+              onClose={closeModal}
+              formContent={formContentFirstModal}
             />
           )}
-        </div>
+        </>
       )}
     </div>
   );

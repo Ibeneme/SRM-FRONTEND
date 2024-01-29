@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import AxiosInstance from "../utils/AxiosInstance";
 import axios from "axios";
-
 interface TicketsState {
   tickets: any;
   loading: boolean;
@@ -18,7 +18,7 @@ export const createTicket = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         `${baseApiUrl}/ticket/create-ticket/`,
         createTicket,
         {
@@ -45,7 +45,7 @@ export const filterTicketStatus = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         `${baseApiUrl}/ticket/filter-by-status/`,
         filterTicketStatus,
         {
@@ -72,11 +72,14 @@ export const getAllTickets = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.get(`${baseApiUrl}/ticket/all-tickets/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await AxiosInstance.get(
+        `${baseApiUrl}/ticket/all-tickets/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -95,7 +98,7 @@ export const updateTicket = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
     console.log(updateTicket, ticket_id, "ticket_idticket_id");
     try {
-      const response = await axios.put(
+      const response = await AxiosInstance.put(
         `${baseApiUrl}/ticket/update-ticket/${ticket_id}/`,
         updateTicket, // Pass updateTicket directly as the request body
         {
@@ -125,7 +128,7 @@ export const setHandler = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
     console.log(user_id, ticket_id, "ticket_idticket_id");
     try {
-      const response = await axios.get(
+      const response = await AxiosInstance.get(
         `${baseApiUrl}/ticket/set-handler/${ticket_id}/${user_id}/`,
         {
           headers: {
@@ -151,7 +154,7 @@ export const deleteTicket = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
     console.log(ticket_id, "ticket_idticket_id");
     try {
-      const response = await axios.delete(
+      const response = await AxiosInstance.delete(
         `${baseApiUrl}/ticket/delete-ticket/${ticket_id}/`,
         {
           headers: {

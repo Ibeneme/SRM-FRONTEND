@@ -117,11 +117,6 @@ const Frontdesk: React.FC = () => {
     });
   }, [dispatch]);
 
-  useEffect(() => {
-    if (userProfile?.org_setup_complete === false) {
-      openModal();
-    }
-  }, [userProfile]);
 
   console.log(pageLoading, "pageLoading");
   useEffect(() => {

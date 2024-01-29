@@ -484,17 +484,17 @@ const UsersPage: React.FC = () => {
         formContent={formContentFirstModal}
       />
 
-      {userProfile?.org_setup_complete ? null : (
-        <div>
-          {isSecondModalOpen && (
+      {userProfile?.permission_type === "executive" && (
+        <>
+          {!userProfile?.org_setup_complete && (
             <Modal
-              isOpen={isSecondModalOpen}
-              onOpen={openSecondModal}
-              onClose={closeSecondModal}
-              formContent={formContentSecondModal}
+              isOpen={isModalOpen}
+              onOpen={openModal}
+              onClose={closeModal}
+              formContent={formContentFirstModal}
             />
           )}
-        </div>
+        </>
       )}
     </div>
   );

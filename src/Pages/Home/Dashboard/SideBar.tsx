@@ -20,12 +20,18 @@ import {
   TbUserEdit,
   TbUsers,
 } from "react-icons/tb";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../../../../Redux/Store";
+import { useDispatch } from "react-redux";
+import { getAllTickets } from "../../../../Redux/Tickets/Tickets";
+import { getProfile } from "../../../../Redux/Profile/Profile";
 //import RandomColorComponent from "./RandomColor";
 
 interface MenuItem {
   icon: React.ReactNode;
   text: string;
   to: string;
+  number?: any;
 }
 
 interface MenuCategory {
@@ -43,94 +49,173 @@ interface SidebarProps {
   image?: string;
 }
 
-const menuData: MenuCategory[] = [
-  {
-    title: "Tickets",
-    items: [
-      { icon: <TbTicket />, text: "All Tickets", to: "/tickets" },
-      // {
-      //   icon: <TbTicket />,
-      //   text: "Tickets by Prority",
-      //   to: "/ticket-by-prority",
-      // },
-    ],
-  },
-
-  {
-    title: "Tickets by Status",
-    items: [
-      {
-        icon: <MdOutlineFolderSpecial />,
-        text: "Priority High Tickets",
-        to: "/priority-high-tickets",
-      },
-      {
-        icon: <MdOutlineFolderCopy />,
-        text: "Priority Medium Tickets",
-        to: "/priority-medium-tickets",
-      },
-
-      {
-        icon: <MdOutlineDevicesFold />,
-        text: "Priority Low Tickets",
-        to: "/priority-low-tickets",
-      },
-    ],
-  },
-
-  {
-    title: "Tickets by Prority",
-    items: [
-      {
-        icon: <MdOutlineLabelImportant />,
-        text: "Overdue Tickets",
-        to: "/overdue-tickets",
-      },
-      {
-        icon: <MdLabelImportantOutline />,
-        text: "Due Tickets",
-        to: "/due-tickets",
-      },
-
-      {
-        icon: <MdNewLabel />,
-        text: "New Tickets",
-        to: "/new-tickets",
-      },
-      {
-        icon: <MdOutlineTag />,
-        text: "Resolved Tickets",
-        to: "/resolved-tickets",
-      },
-      {
-        icon: <MdOutlineTag />,
-        text: "Closed Tickets",
-        to: "/closed-tickets",
-      },
-    ],
-  },
-
-  {
-    title: "SETTINGS",
-    items: [
-      { icon: <TbSettings />, text: "Organisation Settings", to: "/settings" },
-      { icon: <TbUserEdit />, text: "Account Settings", to: "/Profile" },
-      {
-        icon: <TbUsers />,
-        text: "Departments & Front Desk",
-        to: "/frontdesk",
-      },
-    ],
-  },
-];
-
 const Sidebar: React.FC<SidebarProps> = () => {
-  //const navigate = useNavigate();
-
-  // const [isAccessTokenAvailable, setIsAccessTokenAvailable] =
-  //   useState<boolean>(false);
   const [srmAccessToken, setSrmAccessToken] = useState<string | null>(null);
   const [srmUser, setSrmUser] = useState<User | null>(null);
+  const [userProfile, setUserProfile] = useState<any | null>(null);
+  const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
+  const [allTickets, setAllTickets] = useState<any | null>(null);
+
+  useEffect(() => {
+    dispatch(getProfile()).then((result) => {
+      setUserProfile(result.payload);
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchAllTickets = async () => {
+      try {
+        const result = await dispatch(getAllTickets());
+        setAllTickets(result.payload);
+      } catch (error) {
+      } finally {
+      }
+    };
+    fetchAllTickets();
+  }, [dispatch]);
+
+  const overdueItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `overdue`;
+      }
+    }
+  );
+  const dueItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `due`;
+      }
+    }
+  );
+
+  const resolvedItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `resolved`;
+      }
+    }
+  );
+  const closedItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `closed`;
+      }
+    }
+  );
+
+  const menuData: MenuCategory[] = [
+    {
+      title: "Tickets",
+      items: [
+        { icon: <TbTicket />, text: "All Tickets", to: "/tickets" },
+        // {
+        //   icon: <TbTicket />,
+        //   text: "Tickets by Prority",
+        //   to: "/ticket-by-prority",
+        // },
+      ],
+    },
+
+    {
+      title: "Tickets by Status",
+      items: [
+        {
+          icon: <MdOutlineFolderSpecial />,
+          text: "Priority High Tickets",
+          to: "/priority-high-tickets",
+        },
+        {
+          icon: <MdOutlineFolderCopy />,
+          text: "Priority Medium Tickets",
+          to: "/priority-medium-tickets",
+        },
+
+        {
+          icon: <MdOutlineDevicesFold />,
+          text: "Priority Low Tickets",
+          to: "/priority-low-tickets",
+        },
+      ],
+    },
+
+    {
+      title: "Tickets by Prority",
+      items: [
+        {
+          icon: <MdOutlineLabelImportant />,
+          text: "Overdue Tickets",
+          to: "/overdue-tickets",
+          number: overdueItems?.length,
+        },
+        {
+          icon: <MdLabelImportantOutline />,
+          text: "Due Tickets",
+          to: "/due-tickets",
+          number: dueItems?.length,
+        },
+
+        {
+          icon: <MdNewLabel />,
+          text: "New Tickets",
+          to: "/new-tickets",
+        },
+        {
+          icon: <MdOutlineTag />,
+          text: "Resolved Tickets",
+          to: "/resolved-tickets",
+          number: resolvedItems?.length,
+        },
+        {
+          icon: <MdOutlineTag />,
+          text: "Closed Tickets",
+          to: "/closed-tickets",
+          number: closedItems?.length,
+        },
+      ],
+    },
+
+    {
+      title: "SETTINGS",
+      items: [
+        {
+          icon: <TbSettings />,
+          text: "Organisation Settings",
+          to: "/settings",
+        },
+        { icon: <TbUserEdit />, text: "Account Settings", to: "/Profile" },
+        {
+          icon: <TbUsers />,
+          text: "Departments & Front Desk",
+          to: "/frontdesk",
+        },
+      ],
+    },
+  ];
 
   useEffect(() => {
     const fetchAccessToken = () => {
@@ -138,10 +223,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       const isAvailable = !!srm_access_token;
       if (isAvailable && srm_access_token !== srmAccessToken) {
         setSrmAccessToken(srm_access_token);
-        // setIsAccessTokenAvailable(isAvailable);
-        //console.log("Is SRM Access Token Available:", isAvailable);
-        //console.log("SRM Access Token:", srm_access_token);
-      }
+     }
     };
 
     const fetchSrmUser = () => {
@@ -211,11 +293,35 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <div key={index}>
             <p className="title-sidebar-p">{menu.title}</p>
 
+            {/* Iterate over items */}
             {menu.items.map((item, subIndex) => (
               <div key={subIndex} className="sidebar-headers">
-                <NavLink to={item.to} className="link">
-                  {item.icon} {item.text}
-                </NavLink>
+                {userProfile?.permission_type !== "executive" &&
+                (item.text === "Organisation Settings" ||
+                  item.text === "Departments & Front Desk") ? null : (
+                  <NavLink
+                    to={item.to}
+                    className="link"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{ display: "flex", alignItems: "center", gap: 8 }}
+                    >
+                      {item.icon} {item.text}
+                    </span>
+                    <span style={{ fontSize: 24, position: "relative" }}>
+                      {item?.number ? (
+                        <p className="tickets-number-unread-sidebar">
+                          {item?.number}
+                        </p>
+                      ) : null}
+                    </span>
+                  </NavLink>
+                )}
               </div>
             ))}
           </div>

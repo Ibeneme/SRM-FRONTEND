@@ -5,7 +5,11 @@ import "./Dashboard.css";
 import Overdue from "../../../assets/Dashboard/NewOverDue.png";
 import Due from "../../../assets/Dashboard/NewDue.png";
 import Recent from "../../../assets/Dashboard/NewRecent.png";
-import { TbBell, TbTicket, TbSearch } from "react-icons/tb";
+import {
+  //TbBell,
+  TbTicket,
+  //TbSearch
+} from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +28,8 @@ import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
 import NotificationListComponent from "./Components/Notifications/NotificationsList";
 import { IoTicket } from "react-icons/io5";
+import TicketComponentDashboard from "../Tickets/TicketComponent";
+import { getAllTickets } from "../../../../Redux/Tickets/Tickets";
 //import TicketComponentDashboard from "../Tickets/TicketComponent";
 // import NoTickets from "../../../assets/Dashboard/NoTickets.png";
 // import NoTicketsMessage from "./Components/NoTickets";
@@ -46,16 +52,6 @@ const notificationsData = [
   },
 ];
 
-const dashboardData = [
-  { title: "Overdue Tickets", image: Overdue, number: "50+", color: "#FD1E10" },
-  { title: "Due Tickets", image: Due, color: "#FDBA10" },
-  {
-    title: "Recent Tickets",
-    image: Recent,
-    number: 3,
-    color: "#0FC136",
-  },
-];
 interface FormData {
   email: string;
   first_name: string;
@@ -80,7 +76,7 @@ const Dashboard: React.FC = () => {
     company_name: "",
     email: "",
   });
-
+  const [allTickets, setAllTickets] = useState<any | null>(null);
   useEffect(() => {
     dispatch(getOrganizationProfile()).then((result) => {
       setOrganizationProfile(result.payload);
@@ -92,10 +88,17 @@ const Dashboard: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (userProfile?.org_setup_complete === false) {
+    if (
+      userProfile?.permission_type === "executive" &&
+      userProfile?.org_setup_complete === false
+    ) {
       openModal();
+    } else {
+      closeModal();
     }
   }, [userProfile]);
+
+
 
   useEffect(() => {
     if (loading) {
@@ -109,6 +112,19 @@ const Dashboard: React.FC = () => {
       });
     }
   }, [profile]);
+
+  useEffect(() => {
+    const fetchAllTickets = async () => {
+      try {
+        const result = await dispatch(getAllTickets());
+        // setFilteredTickets(result.payload);
+        setAllTickets(result.payload);
+      } catch (error) {
+      } finally {
+      }
+    };
+    fetchAllTickets();
+  }, [dispatch]);
 
   const [isModalOpenSearch, setIsModalOpenSearch] = useState(false);
   const [isModalOpenNotifications, setIsModalOpenNotifications] =
@@ -345,6 +361,69 @@ const Dashboard: React.FC = () => {
       </div>
     </div>
   );
+
+  const overdueItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `overdue`;
+      }
+    }
+  );
+  const dueItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `due`;
+      }
+    }
+  );
+
+  const resolvedItems = allTickets?.filter(
+    (ticket: {
+      id: string;
+      title: string;
+      description: string;
+      status: string;
+      priority: string;
+    }) => {
+      if (allTickets) {
+        return ticket.status === `resolved`;
+      }
+    }
+  );
+  const dashboardData = [
+    {
+      title: "Overdue Tickets",
+      image: Overdue,
+      number: overdueItems?.length,
+      color: "#FD1E10",
+    },
+    {
+      title: "Due Tickets",
+      image: Due,
+      color: "#FDBA10",
+      number: dueItems?.length,
+    },
+    {
+      title: "Resolved Tickets",
+      image: Recent,
+      number: resolvedItems?.length,
+      color: "#0FC136",
+    },
+  ];
+
+  console.log(userProfile, "userProfile");
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -364,10 +443,10 @@ const Dashboard: React.FC = () => {
                     </p>
                   </div>{" "}
                 </div>
-                <div className="dashboard-bell-search-icons">
+                {/* <div className="dashboard-bell-search-icons">
                   <TbSearch className="hide" onClick={openModalSearch} />
                   <TbBell onClick={openModalNotifications} />
-                </div>
+                </div> */}
               </div>
 
               <div className="div-split-tickets">
@@ -412,7 +491,17 @@ const Dashboard: React.FC = () => {
                   </div>
                 ))}
               </div>
-         
+              <div className="div-split-tickets"></div>
+              <div className="margin-fixes">
+                <div className="margin-fixes-h3">
+                  <h3 className="margin-fixes-h3-h3">All Tickets</h3>
+                  <p className="main-content-dashboard-p">
+                    Create and view all your tickets here
+                  </p>
+                </div>
+
+                <TicketComponentDashboard ticketReturn />
+              </div>
               {/* 
               <NoTicketsMessage
                 heading="Whoops... No Tickets Logged"
@@ -426,36 +515,37 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      <ModalSearch
-        isOpen={isModalOpenSearch}
-        onOpen={openModalSearch}
-        onClose={closeModalSearch}
-        formContent={SearchContent}
-      />
-      <ModalSearch
-        isOpen={isModalOpenNotifications}
-        onOpen={openModalNotifications}
-        onClose={closeModalNotifications}
-        formContent={NotificationsDisplay}
-      />
-      {userProfile?.org_setup_complete ? null : (
-        <div>
-          <Modal
-            isOpen={isModalOpen}
-            onOpen={openModal}
-            onClose={closeModal}
-            formContent={formContentFirstModal}
+      {userProfile?.permission_type === "executive" && (
+        <>
+          <ModalSearch
+            isOpen={isModalOpenSearch}
+            onOpen={openModalSearch}
+            onClose={closeModalSearch}
+            formContent={SearchContent}
           />
-        </div>
-      )}
-
-      {isSecondModalOpen && (
-        <Modal
-          isOpen={isSecondModalOpen}
-          onOpen={openSecondModal}
-          onClose={closeSecondModal}
-          formContent={formContentSecondModal}
-        />
+          <ModalSearch
+            isOpen={isModalOpenNotifications}
+            onOpen={openModalNotifications}
+            onClose={closeModalNotifications}
+            formContent={NotificationsDisplay}
+          />
+          {!userProfile?.org_setup_complete && (
+            <Modal
+              isOpen={isModalOpen}
+              onOpen={openModal}
+              onClose={closeModal}
+              formContent={formContentFirstModal}
+            />
+          )}
+          {isSecondModalOpen && (
+            <Modal
+              isOpen={isSecondModalOpen}
+              onOpen={openSecondModal}
+              onClose={closeSecondModal}
+              formContent={formContentSecondModal}
+            />
+          )}
+        </>
       )}
     </div>
   );

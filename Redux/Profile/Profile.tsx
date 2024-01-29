@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+//import axios from "axios";
+import AxiosInstance from "../utils/AxiosInstance";
+import axios, { AxiosError } from "axios";
 
 interface ProfileState {
   profile: any; // Adjust the type based on your profile data structure
@@ -25,7 +27,7 @@ export const getOrganizationProfile = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.get(
+      const response = await AxiosInstance.get(
         `${baseApiUrl}/profile/get-organization/`,
         {
           headers: {
@@ -36,19 +38,38 @@ export const getOrganizationProfile = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return error;
+      console.log(error, "errrr");
+      const axiosError = error as AxiosError;
+      return {
+        message: axiosError.message,
+        name: axiosError.name,
+        code: axiosError.code,
+        request: axiosError.request,
+        response: {
+          data: axiosError.response?.data,
+          status: axiosError.response?.status,
+          statusText: axiosError.response?.statusText,
+          headers: axiosError.response?.headers,
+          config: axiosError.config,
+        },
+        stack: axiosError.stack,
+      };
     }
   }
 );
+
 export const getProfile = createAsyncThunk("profile/getProfile", async () => {
   const token = localStorage.getItem("srm_access_token");
 
   try {
-    const response = await axios.get(`${baseApiUrl}/profile/get-profile/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await AxiosInstance.get(
+      `${baseApiUrl}/profile/get-profile/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -62,7 +83,7 @@ export const getDepartments = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.get(
+      const response = await AxiosInstance.get(
         `${baseApiUrl}/profile/get-departments/`,
         {
           headers: {
@@ -89,7 +110,7 @@ export const createDepartment = createAsyncThunk(
       //   formData.append(key, createDepartment[key]);
       // });
 
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         `${baseApiUrl}/profile/create-department/`,
         createDepartment,
         {
@@ -110,7 +131,6 @@ export const createDepartment = createAsyncThunk(
   }
 );
 
-
 export const AddFrontDesk = createAsyncThunk(
   "auth/AddFrontDesk",
   async (AddFrontDesk: any, { rejectWithValue }) => {
@@ -122,7 +142,7 @@ export const AddFrontDesk = createAsyncThunk(
       //   formData.append(key, AddFrontDesk[key]);
       // });
 
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         `${baseApiUrl}/profile/add-frontdesk/`,
         AddFrontDesk,
         {
@@ -152,7 +172,7 @@ export const editDepartment = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
     console.log(editDepartment, department, "departmentdepartment");
     try {
-      const response = await axios.put(
+      const response = await AxiosInstance.put(
         `${baseApiUrl}/profile/update-department/${department}/`,
         editDepartment, // Pass editDepartment directly as the request body
         {
@@ -182,7 +202,7 @@ export const updateStaff = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
     console.log(updateStaff, user_id, "user_iduser_id");
     try {
-      const response = await axios.put(
+      const response = await AxiosInstance.put(
         `${baseApiUrl}/profile/update-staff/${user_id}/`,
         updateStaff, // Pass updateStaff directly as the request body
         {
@@ -206,11 +226,10 @@ export const updateStaff = createAsyncThunk(
 export const deleteStaff = createAsyncThunk(
   "auth/deleteStaff",
   async (user_id: any, { rejectWithValue }) => {
-
     const token = localStorage.getItem("srm_access_token");
     console.log(user_id, user_id, "departmentdepartment");
     try {
-      const response = await axios.delete(
+      const response = await AxiosInstance.delete(
         `${baseApiUrl}/profile/delete-staff/${user_id}/`,
         {
           headers: {
@@ -230,15 +249,13 @@ export const deleteStaff = createAsyncThunk(
   }
 );
 
-
 export const deleteDepartment = createAsyncThunk(
   "auth/deleteDepartment",
   async (deleteDepartment: any, { rejectWithValue }) => {
-
     const token = localStorage.getItem("srm_access_token");
     console.log(deleteDepartment, deleteDepartment, "departmentdepartment");
     try {
-      const response = await axios.delete(
+      const response = await AxiosInstance.delete(
         `${baseApiUrl}/profile/delete-department/${deleteDepartment}/`,
         {
           headers: {
@@ -264,7 +281,7 @@ export const updateOrganizationProfile = createAsyncThunk(
     console.log(updatedProfile, " hhhhh");
     const token = localStorage.getItem("srm_access_token");
     try {
-      const response = await axios.put(
+      const response = await AxiosInstance.put(
         `${baseApiUrl}/profile/update-organization/`,
         updatedProfile,
         {
@@ -296,7 +313,7 @@ export const updatePersonalProfile = createAsyncThunk(
         formData.append(key, updatePersonalProfile[key]);
       });
 
-      const response = await axios.put(
+      const response = await AxiosInstance.put(
         `${baseApiUrl}/profile/update-data/`,
         formData,
         {
@@ -322,7 +339,7 @@ export const importStaff = createAsyncThunk(
     const token = localStorage.getItem("srm_access_token");
 
     try {
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         `${baseApiUrl}/auth/import-staff/`,
         formData,
         {
@@ -349,11 +366,14 @@ export const getUserCSV = createAsyncThunk("profile/getUserCSV", async () => {
   const token = localStorage.getItem("srm_access_token");
 
   try {
-    const response = await axios.get(`${baseApiUrl}/profile/export-users/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await AxiosInstance.get(
+      `${baseApiUrl}/profile/export-users/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -365,11 +385,14 @@ export const getAllUsers = createAsyncThunk("profile/getAllUsers", async () => {
   const token = localStorage.getItem("srm_access_token");
 
   try {
-    const response = await axios.get(`${baseApiUrl}/profile/all-users/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await AxiosInstance.get(
+      `${baseApiUrl}/profile/all-users/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -534,7 +557,7 @@ const profileSlice = createSlice({
           ? (action.payload as string)
           : "Failed to update profile";
       });
-      builder
+    builder
       .addCase(deleteDepartment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -549,7 +572,7 @@ const profileSlice = createSlice({
           ? (action.payload as string)
           : "Failed to update profile";
       });
-      builder
+    builder
       .addCase(updateStaff.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -564,7 +587,7 @@ const profileSlice = createSlice({
           ? (action.payload as string)
           : "Failed to update profile";
       });
-      builder
+    builder
       .addCase(deleteStaff.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -579,7 +602,7 @@ const profileSlice = createSlice({
           ? (action.payload as string)
           : "Failed to update profile";
       });
-      builder
+    builder
       .addCase(AddFrontDesk.pending, (state) => {
         state.loading = true;
         state.error = null;

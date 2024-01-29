@@ -346,9 +346,12 @@ option {
   margin-top: -16px;
   font-family: var(--font-family);
   font-size: 16px;
-  padding-top: 49px;
+  padding-top: 32px;
 }
 
+.tickets-history-log-div-content {
+  margin-top: -16px;
+}
 .tickets-log-table {
   width: 100%;
   border-collapse: collapse;
@@ -511,7 +514,7 @@ h2 {
     margin-top: -16px;
     font-family: var(--font-family);
     font-size: 16px;
-    padding-top:12px;
+    padding-top: 12px;
   }
 }
 
@@ -563,11 +566,17 @@ h2 {
   width: 375px;
   font-family: var(--font-family);
   font-size: 14px;
-  margin-bottom: 24px;
-  margin-top: 32px;
+  margin-top: 24px;
+  margin-bottom: 32px;
 }
 .search-filtered-tickets {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding-left: 16px;
+  margin-bottom: -40px;
+  margin-top: 36px;
+  /* 
+  justify-content: space-between;
+  align-items: center;
+   */
 }

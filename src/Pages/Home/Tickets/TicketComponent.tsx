@@ -106,14 +106,16 @@ interface UsersLogItem {
 }
 
 interface TicketComponentDashboardProps {
-  headersTickets: string;
+  headersTickets?: string;
   ticketStatusProps?: string;
   ticketPriorityProps?: string;
+  ticketReturn?: boolean;
 }
 const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   headersTickets,
   ticketStatusProps,
   ticketPriorityProps,
+  ticketReturn,
 }) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
   const navigate = useNavigate();
@@ -275,11 +277,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (userProfile?.org_setup_complete === false) {
-      openModal();
-    }
-  }, [userProfile]);
 
   useEffect(() => {
     if (loading) {
@@ -1602,7 +1599,9 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
       status: string;
       priority: string;
     }) => {
-      if (ticketStatusProps) {
+      if (ticketReturn === true) {
+        return allTickets;
+      } else if (ticketStatusProps) {
         return ticket.status === `${ticketStatusProps}`;
       } else if (ticketPriorityProps) {
         return ticket.priority === `${ticketPriorityProps}`;
@@ -1615,21 +1614,23 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   console.log(resolvedItems, "resolvedItems");
   return (
     <div className="dashboard-container">
-      <Sidebar />
+      {ticketReturn ? null : <Sidebar />}
       <div className="main-content-container">
         <div className="dashboard-cards-container">
           <div className="dashboard-content">
             <div className="main-content-container">
               <div className="main-content-dashboard-div">
                 <div>
-                  <div>
-                    <h2 className="main-content-dashboard-h2">
-                      {headersTickets}
-                    </h2>
-                    <p className="main-content-dashboard-p">
-                      Create and view all your tickets here
-                    </p>
-                  </div>{" "}
+                  {headersTickets ? (
+                    <div>
+                      <h2 className="main-content-dashboard-h2">
+                        {headersTickets}
+                      </h2>
+                      <p className="main-content-dashboard-p">
+                        Create and view all your tickets here
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
                 <input
                   onChange={handleSearchInputChange}
@@ -1644,7 +1645,7 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
               {shimmerLoader ? (
                 <div
                   style={{
-                    marginTop: 44,
+                    marginTop: ticketReturn ? -10 : 44,
                     backgroundColor: "#fff",
                     borderRadius: 24,
                   }}
@@ -1689,7 +1690,10 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
                         flexDirection: "column",
                       }}
                     >
-                      <div className="tickets-history-log">
+                      <div
+                        className="tickets-history-log"
+                        style={{ marginTop: ticketReturn ? -59 : -16 }}
+                      >
                         {noItemsFound ? (
                           <NoTicketsMessage
                             heading={noItems}
@@ -1864,15 +1868,17 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
         onClose={closeEditModal}
         formContent={openEditicketModalContent}
       />
-      {userProfile?.org_setup_complete ? null : (
-        <div>
-          <Modal
-            isOpen={isModalOpen}
-            onOpen={openModal}
-            onClose={closeModal}
-            formContent={formContentFirstModal}
-          />
-        </div>
+      {userProfile?.permission_type === "executive" && (
+        <>
+          {!userProfile?.org_setup_complete && (
+            <Modal
+              isOpen={isModalOpen}
+              onOpen={openModal}
+              onClose={closeModal}
+              formContent={formContentFirstModal}
+            />
+          )}
+        </>
       )}
 
       {isSecondModalOpen && (

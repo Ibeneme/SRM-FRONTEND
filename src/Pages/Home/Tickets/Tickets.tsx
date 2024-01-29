@@ -266,12 +266,6 @@ const TicketDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    if (userProfile?.org_setup_complete === false) {
-      openModal();
-    }
-  }, [userProfile]);
-
-  useEffect(() => {
     if (loading) {
       dispatch(getOrganizationProfile()).then((result) => {
         setOrganizationProfile(result.payload);
@@ -1119,20 +1113,22 @@ const TicketDashboard: React.FC = () => {
           &times;
         </span>
 
-        <div className="action-buttons">
-          <p
-            onClick={() => openDeleteModal(clickedUser!)}
-            style={{ cursor: "pointer" }}
-          >
-            Delete
-          </p>
-          <p
-            onClick={() => openEditModal(clickedUser!)}
-            style={{ cursor: "pointer" }}
-          >
-            Edit
-          </p>
-        </div>
+        {userProfile?.permission_type === "executive" && (
+          <div className="action-buttons">
+            <p
+              onClick={() => openDeleteModal(clickedUser!)}
+              style={{ cursor: "pointer" }}
+            >
+              Delete
+            </p>
+            <p
+              onClick={() => openEditModal(clickedUser!)}
+              style={{ cursor: "pointer" }}
+            >
+              Edit
+            </p>
+          </div>
+        )}
       </div>
       <div
         className="profile-image-container"
@@ -1248,14 +1244,16 @@ const TicketDashboard: React.FC = () => {
           <p className="name-users-style-tickets-head">
             Ticket Handler's Details
           </p>
-          <div className="border-line" style={{ flexDirection: "column" }}>
-            <p
-              className="re-assign-ticket-texts-btn"
-              onClick={handleReassignClick}
-            >
-              {buttonText}
-            </p>
 
+          <div className="border-line" style={{ flexDirection: "column" }}>
+            {userProfile?.permission_type === "executive" && (
+              <p
+                className="re-assign-ticket-texts-btn"
+                onClick={handleReassignClick}
+              >
+                {buttonText}
+              </p>
+            )}
             <div>
               <p className="tickets-stakeholders-name-texts">
                 <RandomColorComponent
@@ -1374,31 +1372,32 @@ const TicketDashboard: React.FC = () => {
           </div>
         </div>{" "}
         <br /> <br />
-        {clickedUser?.status != "resolved" ? (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              gap: 6,
-              justifyContent: "flex-end",
-            }}
-          >
-            <button
-              className={`${loading ? "loading" : "reassign-ticket"}`}
-              onClick={handleResolveTicket}
+        {userProfile?.permission_type === "executive" &&
+          clickedUser?.status !== "resolved" && (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                gap: 6,
+                justifyContent: "flex-end",
+              }}
             >
-              {createTicketLoading ? (
-                <div className="loader">
-                  {[...Array(5)].map((_, index) => (
-                    <div key={index}></div>
-                  ))}
-                </div>
-              ) : (
-                "Resolve Ticket"
-              )}
-            </button>
-          </div>
-        ) : null}
+              <button
+                className={`${loading ? "loading" : "reassign-ticket"}`}
+                onClick={handleResolveTicket}
+              >
+                {createTicketLoading ? (
+                  <div className="loader">
+                    {[...Array(5)].map((_, index) => (
+                      <div key={index}></div>
+                    ))}
+                  </div>
+                ) : (
+                  "Resolve Ticket"
+                )}
+              </button>
+            </div>
+          )}
         <br />
         <br />
       </div>
@@ -1660,18 +1659,20 @@ const TicketDashboard: React.FC = () => {
                           onChange={handleSearchInputChange}
                           placeholder="Search by title, handler's name, or priority..."
                         />
-                        <button
-                          className="no_tickets-div-button"
-                          style={{
-                            color: "white",
-                            height: 50,
-                            fontSize: 14,
-                            margin: 0,
-                          }}
-                          onClick={openCreateTicketModal}
-                        >
-                          + Create a Ticket
-                        </button>
+                        {userProfile?.permission_type === "executive" && (
+                          <button
+                            className="no_tickets-div-button"
+                            style={{
+                              color: "white",
+                              height: 50,
+                              fontSize: 14,
+                              margin: 0,
+                            }}
+                            onClick={openCreateTicketModal}
+                          >
+                            + Create a Ticket
+                          </button>
+                        )}
                       </div>
 
                       <div className="tickets-history-log">
@@ -1849,15 +1850,17 @@ const TicketDashboard: React.FC = () => {
         onClose={closeEditModal}
         formContent={openEditicketModalContent}
       />
-      {userProfile?.org_setup_complete ? null : (
-        <div>
-          <Modal
-            isOpen={isModalOpen}
-            onOpen={openModal}
-            onClose={closeModal}
-            formContent={formContentFirstModal}
-          />
-        </div>
+      {userProfile?.permission_type === "executive" && (
+        <>
+          {!userProfile?.org_setup_complete && (
+            <Modal
+              isOpen={isModalOpen}
+              onOpen={openModal}
+              onClose={closeModal}
+              formContent={formContentFirstModal}
+            />
+          )}
+        </>
       )}
 
       {isSecondModalOpen && (

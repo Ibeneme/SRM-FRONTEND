@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -36,6 +36,31 @@ import HighTickets from "./Pages/Home/Tickets/TicketsPrority/High";
 
 const App: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem("srm_access_token");
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const protectedPaths = [
+      "/home",
+      "/profile",
+      "/users",
+      "/settings",
+      "/frontdesk",
+      "/tickets",
+      "/ticket-by-prority",
+      "/overdue-tickets",
+      "/due-tickets",
+      "/closed-tickets",
+      "/new-tickets",
+      "/resolved-tickets",
+      "/priority-medium-tickets",
+      "/priority-low-tickets",
+      "/priority-high-tickets",
+    ];
+
+    if (!isLoggedIn && protectedPaths.includes(currentPath)) {
+      window.location.reload();
+    }
+  }, [isLoggedIn]);
 
   return (
     <Router>
