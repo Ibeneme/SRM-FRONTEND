@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import "../Dashboard/styles/cards.css";
 import "../Dashboard/Dashboard.css";
-// import { TbSearch } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,14 +12,12 @@ import {
   updateOrganizationProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
-//import { useNavigate } from "react-router-dom";
 import FormHeaders from "../../Auth/Components/FormHeaders";
 import TextInputDashboard from "../../Auth/Components/TextInouts/TextInputDashboard";
 import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
 import HalfButton from "../../Auth/Components/Buttons/HalfBtn";
 import PasswordWarning from "../../../components/Error/ErrorWarning";
 import ModalSearch from "../../../components/Modal/ModalSearch";
-//import NotificationListComponent from "./Components/Notifications/NotificationsList";
 import NotificationListComponent from "../Dashboard/Components/Notifications/NotificationsList";
 import Sidebar from "../Dashboard/SideBar";
 import {
@@ -33,9 +30,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { MdCancel, MdSend } from "react-icons/md";
 import useCustomToasts from "../../Utils/ToastNotifications/Toastify";
-//import HistoryLog from "../Dashboard/Components/HistoryLog";
 import RandomColorComponent from "../Dashboard/RandomColor";
-// import NoTicketsMessage from "./Components/NoTickets";
 import ProfileCard from "../../../assets/Dashboard/ProfileCard.png";
 import SuccessModalPop from "./component/SuccessModal";
 import "./tickets.css";
@@ -125,8 +120,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   );
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
-  // const isLoading = useSelector((state: RootState) => state.profile.loading);
-  // const error = useSelector((state: RootState) => state.profile.error);
   const profile = useSelector((state: RootState) => state.profile.profile);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -136,7 +129,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   const [createTicketLoading, setCreateTicketLoading] = useState(false);
   const [formErrors, setFormErrors] = useState("");
   const [allTickets, setAllTickets] = useState<any | null>(null);
-  //const [filteredTickets, setFilteredTickets] = useState<Ticket[] | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [noItemsFound, setShowNoItemsFound] = useState(false);
   const [isTicketSuccessModalOpen, setIsTicketSuccessModalOpen] =
@@ -198,7 +190,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
     fetchUsers();
   }, [dispatch]);
 
-  //console.log(fetchedUsers, userProfile, "fetchedUsers");
   useEffect(() => {
     dispatch(getOrganizationProfile()).then((result) => {
       setOrganizationProfile(result.payload);
@@ -276,7 +267,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
       );
     }
   };
-
 
   useEffect(() => {
     if (loading) {
@@ -1033,8 +1023,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
         loading={createTicketLoading}
         disabled={createTicketLoading}
       />
-
-      <div>{/* ... (other form elements) */}</div>
     </div>
   );
 
@@ -1103,7 +1091,7 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   const last_name_color = clickedUser?.handler.last_name;
   const [showTicketDetails, setShowTicketDetails] = useState(false);
   const [buttonText, setButtonText] = useState("Re-assign Ticket");
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null); // Track selected user ID
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const handleReassignClick = () => {
     setShowTicketDetails(!showTicketDetails);
@@ -1111,8 +1099,8 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   };
 
   const handleUserClick = (userId: string) => {
-    setSelectedUserId(userId); // Set the selected user ID
-    console.log(userId); // Log the selected user's ID
+    setSelectedUserId(userId);
+    console.log(userId);
   };
 
   const ticketContent = (
@@ -1674,8 +1662,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
                         paragraph="No tickets created yet"
                         imageUrl={NoTickets}
                         imageAlt="No Tickets"
-                        // buttonText="+ Create a Ticket"
-                        // onClick={openCreateTicketModal}
                       />
                     </div>
                   ) : null}
@@ -1702,7 +1688,6 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
                             imageAlt="No Tickets"
                           />
                         ) : null}
-                        {/* <p className="tickets-history-log-p"> All Tickets </p> */}
                         <table className="tickets-log-table">
                           {noItemsFound ? null : (
                             <thead>
@@ -1766,24 +1751,7 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
                                       </span>
                                     </td>
                                     <td>
-                                      <span
-                                      // style={{
-                                      //   borderLeft: "7px solid",
-                                      //   paddingLeft: "4px",
-                                      //   height: 10,
-                                      //   borderColor:
-                                      //     item.status === "overdue"
-                                      //       ? "red"
-                                      //       : item.status === "due"
-                                      //       ? "#FDBA10"
-                                      //       : item.status === "resolved"
-                                      //       ? "green"
-                                      //       : "#0564FF",
-                                      // }}
-                                      >
-                                        {" "}
-                                        {item.title}
-                                      </span>
+                                      <span> {item.title}</span>
                                     </td>
                                     <td>{item.reference}</td>
                                     <td>

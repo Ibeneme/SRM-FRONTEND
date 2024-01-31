@@ -515,7 +515,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      {userProfile?.permission_type === "executive" && (
+      {userProfile?.permission_type === "manager" && (
         <>
           <ModalSearch
             isOpen={isModalOpenSearch}

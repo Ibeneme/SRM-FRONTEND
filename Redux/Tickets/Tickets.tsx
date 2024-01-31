@@ -89,6 +89,29 @@ export const getAllTickets = createAsyncThunk(
   }
 );
 
+export const getUsersTickets = createAsyncThunk(
+  "ticket/getUsersTickets",
+  async ({ user_id }: { user_id: any }) => {
+    const token = localStorage.getItem("srm_access_token");
+    console.log(user_id,  "user_id,");
+    try {
+      const response = await AxiosInstance.get(
+        `${baseApiUrl}/ticket/get-user-tickets/${user_id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+);
+
 export const updateTicket = createAsyncThunk(
   "ticket/updateTicket",
   async (

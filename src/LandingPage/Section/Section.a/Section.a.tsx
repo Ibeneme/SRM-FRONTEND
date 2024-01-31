@@ -16,20 +16,23 @@ const SectionA: React.FC = () => {
       <div className="content-container">
         <div className="" style={{ maxWidth: 600 }}>
           <h1 data-aos="zoom-in" className="text-content-h1">
-            Harmonizing{" "}
-            <span className="header-span">Stakeholder Interactions: </span>
-            Building a Unified Hub for Enhanced Stakeholder Engagement
+            Optimize {""}
+            <span className="header-span">
+              {""}Efficiency{""}
+            </span>{" "}
+            with our Custom Stakeholder Support Solution{" "}
           </h1>
           <p data-aos="zoom-in" className="text-content-p">
-            Elevate your stakeholder engagement strategy by centralizing
-            customer interactions. Our unified hub provides a comprehensive view
-            of customer engagements, enabling personalized and targeted
-            interactions. From marketing to support, cultivate meaningful
-            relationships by harmonizing all stakeholder interactions in a
-            single, accessible space.
+            Enhance stakeholder experience by providing prompt and upbeat
+            service with our support powerhouse. Manage stakeholder
+            interactions, requests, and resolve issues efficiently. Deliver
+            seamless support anytime, anywhere.
           </p>
           <div data-aos="zoom-in" className="sectionA-left-content">
-            <button className="cta-button"  onClick={useNavigateToCreateAccount()}>
+            <button
+              className="cta-button"
+              onClick={useNavigateToCreateAccount()}
+            >
               Get Started
               <FiArrowRight />
             </button>

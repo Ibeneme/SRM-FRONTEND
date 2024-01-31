@@ -136,6 +136,62 @@ const Profile: React.FC = () => {
   const closeModalNotifications = () => {
     setIsModalOpenNotifications(false);
   };
+  const Logout = () => {
+    localStorage.removeItem("srm_access_token");
+    window.location.reload();
+    console.log("User logged out.");
+  };
+
+  const confirmDeleteModal = (
+    <div className="form_content_display-dashboard">
+      <br />
+      <h3
+        className="clickedUser-h3"
+        style={{
+          marginTop: -0,
+        }}
+      >
+        Confirm you want to Log out <span style={{ color: "orangered" }}></span>
+      </h3>
+      <p
+        style={{
+          fontSize: 14,
+          color: "#808080",
+          paddingBottom: 20,
+          textAlign: "center",
+          marginTop: -12,
+          width: "100%",
+        }}
+      >
+        This action will log you out
+      </p>
+      <div className="clickedUser-p-div">
+        <div style={{ width: "100%" }}>
+          <button
+            style={{ width: "100%" }}
+            onClick={() => setDeleteModalOpen(false)}
+            className={`custom-containers`}
+          >
+            Go Back
+          </button>
+        </div>
+        <button
+          className={`${loading ? "loading" : "custom-container"}`}
+          onClick={Logout}
+        >
+          {loading ? (
+            <div className="loader">
+              {[...Array(5)].map((_, index) => (
+                <div key={index}></div>
+              ))}
+            </div>
+          ) : (
+            "Log Out"
+          )}
+        </button>
+      </div>
+    </div>
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -143,7 +199,7 @@ const Profile: React.FC = () => {
   };
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setFormErrors("");
     setSelectedCountry(e.target.value);
@@ -168,6 +224,12 @@ const Profile: React.FC = () => {
   const closeSecondModal = () => {
     setIsSecondModalOpen(false);
   };
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
+  };
+
+
 
   const handleFirstModalContinue = () => {
     setFormErrors("");
@@ -218,7 +280,7 @@ const Profile: React.FC = () => {
   const handleSecondModalContinue = async () => {
     try {
       setFormErrors("");
-      if (formData?.first_name?.length > 0) {
+      if (formData?.first_name?.length > 0 || formData?.last_name?.length > 0) {
         setLoading(true);
 
         const response = await dispatch(updatePersonalProfile(formData));
@@ -241,7 +303,7 @@ const Profile: React.FC = () => {
             break;
         }
       } else {
-        setFormErrors("Please Enter a Business Name to Proceed.");
+        setFormErrors("Please Enter details to edit to Proceed.");
       }
     } catch (error) {
       setLoading(false);
@@ -330,8 +392,8 @@ const Profile: React.FC = () => {
         //errorText={formErrors}
         accountText={"Edit your Personal Profile"}
       />{" "}
-      <br /> <br />
       <PasswordWarning formErrors={formErrors} />
+      <br /> <br />
       <TextInputDashboard
         label="First Name"
         value={formData.first_name}
@@ -389,11 +451,6 @@ const Profile: React.FC = () => {
     </div>
   );
 
-  const Logout = () => {
-    localStorage.removeItem("srm_access_token");
-    window.location.reload();
-    console.log("User logged out.");
-  };
 
   const accountSettingsContent = (
     <div>
@@ -495,7 +552,10 @@ const Profile: React.FC = () => {
                 </div>
                 <div className="dashboard-bell-search-icons">
                   <TbSearch className="hide" onClick={openModalSearch} />
-                  <MdLogout onClick={Logout} style={{ cursor: "pointer" }} />
+                  <MdLogout
+                    onClick={() => setDeleteModalOpen(true)}
+                    style={{ cursor: "pointer" }}
+                  />
                 </div>
               </div>
 
@@ -549,6 +609,12 @@ const Profile: React.FC = () => {
           )}
         </>
       )}
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        formContent={confirmDeleteModal}
+      />
     </div>
   );
 };

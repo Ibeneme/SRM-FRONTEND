@@ -27,7 +27,6 @@
   border-radius: 12px;
 }
 
-
 .slides-settings-bold {
   font-size: 16px;
 }
@@ -110,7 +109,6 @@
   /* Add other general styles for the container */
 }
 
-
 .empty-departments-container {
   width: 100%;
   display: flex;
@@ -139,8 +137,6 @@
   /* Styles for the create department button conta
   iner */
 }
-
-
 
 /* Add other necessary styles for specific elements */
 .department-list-flex {
@@ -186,14 +182,14 @@
   margin-bottom: 12px;
 }
 
-.grid-texts-depts{
+.grid-texts-depts {
   font-size: 16px;
   color: "#80808075";
   margin: 0;
   margin-bottom: 16px;
 }
 
-.edit-icon{
+.edit-icon {
   background-color: #ff5f0525;
   color: var(--darkOrange);
   padding: 12px;
@@ -201,61 +197,132 @@
   border-radius: 48px;
 }
 
-.flex{
+.flex {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-.mddelete{
+.mddelete {
   font-size: 18px;
   cursor: pointer;
-
 }
-.initials-container{
+.initials-container {
   width: 24px;
   height: 24px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 400px;
   padding: 12px;
-  color:#fff;
+  color: #fff;
   border: white 6px solid;
   z-index: 2;
-
 }
 
-.profile-info-container{
-  display:flex;
+.profile-info-container {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.profile-image-container{
+.profile-image-container {
   height: 100px;
   border-radius: 8px;
-  z-index: -1
-  ;
+  z-index: -1;
 }
 
-.clickedUser-p{
+.clickedUser-p {
   font-size: 14px;
   color: #808080;
   padding-bottom: 20px;
   text-align: center;
   margin-top: 0px;
-  width: 100%
+  width: 100%;
 }
 
-.clickedUser-h3{
+.clickedUser-h3 {
   text-align: center;
   min-width: 300px;
 }
 
-.clickedUser-p-div{
+.clickedUser-p-div {
   display: flex;
-  gap:12px;
-  width: 100%
+  gap: 12px;
+  width: 100%;
 }
+
+.scale-container {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.scale-item {
+  animation: scaleAnimation 0.5s infinite alternate;
+}
+
+/* @keyframes scaleAnimation {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.customStyledBox {
+  position: relative;
+}
+
+.count {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  background-color: inherit;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+} */
+
+
+.bounce-container {
+  animation: bounce 1s infinite alternate; /* Apply bouncing animation */
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0); /* Start from original position */
+  }
+  to {
+    transform: translateY(-10px); /* Move up by 10px */
+  }
+}
+
+.bounce-item {
+  position: relative;
+}
+
+.count {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  background-color: inherit;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+}
+

@@ -51,7 +51,7 @@ interface SidebarProps {
 }
 
 const MainSidebar: React.FC<SidebarProps> = () => {
-//  const [srmAccessToken, setSrmAccessToken] = useState<string | null>(null);
+  //  const [srmAccessToken, setSrmAccessToken] = useState<string | null>(null);
   const [srmUser, setSrmUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const dispatch = useDispatch<ThunkDispatch<RootState, undefined, any>>();
@@ -296,8 +296,6 @@ const MainSidebar: React.FC<SidebarProps> = () => {
         {menuData.map((menu, index) => (
           <div key={index}>
             <p className="title-sidebar-p">{menu.title}</p>
-
-            {/* Iterate over items */}
             {menu.items.map((item, subIndex) => (
               <div key={subIndex} className="sidebar-headers">
                 {userProfile?.permission_type !== "executive" &&

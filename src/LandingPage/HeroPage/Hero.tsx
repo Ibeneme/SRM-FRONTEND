@@ -16,15 +16,16 @@ const Hero: React.FC = () => {
             <h1 className="hero-header">
               Build Excellent
               <br />
-              <span className="header-span">Stakeholder </span>
-              relationship
+              <span className="header-span">Stakeholder Experience</span> {" "}
+              and relationship
             </h1>
             <p className="hero-smaller-text">
-              Create a robust yet user-friendly software solution that
-              effortlessly integrates your data, teams, and customer
-              interactions into a unified platform. This adaptable customer
-              platform scales seamlessly with your business, providing powerful
-              functionality without overwhelming complexity.
+              Our integrated Stakeholder Relationship Management - (SRM) solution
+              is designed to streamline and enhance stakeholder interactions and
+              experience. A robust and intuitive support solution that
+              effortlessly integrates your data, teams, and stakeholder
+              interactions into a unified platform to deliver outstanding
+              support and exceed stakeholder expectations.
             </p>
             <div style={{ height: 100 }}>
               <button

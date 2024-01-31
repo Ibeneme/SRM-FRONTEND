@@ -28,6 +28,7 @@ import {
 import { addStaff, resendOTP } from "../../../../../Redux/Auth/Auth";
 import ShimmerLoaderPage from "../../../Utils/ShimmerLoader/ShimmerLoaderPage";
 import useCustomToasts from "../../../Utils/ToastNotifications/Toastify";
+import { getUsersTickets } from "../../../../../Redux/Tickets/Tickets";
 
 interface UsersLogItem {
   department: string | null;
@@ -93,6 +94,10 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const [resendTokenLoading, setResendTokenLoading] = useState<
     Record<string, boolean>
   >({});
+  const [resolvedCount, setResolvedCount] = useState<number>(0);
+  const [overdueCount, setOverdueCount] = useState<number>(0);
+  const [dueCount, setDueCount] = useState<number>(0);
+  // const [closedCount, setClosedCount] = useState<number>(0);
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
     permission_type: "",
@@ -125,6 +130,40 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     });
   };
 
+  const [userTickets, setUserTickets] = useState<any[]>([]);
+  const fetchUserTickets = (user_id: string) => {
+    setLoading(true);
+    dispatch(getUsersTickets({ user_id: user_id })) // Dispatching the action
+      .then((response: any) => {
+        console.log(response?.payload);
+        setUserTickets(response?.payload); // Assuming response is an array of user tickets
+        setLoading(false);
+      })
+      .catch((error: any) => {
+        // Handle error
+        console.error("Error fetching user tickets:", error);
+        // setError("Error fetching user tickets");
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (!Array.isArray(userTickets)) return;
+
+    const resolved = userTickets.filter(
+      (ticket) => ticket.status === "resolved"
+    ).length;
+    const overdue = userTickets.filter(
+      (ticket) => ticket.status === "overdue"
+    ).length;
+    const due = userTickets.filter((ticket) => ticket.status === "due").length;
+
+    setResolvedCount(resolved);
+    setOverdueCount(overdue);
+    setDueCount(due);
+    // setClosedCount(closed);
+  }, [userTickets]);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -139,6 +178,9 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     };
 
     fetchUsers();
+    if (clickedUser?.id) {
+      fetchUserTickets(clickedUser?.id);
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -283,10 +325,14 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const openModal = (item: UsersLogItem) => {
     setClickedUser(item);
     setModalOpen(true);
+    if (item?.id) {
+      fetchUserTickets(item?.id);
+    }
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    //setClickedUser(null);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -520,6 +566,8 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         options={["executive", "manager", "support"]}
         required
       />
+      <PasswordWarning formErrors={formErrors} />
+      <br />
       <HalfButton
         onClick={handleSecondModalContinue}
         text="Submit"
@@ -527,7 +575,6 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         disabled={loading}
       />
       <br />
-      <PasswordWarning formErrors={formErrors} />
       <div></div>
     </div>
   );
@@ -611,20 +658,108 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
             {clickedUser?.permission_type.toLowerCase() === "executive"
               ? "Executive"
               : "Support"}{" "}
-            Team
           </p>
         </div>
         <br />
-        <div style={{ display: "flex", gap: 24 }}>
-          {["#ff0000", "#FDBA10", "#0FC136"].map((color, index) => (
+        <div
+          className="bounce-container"
+          style={{ display: "flex", flexDirection: "row", gap: 24 }}
+        >
+          <div style={{ color: "#FDBA10" }} className="scale-item">
             <div
-              key={index}
-              className="customStyledBox"
-              style={{ backgroundColor: color }}
+              className="customStyledBox bounce-item"
+              style={{ backgroundColor: "#ff0000", position: "relative" }}
             >
               <IoTicket />
+              <span
+                style={{
+                  position: "absolute",
+                  left: -16,
+                  top: -16,
+                  backgroundColor: "#ff0000",
+                  padding: 6,
+                  fontSize: 13,
+                  borderRadius: 244,
+                  height: 16,
+                  width: 16,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "3px solid white",
+                }}
+              >
+                {overdueCount}
+              </span>
             </div>
-          ))}
+          </div>
+
+          <div style={{ color: "#FDBA10" }}>
+            <div
+              className="customStyledBox bounce-item"
+              style={{ backgroundColor: "#FDBA10", position: "relative" }}
+            >
+              <IoTicket />
+              <span
+                style={{
+                  position: "absolute",
+                  left: -16,
+                  top: -16,
+                  backgroundColor: "#FDBA10",
+                  padding: 6,
+                  fontSize: 13,
+                  borderRadius: 244,
+                  height: 16,
+                  width: 16,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "3px solid white",
+                }}
+              >
+                {dueCount}
+              </span>
+            </div>
+          </div>
+          <div style={{ color: "#0FC136" }}>
+            <div
+              className="customStyledBox bounce-item"
+              style={{ backgroundColor: "#0FC136", position: "relative" }}
+            >
+              <IoTicket />
+              <span
+                style={{
+                  position: "absolute",
+                  left: -16,
+                  top: -16,
+                  backgroundColor: "#0FC136",
+                  padding: 6,
+                  fontSize: 13,
+                  borderRadius: 244,
+                  height: 16,
+                  width: 16,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "3px solid white",
+                }}
+              >
+                {resolvedCount}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p
+            style={{
+              textDecorationLine: "underline",
+              marginTop: 48,
+              cursor: "pointer",
+              fontSize: 14,
+            }}
+            onClick={() => console.log("ibenem")}
+          >
+            View all Tickets
+          </p>
         </div>
         <br />
       </div>
@@ -824,9 +959,13 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                       <td>{item.department || "Missing Field"}</td>
                       <td>
                         <p>
-                          {item.permission_type.toLowerCase() === "executive"
+                          {item?.permission_type.toLowerCase() === "executive"
                             ? "Executive"
-                            : "Support"}
+                            : item?.permission_type.toLowerCase() === "support"
+                            ? "Support"
+                            : item?.permission_type.toLowerCase() === "manager"
+                            ? "Manager"
+                            : "Unknown"}
                         </p>
                       </td>
                       <td>
