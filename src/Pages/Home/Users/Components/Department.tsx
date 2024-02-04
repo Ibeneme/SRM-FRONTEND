@@ -28,7 +28,7 @@ const getRandomizedImages = () => {
   return sortedImages;
 };
 
-interface GridItem {
+export interface GridItem {
   id: number;
   name: string;
   description: string;

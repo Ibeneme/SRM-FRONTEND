@@ -51,8 +51,9 @@ const CreatePassword: React.FC = () => {
     setErrors({ confirmPassword: "", createPassword: "" });
     setTimeout(() => setLoading(false), 2000);
 
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
+
+      ///^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(formData.createPassword)) {
       setErrors({
@@ -71,7 +72,7 @@ const CreatePassword: React.FC = () => {
     if (formData.createPassword === formData.confirmPassword) {
       dispatch(
         setPassword({
-          email: email,
+          otp: email,
           password: formData.createPassword,
         })
       )

@@ -78,10 +78,10 @@ export const otpVerification = createAsyncThunk(
   async (otpData: any) => {
     try {
       const response = await axios.post(
-        `${baseApiUrl}/auth/verify-account/`,
+        `${baseApiUrl}/auth/validate-otp/`,
         otpData
       );
-      console.log(response, "OTP Verification Response");
+      console.log(response.data, "OTP Verification Response");
       return response.data;
     } catch (error) {
       console.log(error, "OTP Verification Error");

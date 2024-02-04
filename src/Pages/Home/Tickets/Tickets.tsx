@@ -13,7 +13,7 @@ import {
   updateOrganizationProfile,
 } from "../../../../Redux/Profile/Profile";
 import Modal from "../../../components/Modal/Modal";
-//import { useNavigate } from "react-router-dom";
+import "./tickets.css";
 import FormHeaders from "../../Auth/Components/FormHeaders";
 import TextInputDashboard from "../../Auth/Components/TextInouts/TextInputDashboard";
 import SelectInput from "../../Auth/Components/TextInouts/SelectInput";
@@ -31,7 +31,9 @@ import {
   updateTicket,
 } from "../../../../Redux/Tickets/Tickets";
 import { useNavigate } from "react-router-dom";
-import { MdCancel, MdSend } from "react-icons/md";
+import { GrEmergency } from "react-icons/gr";
+import { HiMiniTicket } from "react-icons/hi2";
+import { MdAssignmentAdd, MdCancel, MdSend, MdSubtitles } from "react-icons/md";
 import useCustomToasts from "../../Utils/ToastNotifications/Toastify";
 //import HistoryLog from "../Dashboard/Components/HistoryLog";
 import RandomColorComponent from "../Dashboard/RandomColor";
@@ -43,6 +45,13 @@ import { IoTicket } from "react-icons/io5";
 import NoTickets from "../../../assets/Dashboard/NoTickets.png";
 import NoTicketsMessage from "../Dashboard/Components/NoTickets";
 import ShimmerLoaderPage from "../../Utils/ShimmerLoader/ShimmerLoaderPage";
+import {
+  TbBallpenFilled,
+  TbCategoryFilled,
+  TbMailFilled,
+  TbUserFilled,
+} from "react-icons/tb";
+import IconComponent from "./component/IconComponent";
 interface Ticket {
   title: string;
   reference: string;
@@ -264,12 +273,21 @@ const TicketDashboard: React.FC = () => {
   };
 
   const renderOptions = () => {
+    const placeholderOption = (
+      <option value="" disabled selected>
+        Assign Ticket to
+      </option>
+    );
+
     if (fetchedUsers?.length > 0) {
-      return fetchedUsers?.map((users) => (
-        <option key={users.id} value={users.id}>
-          {users.first_name} {users.last_name}
-        </option>
-      ));
+      return [
+        placeholderOption,
+        ...fetchedUsers?.map((user) => (
+          <option key={user.id} value={user.id}>
+            {user.first_name} {user.last_name}
+          </option>
+        )),
+      ];
     } else {
       return (
         <option value={userProfile?.id} disabled>
@@ -459,6 +477,37 @@ const TicketDashboard: React.FC = () => {
 
     if (!createTicketFormData.name.trim()) {
       newErrors.name = "Stakholders Name is required";
+      hasErrors = true;
+    }
+    if (!createTicketFormData.email.trim()) {
+      newErrors.email = "Email is required";
+      hasErrors = true;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(createTicketFormData.email)) {
+        newErrors.email = "Invalid email format";
+        hasErrors = true;
+      }
+    }
+    if (!createTicketFormData.priority.trim()) {
+      newErrors.priority = "Ticket Priority is required";
+      hasErrors = true;
+    }
+    if (!createTicketFormData.sla_category.trim()) {
+      newErrors.sla_category = "SLA Category is required";
+      hasErrors = true;
+    }
+    if (!createTicketFormData.handler_id.trim()) {
+      newErrors.handler_id = "Ticket Handler is required";
+      hasErrors = true;
+    }
+    if (!createTicketFormData.type.trim()) {
+      newErrors.type = "Ticket Type is required";
+      hasErrors = true;
+    }
+
+    if (!createTicketFormData.description.trim()) {
+      newErrors.description = "Description is required";
       hasErrors = true;
     }
     if (createTicketFormData?.email) {
@@ -910,138 +959,224 @@ const TicketDashboard: React.FC = () => {
         accountText={"Complete these to create a unique Ticket"}
       />
       <PasswordWarning formErrors={formErrors} />
-
       <br />
       <br />
-      <TextInputDashboard
-        label="Email"
-        value={createTicketFormData.email}
-        onChange={handleCreateTicketInputChange}
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email Address"
-        error={createTicketFormDataErrors.email}
-      />
-      <TextInputDashboard
-        label="Stakeholders Name"
-        value={createTicketFormData.name}
-        onChange={handleCreateTicketInputChange}
-        type="text"
-        id="name"
-        name="name"
-        placeholder="Stakeholders Name"
-        error={createTicketFormDataErrors.name}
-      />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<TbMailFilled color="#fff" size="24" />} />
 
-      <TextInputDashboard
-        label="Ticket Title"
-        value={createTicketFormData.title}
-        onChange={handleCreateTicketInputChange}
-        type="text"
-        id="title"
-        name="title"
-        placeholder="Enter a ticket title"
-        error={createTicketFormDataErrors.title}
-        required
-      />
+        <TextInputDashboard
+          label="Email"
+          value={createTicketFormData.email}
+          onChange={handleCreateTicketInputChange}
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Stakeholders Email Address"
+          error={createTicketFormDataErrors.email}
+        />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<TbUserFilled color="#fff" size="24" />} />
 
-      <SelectInput
-        placeholder="Select Ticket Priority"
-        label="Select Ticket Priority"
-        value={createTicketFormData.priority}
-        onChange={(e) =>
-          setCreateTicketFormData((prevData) => ({
-            ...prevData,
-            priority: e.target.value,
-          }))
-        }
-        id="selectPriority"
-        name="selectPriority"
-        options={["low", "medium", "high"]}
-        error={createTicketFormDataErrors.priority}
-        required
-      />
+        <TextInputDashboard
+          label="Stakeholders Name"
+          value={createTicketFormData.name}
+          onChange={handleCreateTicketInputChange}
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Stakeholders Name"
+          error={createTicketFormDataErrors.name}
+        />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<MdSubtitles color="#fff" size="24" />} />
 
-      <SelectInput
-        placeholder="SLA Category"
-        label="SLA Category"
-        value={createTicketFormData.sla_category}
-        onChange={(e) =>
-          setCreateTicketFormData((prevData) => ({
-            ...prevData,
-            sla_category: e.target.value,
-          }))
-        }
-        id="selectPriority"
-        name="selectPriority"
-        options={["standard", "medium", "complex"]}
-        error={createTicketFormDataErrors.sla_category}
-        required
-      />
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label className="business-name-label"> Select a Department </label>
+        <TextInputDashboard
+          label="Ticket Title"
+          value={createTicketFormData.title}
+          onChange={handleCreateTicketInputChange}
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Ticket title"
+          error={createTicketFormDataErrors.title}
+          required
+        />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<GrEmergency color="#fff" size="24" />} />
 
-        <select
-          style={{ height: 48, padding: 12, width: "100%" }}
-          className={`${"select-dashboard"}`}
-          value={createTicketFormData.handler_id}
+        <SelectInput
+          placeholder="Select Ticket Priority"
+          label="Select Ticket Priority"
+          value={createTicketFormData.priority}
           onChange={(e) =>
             setCreateTicketFormData((prevData) => ({
               ...prevData,
-              handler_id: e.target.value,
+              priority: e.target.value,
             }))
           }
-        >
-          {renderOptions()}
-        </select>
-        <p
-          className="business-name-label"
-          style={{
-            marginTop: 4,
-            marginBottom: -0,
-            color: "#FF7342",
-            textAlign: "right",
-          }}
-          onClick={() => navigate("/users")}
-        >
-          {fetchedUsers?.length > 0 ? null : "Add More Users to handle tickets"}
-        </p>
+          id="selectPriority"
+          name="selectPriority"
+          options={["low", "medium", "high"]}
+          error={createTicketFormDataErrors.priority}
+          required
+        />
       </div>
       <br />
-      <SelectInput
-        placeholder="Select Ticket Type"
-        label="Select Ticket Type"
-        value={createTicketFormData.type}
-        onChange={(e) =>
-          setCreateTicketFormData((prevData) => ({
-            ...prevData,
-            type: e.target.value,
-          }))
-        }
-        id="selectType"
-        name="selectType"
-        options={["standard", "medium", "complex"]}
-        error={createTicketFormDataErrors.type}
-        required
-      />
-      <TextInputDashboard
-        label="Description"
-        value={createTicketFormData.description}
-        onChange={(e) =>
-          setCreateTicketFormData((prevData) => ({
-            ...prevData,
-            description: e.target.value,
-          }))
-        }
-        type="text"
-        id="description"
-        name="description"
-        placeholder="Description"
-        height
-        error={createTicketFormDataErrors.description}
-      />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<TbCategoryFilled color="#fff" size="24" />} />
+        <SelectInput
+          placeholder="SLA Category"
+          label="SLA Category"
+          value={createTicketFormData.sla_category}
+          onChange={(e) =>
+            setCreateTicketFormData((prevData) => ({
+              ...prevData,
+              sla_category: e.target.value,
+            }))
+          }
+          id="selectPriority"
+          name="selectPriority"
+          options={["standard", "medium", "complex"]}
+          error={createTicketFormDataErrors.sla_category}
+          required
+        />{" "}
+      </div>
+      <br />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<MdAssignmentAdd color="#fff" size="24" />} />
+        <div
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
+          <label className="business-name-label"> Assign ticket to</label>
 
+          <select
+            style={{ height: 48, padding: 12, width: "100%" }}
+            className={`${"select-dashboard"}`}
+            value={createTicketFormData.handler_id}
+            onChange={(e) =>
+              setCreateTicketFormData((prevData) => ({
+                ...prevData,
+                handler_id: e.target.value,
+              }))
+            }
+          >
+            {renderOptions()}
+          </select>
+          <p
+            className="business-name-label"
+            style={{
+              marginTop: 4,
+              marginBottom: -0,
+              color: "#FF7342",
+              textAlign: "right",
+            }}
+            onClick={() => navigate("/users")}
+          >
+            {fetchedUsers?.length > 0
+              ? null
+              : "Add More Users to handle tickets"}
+          </p>
+        </div>{" "}
+      </div>
+      <br /> <br />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<HiMiniTicket color="#fff" size="24" />} />
+        <SelectInput
+          placeholder="Select Ticket Type"
+          label="Select Ticket Type"
+          value={createTicketFormData.type}
+          onChange={(e) =>
+            setCreateTicketFormData((prevData) => ({
+              ...prevData,
+              type: e.target.value,
+            }))
+          }
+          id="selectType"
+          name="selectType"
+          options={["standard", "medium", "complex"]}
+          error={createTicketFormDataErrors.type}
+          required
+        />{" "}
+      </div>
+      <br />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+        }}
+      >
+        <IconComponent icon={<TbBallpenFilled color="#fff" size="24" />} />
+        <TextInputDashboard
+          label="Description"
+          value={createTicketFormData.description}
+          onChange={(e) =>
+            setCreateTicketFormData((prevData) => ({
+              ...prevData,
+              description: e.target.value,
+            }))
+          }
+          type="text"
+          id="description"
+          name="description"
+          placeholder="Description"
+          height
+          error={createTicketFormDataErrors.description}
+        />
+      </div>
       <PasswordWarning formErrors={formErrors} />
       <br />
       <HalfButton
@@ -1050,7 +1185,6 @@ const TicketDashboard: React.FC = () => {
         loading={createTicketLoading}
         disabled={createTicketLoading}
       />
-
       <div>{/* ... (other form elements) */}</div>
     </div>
   );
@@ -1143,7 +1277,7 @@ const TicketDashboard: React.FC = () => {
           &times;
         </span>
 
-        {userProfile?.permission_type === "executive" && (
+        {userProfile?.permission_type === "manager" && (
           <div className="action-buttons">
             <p
               onClick={() => openDeleteModal(clickedUser!)}
@@ -1247,7 +1381,7 @@ const TicketDashboard: React.FC = () => {
         </div>
         <div>
           <p className="name-users-style-bold-email-ticket">
-            Ticket ID: {clickedUser?.id}{" "}
+            Ticket ID: {clickedUser?.reference}{" "}
           </p>
         </div>
         <br />
@@ -1276,7 +1410,7 @@ const TicketDashboard: React.FC = () => {
           </p>
 
           <div className="border-line" style={{ flexDirection: "column" }}>
-            {userProfile?.permission_type === "executive" && (
+            {userProfile?.permission_type === "manager" && (
               <p
                 className="re-assign-ticket-texts-btn"
                 onClick={handleReassignClick}
@@ -1402,7 +1536,7 @@ const TicketDashboard: React.FC = () => {
           </div>
         </div>{" "}
         <br /> <br />
-        {userProfile?.permission_type === "executive" &&
+        {userProfile?.permission_type === "manager" &&
           clickedUser?.status !== "resolved" && (
             <div
               style={{
@@ -1456,7 +1590,7 @@ const TicketDashboard: React.FC = () => {
       <br />
       <TextInputDashboard
         placeholderVisible
-        label="Email"
+        label="Stakeholders Email"
         value={createTicketFormData.email}
         onChange={handleCreateTicketInputChange}
         type="email"
@@ -1516,7 +1650,7 @@ const TicketDashboard: React.FC = () => {
         required
       />
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label className="business-name-label"> Select a Department </label>
+        <label className="business-name-label">Assign Ticket to </label>
 
         <select
           style={{ height: 48, padding: 12, width: "100%" }}
@@ -1621,7 +1755,7 @@ const TicketDashboard: React.FC = () => {
           <div className="dashboard-content">
             <div className="main-content-container">
               <div className="main-content-dashboard-div">
-                <div>
+                <div style={{ width: "100%" }}>
                   <div>
                     <h2 className="main-content-dashboard-h2">Tickets</h2>
                     <p className="main-content-dashboard-p">
@@ -1648,7 +1782,7 @@ const TicketDashboard: React.FC = () => {
                 </div>
               ) : (
                 <div>
-                  {allTickets?.length < 0 ? (
+                  {allTickets?.length === 0 ? (
                     <div
                       style={{
                         marginTop: 44,
@@ -1680,27 +1814,44 @@ const TicketDashboard: React.FC = () => {
                         flexDirection: "column",
                       }}
                     >
-                      <div className="search-filtered-tickets">
-                        {" "}
-                        <input
-                          className="search-filtered-tickets-input"
-                          type="text"
-                          value={searchQuery}
-                          onChange={handleSearchInputChange}
-                          placeholder="Search by title, handler's name, or priority..."
-                        />
-                        {userProfile?.permission_type === "executive" && (
+                      <div
+                        className="search-filtered-tickets"
+                        style={{ marginTop: 0 }}
+                      >
+                        <div
+                          style={{
+                            width: "90%",
+                            // paddingLeft: 12,
+                            backgroundColor: "#Ffff",
+                            borderRadius: 16,
+                            marginLeft: -16,
+                          }}
+                        >
+                          <input
+                            style={{ width: "100%", margin: 16 }}
+                            className="search-filtered-tickets-input"
+                            type="text"
+                            value={searchQuery}
+                            onChange={handleSearchInputChange}
+                            placeholder="Search by title, handler's name, or priority..."
+                          />
+                        </div>
+                        {userProfile?.permission_type === "manager" && (
                           <button
-                            className="no_tickets-div-button"
+                            className="no_tickets-div-button bouncing-button"
                             style={{
                               color: "white",
                               height: 50,
                               fontSize: 14,
                               margin: 0,
+                              position: "absolute",
+                              bottom: 40,
+                              right: 40,
+                              width: 150,
                             }}
                             onClick={openCreateTicketModal}
                           >
-                            + Create a Ticket
+                            + Create Ticket
                           </button>
                         )}
                       </div>
@@ -1880,7 +2031,7 @@ const TicketDashboard: React.FC = () => {
         onClose={closeEditModal}
         formContent={openEditicketModalContent}
       />
-      {userProfile?.permission_type === "executive" && (
+      {userProfile?.permission_type === "manager" && (
         <>
           {!userProfile?.org_setup_complete && (
             <Modal

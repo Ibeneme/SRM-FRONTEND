@@ -9,11 +9,10 @@ import useNavigateToCreateAccount from "./Hook/useCreateAccount";
 import TextInput from "./Components/TextInouts/TextInput";
 import { AppDispatch } from "../../../Redux/Store";
 import { useDispatch } from "react-redux";
-import { otpVerification } from "../../../Redux/Auth/Auth";
+import { setPassword } from "../../../Redux/Auth/Auth";
 import Modal from "../../components/Modal/Modal";
 import success_image from "../../assets/Illustrations/AuthSuccessImage.png";
-import errorImage from "../../assets/Dashboard/404.png";
-import ShimmerLoaderPage from "../Utils/ShimmerLoader/ShimmerLoaderPage";
+
 interface FormData {
   confirmPassword: string;
   createPassword: string;
@@ -22,11 +21,9 @@ interface FormData {
 const SetAddedUserPassword: React.FC = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
-  const [errorLoading, setErrorLoading] = useState(false);
-  //  const [formErrors, setFormErrors] = useState("");
+  const [token, setToken] = useState("false");
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // const email: string = (location.state as any)?.email || "";
   const [formData, setFormData] = useState<FormData>({
     confirmPassword: "",
     createPassword: "",
@@ -36,29 +33,7 @@ const SetAddedUserPassword: React.FC = () => {
     const urlParams = new URLSearchParams(location.search);
     const token = urlParams.get("token");
     console.log(token, "tokkkk");
-
-    dispatch(
-      otpVerification({
-        otp: token,
-      })
-    )
-      .then((response) => {
-        setLoading(false);
-        console.log("Registration successful", response);
-
-        if (response?.payload?.user) {
-          console.log(response?.payload?.user?.email);
-          const email = response?.payload?.user?.email;
-          navigate("/user-set-password", { state: { email } });
-        } else {
-          setErrorLoading(true);
-          console.log(response?.payload);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("Registration failed", error);
-      });
+    setToken(token as string);
   }, [location.search]);
 
   const [errors, setErrors] = useState<{
@@ -86,6 +61,7 @@ const SetAddedUserPassword: React.FC = () => {
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -117,76 +93,130 @@ const SetAddedUserPassword: React.FC = () => {
     </div>
   );
 
+  const handleClick = () => {
+    //openModal();
+    setLoading(true);
+    setFormErrors("");
+    setErrors({ confirmPassword: "", createPassword: "" });
+    setTimeout(() => setLoading(false), 2000);
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
+
+    ///^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(formData.createPassword)) {
+      setErrors({
+        createPassword:
+          "Password must contain a mix of uppercase, lowercase, numbers, and special characters",
+      });
+      return;
+    }
+
+    if (formData.createPassword !== formData.confirmPassword) {
+      setErrors({ confirmPassword: "Passwords don't match" });
+      return;
+    }
+    setErrors({});
+
+    if (formData.createPassword === formData.confirmPassword) {
+      dispatch(
+        setPassword({
+          otp: token,
+          password: formData.createPassword,
+        })
+      )
+        .then((response) => {
+          setLoading(false);
+          console.log("Registration successful", response);
+
+          switch (response?.payload) {
+            case 200:
+              console.log("success");
+              openModal();
+              break;
+            case 400:
+              setFormErrors("Network Error");
+              break;
+            case 422:
+              setFormErrors("An Error Ocurred");
+              break;
+            default:
+              console.log(response?.payload, "lo");
+              setFormErrors("Network Error");
+              break;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("Registration failed", error);
+        });
+    } else {
+      setFormErrors("Passwords do not match");
+    }
+  };
+
   return (
     <>
-      {errorLoading ? (
-        <div className="auth-container">
-          <div className="auth-forms-div">
-            <FormTop
-              activeStepNumber={0}
-              totalStepNumbers={0}
-              title="Whoops... An Error Occurred"
-              accountText={accountText}
-            />
-            <br /> <br />
-            <form className="create-account-container">
-              <div>
-                <div style={{ display: "none" }}>
-                  <PasswordInput
-                    label="Create Password"
-                    value={formData.createPassword}
-                    onChange={handleChange}
-                    id="createPassword"
-                    name="createPassword"
-                    placeholder="Password"
-                    required
-                    error={errors.createPassword}
-                  />
+      <div className="auth-container">
+        <div className="auth-forms-div">
+          <FormTop
+            activeStepNumber={0}
+            totalStepNumbers={0}
+            title="Create Password"
+            accountText={accountText}
+            errorText={formErrors}
+            warningText="Password must contain a mix of uppercase, lowercase, numbers, and special characters"
+          />
+          <form className="create-account-container">
+            <div>
+              <PasswordInput
+                label="Create Password"
+                value={formData.createPassword}
+                onChange={handleChange}
+                id="createPassword"
+                name="createPassword"
+                placeholder="Password"
+                required
+                error={errors.createPassword}
+              />
 
-                  <div style={{ visibility: "hidden", height: 1 }}>
-                    <TextInput
-                      label="First Name"
-                      value={"ddd"}
-                      onChange={handleChange}
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      placeholder="First Name"
-                    />
-                  </div>
-                  <PasswordInput
-                    label="Confirm Password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Password"
-                    required
-                    error={errors.confirmPassword}
-                  />
-                </div>
-                <img
-                  src={errorImage}
-                  style={{ maxWidth: 280 }}
-                  alt={errorImage}
-                />
-                <br /> <br /> <br />
-                <Button
-                  onClick={() => navigate("/create-account")}
-                  text="Proceed to Create Account"
-                  loading={loading}
-                  disabled={loading}
+              <div style={{ visibility: "hidden", height: 1 }}>
+                <TextInput
+                  label="First Name"
+                  value={"ddd"}
+                  onChange={handleChange}
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First Name"
                 />
               </div>
-            </form>
-          </div>
-          <div className="auth-image">
-            <ImageContainer />
-          </div>
+              <PasswordInput
+                label="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Password"
+                required
+                error={errors.confirmPassword}
+              />
+            </div>
+
+            <Button
+              onClick={handleClick}
+              text="Continue"
+              loading={loading}
+              disabled={loading}
+            />
+          </form>
         </div>
-      ) : (
-        <ShimmerLoaderPage />
-      )}
+        <div className="auth-image">
+          <ImageContainer />
+        </div>
+      </div>
+
       <Modal
         isOpen={isModalOpen}
         onOpen={openModal}

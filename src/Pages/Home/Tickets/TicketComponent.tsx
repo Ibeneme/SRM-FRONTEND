@@ -328,6 +328,7 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
   };
   const closeSecondModal = () => {
     setIsSecondModalOpen(false);
+    
   };
   const handleFirstModalContinue = () => {
     setFormErrors("");
@@ -380,17 +381,12 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
           setLoading(false);
           switch (response?.payload) {
             case 200:
-              // console.log(
-              //   "Organization profile updated successfully:",
-              //   response
-              // );
               closeSecondModal();
               break;
             case 400:
               setFormErrors("Please Enter a Business Name to Proceed.");
               break;
             default:
-              // console.log("Unexpected response payload:", response);
               break;
           }
         })
@@ -1216,7 +1212,7 @@ const TicketComponentDashboard: React.FC<TicketComponentDashboardProps> = ({
         </div>
         <div>
           <p className="name-users-style-bold-email-ticket">
-            Ticket ID: {clickedUser?.id}{" "}
+            Ticket ID: {clickedUser?.reference}{" "}
           </p>
         </div>
         <br />

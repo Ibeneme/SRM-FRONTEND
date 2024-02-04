@@ -580,3 +580,28 @@ h2 {
   align-items: center;
    */
 }
+.bouncing-button {
+  animation: bounce 0.4s infinite alternate;
+}
+
+.bouncing-buttons {
+  animation: bounce 0.9s infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+/* Hide scrollbar for all elements */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optional: Show scrollbar on hover */
+::-webkit-scrollbar:hover {
+  display: block;
+}

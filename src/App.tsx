@@ -34,6 +34,7 @@ import MediumTickets from "./Pages/Home/Tickets/TicketsPrority/Medium";
 import LowTickets from "./Pages/Home/Tickets/TicketsPrority/Low";
 import HighTickets from "./Pages/Home/Tickets/TicketsPrority/High";
 import MainSidebar from "./Pages/Home/Dashboard/MainSidebar";
+import GetUsersTicketsDashboard from "./Pages/Home/Tickets/TicketsUsers";
 
 interface ProtectedRoutesProps {
   children: ReactNode;
@@ -211,6 +212,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoutes>
               <HighTickets />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/user-tickets"
+          element={
+            <ProtectedRoutes>
+              <GetUsersTicketsDashboard />
             </ProtectedRoutes>
           }
         />

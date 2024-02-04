@@ -7,9 +7,9 @@ import {
   MdOutlineLabelImportant,
   MdOutlineTag,
   MdSpaceDashboard,
-  MdOutlineFolderCopy,
-  MdOutlineFolderSpecial,
-  MdOutlineDevicesFold,
+  // MdOutlineFolderCopy,
+  // MdOutlineFolderSpecial,
+  // MdOutlineDevicesFold,
 } from "react-icons/md";
 import {
   // TbClipboardList,
@@ -142,27 +142,27 @@ const MainSidebar: React.FC<SidebarProps> = () => {
       ],
     },
 
-    {
-      title: "Tickets by Status",
-      items: [
-        {
-          icon: <MdOutlineFolderSpecial />,
-          text: "Priority High Tickets",
-          to: "/priority-high-tickets",
-        },
-        {
-          icon: <MdOutlineFolderCopy />,
-          text: "Priority Medium Tickets",
-          to: "/priority-medium-tickets",
-        },
+    // {
+    //   title: "Tickets by Status",
+    //   items: [
+    //     {
+    //       icon: <MdOutlineFolderSpecial />,
+    //       text: "Priority High Tickets",
+    //       to: "/priority-high-tickets",
+    //     },
+    //     {
+    //       icon: <MdOutlineFolderCopy />,
+    //       text: "Priority Medium Tickets",
+    //       to: "/priority-medium-tickets",
+    //     },
 
-        {
-          icon: <MdOutlineDevicesFold />,
-          text: "Priority Low Tickets",
-          to: "/priority-low-tickets",
-        },
-      ],
-    },
+    //     {
+    //       icon: <MdOutlineDevicesFold />,
+    //       text: "Priority Low Tickets",
+    //       to: "/priority-low-tickets",
+    //     },
+    //   ],
+    // },
 
     {
       title: "Tickets by Prority",
@@ -298,7 +298,7 @@ const MainSidebar: React.FC<SidebarProps> = () => {
             <p className="title-sidebar-p">{menu.title}</p>
             {menu.items.map((item, subIndex) => (
               <div key={subIndex} className="sidebar-headers">
-                {userProfile?.permission_type !== "executive" &&
+                {userProfile?.permission_type !== "manager" &&
                 (item.text === "Organisation Settings" ||
                   item.text === "Departments & Front Desk") ? null : (
                   <NavLink

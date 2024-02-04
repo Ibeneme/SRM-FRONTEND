@@ -29,9 +29,10 @@ import { addStaff, resendOTP } from "../../../../../Redux/Auth/Auth";
 import ShimmerLoaderPage from "../../../Utils/ShimmerLoader/ShimmerLoaderPage";
 import useCustomToasts from "../../../Utils/ToastNotifications/Toastify";
 import { getUsersTickets } from "../../../../../Redux/Tickets/Tickets";
+import { useNavigate } from "react-router-dom";
 
 interface UsersLogItem {
-  department: string | null;
+  department_name: string | null;
   status: string;
   permission_type: string;
   first_name: string;
@@ -64,7 +65,7 @@ interface FormData {
   last_name: string;
   permission_type: string;
   phone_number: string;
-  department: string;
+  department_id: string;
 }
 
 interface SubmitErrors {
@@ -94,6 +95,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const [resendTokenLoading, setResendTokenLoading] = useState<
     Record<string, boolean>
   >({});
+  const navigate = useNavigate();
   const [resolvedCount, setResolvedCount] = useState<number>(0);
   const [overdueCount, setOverdueCount] = useState<number>(0);
   const [dueCount, setDueCount] = useState<number>(0);
@@ -103,7 +105,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     permission_type: "",
     phone_number: "",
     email: "",
-    department: "",
+    department_id: "",
     last_name: "",
   });
   const [submitErrors, setSubmitErrors] = useState<SubmitErrors>({
@@ -126,7 +128,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       email: "",
       last_name: "",
       phone_number: "",
-      department: "",
+      department_id: "",
     });
   };
 
@@ -254,27 +256,20 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     }
   };
 
-  const handleChangeDepartment = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormErrors("");
-    console.log("Event:", e);
-    console.log("Current formData.department:", formData.department);
-    const selectedDepartmentId = e.target.value;
-    console.log("Selected Department Id:", selectedDepartmentId);
-    const selectedDepartment = fetchedDepartments.find(
-      (department) => department.id === selectedDepartmentId
-    );
-    if (selectedDepartment) {
-      console.log(
-        "Selected Department Name:",
-        selectedDepartmentId,
-        selectedDepartment.name
-      );
+  const handleChangeDepartment = (event: any) => {
+    const selectedDepartmentId = event.target.value;
+    console.log(selectedDepartmentId, "selectedDepartmentId");
+    if (selectedDepartmentId === "secret") {
+      console.log("Selected department ID:", selectedDepartmentId);
     }
-    setFormData((prevData) => ({
-      ...prevData,
-      department: selectedDepartmentId,
+
+    // Update the form data with the selected department ID
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      department_id: selectedDepartmentId,
     }));
   };
+
   const handlePermissionTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setFormErrors("");
     console.log(e.target.value);
@@ -295,7 +290,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       permission_type: "",
       phone_number: "",
       email: "",
-      department: "",
+      department_id: "",
       last_name: "",
     });
   };
@@ -325,6 +320,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
   const openModal = (item: UsersLogItem) => {
     setClickedUser(item);
     setModalOpen(true);
+    console.log(clickedUser, item, "clickedUser");
     if (item?.id) {
       fetchUserTickets(item?.id);
     }
@@ -341,21 +337,21 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     setSubmitErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
-  const renderOptions = () => {
-    if (fetchedDepartments.length > 0) {
-      return fetchedDepartments.map((department) => (
-        <option key={department.id} value={department.id}>
-          {department.name}
-        </option>
-      ));
-    } else {
-      return (
-        <option value="" disabled>
-          Add a Department
-        </option>
-      );
-    }
-  };
+  // const renderOptions = () => {
+  //   if (fetchedDepartments.length > 0) {
+  //     return fetchedDepartments.map((department) => (
+  //       <option key={department.id} value={department.id}>
+  //         {department.name}
+  //       </option>
+  //     ));
+  //   } else {
+  //     return (
+  //       <option value="" disabled>
+  //         Add a Department
+  //       </option>
+  //     );
+  //   }
+  // };
 
   const handleSecondModalContinue = async () => {
     setSubmitErrors({
@@ -392,7 +388,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         const response = await dispatch(addStaff(formData));
         console.log("addstaff:", response);
         setLoading(false);
-        console.log(submitErrors, "hh");
+        console.log(formData, "hh");
         switch (response?.payload) {
           case 200:
             console.log("Profile successfully updated:", response);
@@ -402,7 +398,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
               email: "",
               last_name: "",
               phone_number: "",
-              department: "",
+              department_id: "",
             });
             handleFetchUsers();
             closeSecondModal();
@@ -536,10 +532,23 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
         <select
           style={{ height: 48, padding: 12, width: "100%" }}
           className={`${"select-dashboard"}`}
-          value={formData.department}
+          value={formData.department_id}
           onChange={handleChangeDepartment}
         >
-          {renderOptions()}
+          <option value="" disabled selected>
+            Choose a department
+          </option>
+          {fetchedDepartments.length > 0 ? (
+            fetchedDepartments.map((department) => (
+              <option key={department.id} value={department.id}>
+                {department.name}
+              </option>
+            ))
+          ) : (
+            <option value="" disabled>
+              Add a Department
+            </option>
+          )}
         </select>
         <p
           className="business-name-label"
@@ -756,7 +765,15 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
               cursor: "pointer",
               fontSize: 14,
             }}
-            onClick={() => console.log("ibenem")}
+            onClick={() =>
+              navigate("/user-tickets", {
+                state: {
+                  user_id_passed_as_params: clickedUser?.id,
+                  first_name_passed_as_params: clickedUser?.first_name,
+                  last_name_passed_as_params: clickedUser?.last_name,
+                },
+              })
+            }
           >
             View all Tickets
           </p>
@@ -766,6 +783,8 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     </div>
   );
 
+  
+  
   const confirmDeleteModal = (
     <div className="form_content_display-dashboard">
       <br />
@@ -805,6 +824,13 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
     </div>
   );
 
+  const inputLabels = [
+    { label: "First Name", placeholder: `${editedUser?.first_name}` },
+    { label: "Last Name", placeholder: `${editedUser?.last_name}` },
+    { label: "Email Address", placeholder: `${editedUser?.email}` },
+    { label: "Phone Number", placeholder: `${editedUser?.phone_number}` },
+  ];
+
   const editModalContent = (
     <div className="form_content_display-dashboard">
       <br />
@@ -812,38 +838,50 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
       <FormHeaders
         activeStepNumber={0}
         totalStepNumbers={0}
-        title={`Edit a User, ${editedUser?.first_name} ${editedUser?.last_name}`}
+        title={`Edit  User, ${editedUser?.first_name} ${editedUser?.last_name}`}
         accountText={"Edit your user"}
       />
       <PasswordWarning formErrors={formErrors} />
       <br /> <br />
-      {["First Name", "Last Name", "Email Address", "Phone Number"].map(
-        (label, index) => (
-          <TextInputDashboard
-            key={index}
-            label={label}
-            value={
-              (formData as FormDataWithIndex)[
-                label.toLowerCase().replace(/\s+/g, "_")
-              ]
-            }
-            onChange={handleChange}
-            type="text"
-            id={label.toLowerCase().replace(/\s+/g, "_")}
-            name={label.toLowerCase().replace(/\s+/g, "_")}
-            placeholder={label}
-          />
-        )
-      )}
+      {inputLabels.map((item, index) => (
+        <TextInputDashboard
+          key={index}
+          label={item.label}
+          value={
+            (formData as FormDataWithIndex)[
+              item.label.toLowerCase().replace(/\s+/g, "_")
+            ]
+          }
+          onChange={handleChange}
+          type="text"
+          id={item.label.toLowerCase().replace(/\s+/g, "_")}
+          name={item.label.toLowerCase().replace(/\s+/g, "_")}
+          placeholder={item.placeholder} // Use placeholder from the object
+          placeholderVisible
+        />
+      ))}
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label className="business-name-label"> Select a Department </label>
         <select
           style={{ height: 48, padding: 12, width: "100%" }}
           className={`${"select-dashboard"}`}
-          value={formData.department}
+          value={formData.department_id}
           onChange={handleChangeDepartment}
         >
-          {renderOptions()}
+          <option value="" disabled selected>
+            Choose a department
+          </option>
+          {fetchedDepartments.length > 0 ? (
+            fetchedDepartments.map((department) => (
+              <option key={department.id} value={department.id}>
+                {department.name}
+              </option>
+            ))
+          ) : (
+            <option value="" disabled>
+              Add a Department
+            </option>
+          )}
         </select>
         <p
           className="business-name-label"
@@ -956,7 +994,7 @@ const UsersLog: React.FC<UsersLogProps> = ({ isLoading }) => {
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td>{item.department || "Missing Field"}</td>
+                      <td>{item.department_name || "Missing Field"}</td>
                       <td>
                         <p>
                           {item?.permission_type.toLowerCase() === "executive"

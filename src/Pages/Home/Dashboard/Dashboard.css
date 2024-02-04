@@ -285,7 +285,7 @@
   }
 }
 
-@keyframes bounce {
+/* @keyframes bounce {
   0%,
   20%,
   50%,
@@ -302,5 +302,5 @@
 }
 
 .no_tickets-div-img {
-  animation: bounce 3s infinite; /*3You can adjust the duration as needed */
-}
+  animation: bounce 3s infinite; 
+} */

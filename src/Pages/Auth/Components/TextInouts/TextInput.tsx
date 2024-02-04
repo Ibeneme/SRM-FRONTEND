@@ -44,7 +44,7 @@ const TextInput: React.FC<TextInputProps> = ({
         value={value}
         onChange={onChange}
         required={required}
-        placeholder={`${"Enter your"} ${placeholder}`}
+        placeholder={`${"Enter"} ${placeholder}`}
       />
       <p className="div-for-auth-text-input-input-error">{error}</p>
     </div>

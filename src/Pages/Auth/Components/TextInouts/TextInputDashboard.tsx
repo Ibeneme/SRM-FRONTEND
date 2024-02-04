@@ -39,7 +39,7 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
       onChange={onChange}
       required={required}
       placeholder={
-        placeholderVisible ? `${placeholder}` : `Enter your ${placeholder}`
+        placeholderVisible ? `${placeholder}` : `Enter ${placeholder}`
       }
     />
   ) : (
@@ -54,7 +54,7 @@ const TextInputDashboard: React.FC<TextInputDashboardProps> = ({
       onChange={onChange}
       required={required}
       placeholder={
-        placeholderVisible ? `${placeholder}` : `Enter your ${placeholder}`
+        placeholderVisible ? `${placeholder}` : `Enter ${placeholder}`
       }
     />
   );

@@ -51,7 +51,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
           value={value}
           onChange={onChange}
           required={required}
-          placeholder={`${"Enter your"} ${placeholder}`}
+          placeholder={`${"Enter "} ${placeholder}`}
         />
         <div
           className="password-toggle"

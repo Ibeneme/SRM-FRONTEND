@@ -57,11 +57,9 @@ const OTPConfirmation: React.FC = () => {
       dispatch(otpVerification({ otp: formData.OTP }))
         .then((response) => {
           setLoading(false);
-          console.log("Registration successful", response);
-          if (response?.payload?.user) {
-            console.log(response?.payload?.user?.email);
-            const email = response?.payload?.user?.email;
-            navigate("/create-password", { state: { email: email } });
+          console.log("Registration successful", response?.payload);
+          if (response?.payload === true) {
+            navigate("/create-password", { state: { email: formData.OTP } });
           } else {
             setFormErrors("Your token is either expired or invalid.");
             console.log(response?.payload);

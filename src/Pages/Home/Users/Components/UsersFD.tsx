@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import "./SettingToggle.css";
 import Modal from "../../../../components/Modal/Modal";
 import "../../Dashboard/Components/Filter.css";
-import { MdOutlineCancel, MdSend } from "react-icons/md";
+import { MdEdit, MdOutlineCancel, MdSend } from "react-icons/md";
 import FormHeaders from "../../../Auth/Components/FormHeaders";
 import PasswordWarning from "../../../../components/Error/ErrorWarning";
 import TextInputDashboard from "../../../Auth/Components/TextInouts/TextInputDashboard";
@@ -17,8 +17,8 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../../../Redux/Store";
 import ShimmerLoaderPage from "../../../Utils/ShimmerLoader/ShimmerLoaderPage";
 
-interface UsersLogFDItem {
-  department: string | null;
+export interface UsersLogFDItem {
+  department_name: string | null;
   status: string;
   permission_type: string;
   first_name: string;
@@ -27,6 +27,7 @@ interface UsersLogFDItem {
   image: string;
   last_name: string;
   id: string;
+  frontdesk: boolean;
 }
 
 interface UsersLogFDProps {
@@ -429,79 +430,85 @@ const UsersLogFD: React.FC<UsersLogFDProps> = () => {
             </tr>
           </thead>
           <tbody>
-            {fetchedUsers?.map((item, index) => {
-              const profilePicStyle: React.CSSProperties = {
-                backgroundColor: item?.image
-                  ? "transparent"
-                  : getRandomColor(item?.first_name[1]),
-              };
+            {fetchedUsers
+              .filter(
+                (user) => user.permission_type.toLowerCase() === "executive"
+              )
+              .map((item, index) => {
+                const profilePicStyle: React.CSSProperties = {
+                  backgroundColor: item?.image
+                    ? "transparent"
+                    : getRandomColor(item?.first_name[1]),
+                };
 
-              return (
-                <tr
-                  key={index}
-                  className="log-item"
-                  onClick={() => openModal(item)}
-                >
-                  <td>
-                    <span className="center-column-span">
-                      {item?.image ? (
-                        <img
-                          className="center-column-image"
-                          src={item?.image}
-                          alt="item"
-                        />
-                      ) : (
-                        <div
-                          className="profile-pic-dashboard"
-                          style={profilePicStyle}
-                        >
-                          {item?.image ? (
-                            <img
-                              src={item?.image}
-                              alt={`${item?.first_name} ${item?.last_name}`}
-                            />
-                          ) : (
-                            <span
-                              style={{
-                                color: "#fff",
-                                fontSize: 13,
-                              }}
-                            >
-                              {item?.first_name[0]}
-                              {item?.last_name[0]}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      <span className="center-column">
-                        <p className="center-column-title">
-                          {item.first_name} {item?.last_name}
-                        </p>
-                        <p className="center-column-p">{item.email}</p>
+                return (
+                  <tr
+                    key={index}
+                    className="log-item"
+                    onClick={() => openModal(item)}
+                  >
+                    <td>
+                      <span className="center-column-span">
+                        {item?.image ? (
+                          <img
+                            className="center-column-image"
+                            src={item?.image}
+                            alt="item"
+                          />
+                        ) : (
+                          <div
+                            className="profile-pic-dashboard"
+                            style={profilePicStyle}
+                          >
+                            {item?.image ? (
+                              <img
+                                src={item?.image}
+                                alt={`${item?.first_name} ${item?.last_name}`}
+                              />
+                            ) : (
+                              <span style={{ color: "#fff", fontSize: 13 }}>
+                                {item?.first_name[0]}
+                                {item?.last_name[0]}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        <span className="center-column">
+                          <p className="center-column-title">
+                            {item.first_name} {item?.last_name}
+                          </p>
+                          <p className="center-column-p">{item.email}</p>
+                        </span>
                       </span>
-                    </span>
-                    {/* <p className="center-column-p-title"> </p> */}
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>{item.department || "Missing Field"}</td>
-                  <td>
-                    <p>
-                      {item.permission_type.toLowerCase() === "executive"
-                        ? "Executive"
-                        : "Support"}
-                    </p>
-                  </td>
-                  <td>
-                    {" "}
-                    <p className="view-tickets">
-                      Front Desk this Staff <MdSend />{" "}
-                    </p>{" "}
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{item.department_name || "Missing Field"}</td>
+                    <td>
+                      <p>
+                        {item.permission_type.toLowerCase() === "executive"
+                          ? "Executive"
+                          : "Support"}
+                      </p>
+                    </td>
+                    <td>
+                      {item.frontdesk ? (
+                        <p
+                          className="view-tickets"
+                          style={{ backgroundColor: "#ff7342", color: "#fff" }}
+                        >
+                          FrontDesk <MdEdit />
+                        </p>
+                      ) : (
+                        <p className="view-tickets">
+                          Front Desk this Staff <MdSend />
+                        </p>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       )}

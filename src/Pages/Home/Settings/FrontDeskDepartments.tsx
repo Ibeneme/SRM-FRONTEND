@@ -30,8 +30,9 @@ import { addStaff } from "../../../../Redux/Auth/Auth";
 import departmentsImage from "../../../assets/Dashboard/Departments.png";
 import DepartmentsComponent from "./DepartmentsComponents";
 //import { useNavigate } from "react-router-dom";
-import UsersLogFD from "../Users/Components/UsersFD";
+import UsersLogFD, { UsersLogFDItem } from "../Users/Components/UsersFD";
 import ShimmerLoaderPage from "../../Utils/ShimmerLoader/ShimmerLoaderPage";
+import { TbHistory } from "react-icons/tb";
 
 interface FormData {
   email: string;
@@ -42,17 +43,17 @@ interface FormData {
   department: string;
 }
 
-interface UsersLogFDItem {
-  department: string | null;
-  status: string;
-  permission_type: string;
-  first_name: string;
-  title: string;
-  email: string;
-  image: string;
-  last_name: string;
-  id: string;
-}
+// interface UsersLogFDItem {
+//   department: string | null;
+//   status: string;
+//   permission_type: string;
+//   first_name: string;
+//   title: string;
+//   email: string;
+//   image: string;
+//   last_name: string;
+//   id: string;
+// }
 
 interface Department {
   id: string;
@@ -116,7 +117,6 @@ const Frontdesk: React.FC = () => {
       setDepartments(result.payload);
     });
   }, [dispatch]);
-
 
   console.log(pageLoading, "pageLoading");
   useEffect(() => {
@@ -963,6 +963,22 @@ const Frontdesk: React.FC = () => {
                         Here's what's going on today.
                       </p>
                     </div>{" "}
+                  </div>
+                  <div
+                    className="dashboard-bell-search-icons"
+                    style={{
+                      color: "orangered",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "flex",
+                      gap: -24,
+                      cursor: "pointer",
+                    }}
+                  >
+                    View Frontdesk History
+                    <TbHistory
+                    //nClick={openModalNotifications}
+                    />
                   </div>
                 </div>
 

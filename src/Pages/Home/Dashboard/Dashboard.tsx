@@ -88,17 +88,20 @@ const Dashboard: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (
-      userProfile?.permission_type === "executive" &&
-      userProfile?.org_setup_complete === false
-    ) {
-      openModal();
-    } else {
-      closeModal();
+    switch (organizationProfile?.setup_complete) {
+      case false:
+        openModal();
+        console.log("ttt");
+        break;
+      case true:
+   
+        openModal();
+        break;
+      default:
+        // Handle other cases if needed
+        break;
     }
-  }, [userProfile]);
-
-
+  }, [organizationProfile]);
 
   useEffect(() => {
     if (loading) {
@@ -188,6 +191,7 @@ const Dashboard: React.FC = () => {
       )
         .then((response) => {
           setLoading(false);
+          console.log(response, "ppl");
           switch (response?.payload) {
             case 200:
               closeModal();
@@ -338,6 +342,7 @@ const Dashboard: React.FC = () => {
     </div>
   );
 
+  console.log(organizationProfile, "organizationProfile");
   const SearchContent = (
     <div className="FormHeader">
       <div className="vw">
@@ -515,7 +520,24 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      {userProfile?.permission_type === "manager" && (
+      {organizationProfile?.setup_complete === true ? (
+        <Modal
+          isOpen={isModalOpen}
+          onOpen={openModal}
+          onClose={closeModal}
+          formContent={formContentFirstModal}
+        />
+      ) : null}
+      {isSecondModalOpen && (
+        <Modal
+          isOpen={isSecondModalOpen}
+          onOpen={openSecondModal}
+          onClose={closeSecondModal}
+          formContent={formContentSecondModal}
+        />
+      )}
+
+      {userProfile?.permission_type === "manager" ? (
         <>
           <ModalSearch
             isOpen={isModalOpenSearch}
@@ -529,24 +551,16 @@ const Dashboard: React.FC = () => {
             onClose={closeModalNotifications}
             formContent={NotificationsDisplay}
           />
-          {!userProfile?.org_setup_complete && (
+          {/* {!organizationProfile?.setup_complete && (
             <Modal
               isOpen={isModalOpen}
               onOpen={openModal}
               onClose={closeModal}
               formContent={formContentFirstModal}
             />
-          )}
-          {isSecondModalOpen && (
-            <Modal
-              isOpen={isSecondModalOpen}
-              onOpen={openSecondModal}
-              onClose={closeSecondModal}
-              formContent={formContentSecondModal}
-            />
-          )}
+          )} */}
         </>
-      )}
+      ) : null}
     </div>
   );
 };
