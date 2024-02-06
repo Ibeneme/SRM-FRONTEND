@@ -532,18 +532,24 @@ const TicketDashboard: React.FC = () => {
     setCreateTicketLoading(true);
     dispatch(createTicket(createTicketFormData))
       .then((response) => {
+        setLoading(false);
         setCreateTicketLoading(false);
         switch (response?.payload) {
           case 201:
+            setLoading(false);
+            setCreateTicketLoading(false);
             resetFormData();
             closeCreateTicketModal();
             openSuccessTicketModal();
             break;
           case 400:
             setCreateTicketLoading(false);
+            setCreateTicketLoading(false);
             setFormErrors("Please Fill these forms correctly to Proceed.");
             break;
           default:
+            setLoading(false);
+            setCreateTicketLoading(false);
             setCreateTicketLoading(false);
             console.log("Unexpected response payload:", response);
             showErrorToast("An Error Occurred");
@@ -552,6 +558,7 @@ const TicketDashboard: React.FC = () => {
       })
 
       .catch((error) => {
+        setLoading(false);
         setCreateTicketLoading(false);
         console.error("Error creating ticket:", error);
       });
@@ -699,9 +706,12 @@ const TicketDashboard: React.FC = () => {
     }
   };
 
+  const [resolveLoading, setResolveLoading] = useState(false);
+  const [resolveSuccess, setResolveSuccess] = useState(true);
   const handleResolveTicket = async () => {
     try {
       setFormErrors("");
+      setResolveLoading(true);
       setCreateTicketLoading(true);
       const payload = clickedUser?.id;
       console.log("Resolving ticket with ID:", payload);
@@ -715,8 +725,11 @@ const TicketDashboard: React.FC = () => {
         })
       )
         .then((response) => {
+          setResolveLoading(false);
+
           switch (response?.payload) {
             case 200:
+              setResolveSuccess(false);
               setIsTicketDetailsModalOpen(false);
               setTimeout(() => {
                 fetchTickets();
@@ -726,10 +739,12 @@ const TicketDashboard: React.FC = () => {
               }, 2000);
               break;
             case 400:
+              setResolveLoading(false);
               setCreateTicketLoading(false);
               setFormErrors("Please fill out the forms correctly to proceed.");
               break;
             default:
+              setResolveLoading(false);
               setCreateTicketLoading(false);
               console.log("Unexpected response payload:", response);
               break;
@@ -739,9 +754,11 @@ const TicketDashboard: React.FC = () => {
           console.error("Error resolving ticket:", error);
         })
         .finally(() => {
+          setResolveLoading(false);
           setCreateTicketLoading(false);
         });
     } catch (error) {
+      setResolveLoading(false);
       console.error("Error in handleResolveTicket:", error);
       setCreateTicketLoading(false);
     }
@@ -1536,32 +1553,36 @@ const TicketDashboard: React.FC = () => {
           </div>
         </div>{" "}
         <br /> <br />
-        {userProfile?.permission_type === "manager" &&
-          clickedUser?.status !== "resolved" && (
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                gap: 6,
-                justifyContent: "flex-end",
-              }}
-            >
-              <button
-                className={`${loading ? "loading" : "reassign-ticket"}`}
-                onClick={handleResolveTicket}
+        {resolveSuccess
+          ? userProfile?.permission_type === "manager" &&
+            clickedUser?.status !== "resolved" && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  gap: 6,
+                  justifyContent: "flex-end",
+                }}
               >
-                {createTicketLoading ? (
-                  <div className="loader">
-                    {[...Array(5)].map((_, index) => (
-                      <div key={index}></div>
-                    ))}
-                  </div>
-                ) : (
-                  "Resolve Ticket"
-                )}
-              </button>
-            </div>
-          )}
+                <button
+                  className={`${
+                    resolveLoading ? "loading" : "reassign-ticket"
+                  }`}
+                  onClick={handleResolveTicket}
+                >
+                  {resolveLoading ? (
+                    <div className="loader">
+                      {[...Array(5)].map((_, index) => (
+                        <div key={index}></div>
+                      ))}
+                    </div>
+                  ) : (
+                    "Resolve Ticket"
+                  )}
+                </button>
+              </div>
+            )
+          : null}
         <br />
         <br />
       </div>

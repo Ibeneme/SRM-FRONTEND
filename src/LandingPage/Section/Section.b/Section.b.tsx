@@ -16,21 +16,18 @@ const SectionB: React.FC = () => {
           style={{ marginTop: 120 }}
         >
           <h1 data-aos="zoom-in" className="hero-header">
-            Stakeholder Friendly
-            <br /> Management{" "}
+            A Holistic Stakeholder
             <span
               data-aos="zoom-in"
               style={{ color: "#FFCA95", textDecorationLine: "underline" }}
             ></span>{" "}
-            Software
+            Management Solution
           </h1>
           <p data-aos="zoom-in" className="hero-smaller-text">
-            Elevate your stakeholder engagement strategy by centralizing
-            customer interactions. Our unified hub provides a comprehensive view
-            of customer engagements, enabling personalized and targeted
-            interactions. From marketing to support, cultivate meaningful
-            relationships by harmonizing all stakeholder interactions in a
-            single, accessible space.
+            Streamline your workflow, effortlessly manage stakeholders, and
+            foster seamless collaboration among your teams in a centralized hub.
+            Boost team productivity and Increase Stakeholder satisfaction and
+            Loyalty!
           </p>
           <button
             data-aos="zoom-in"
