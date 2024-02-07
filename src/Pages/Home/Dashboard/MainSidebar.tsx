@@ -28,14 +28,14 @@ import { getProfile } from "../../../../Redux/Profile/Profile";
 import RandomColorComponent from "./RandomColor";
 //import RandomColorComponent from "./RandomColor";
 
-interface MenuItem {
+export interface MenuItem {
   icon: React.ReactNode;
   text: string;
   to: string;
   number?: any;
 }
 
-interface MenuCategory {
+export interface MenuCategory {
   title: string;
   items: MenuItem[];
 }
@@ -115,19 +115,19 @@ const MainSidebar: React.FC<SidebarProps> = () => {
       }
     }
   );
-  const closedItems = allTickets?.filter(
-    (ticket: {
-      id: string;
-      title: string;
-      description: string;
-      status: string;
-      priority: string;
-    }) => {
-      if (allTickets) {
-        return ticket.status === `closed`;
-      }
-    }
-  );
+  // const closedItems = allTickets?.filter(
+  //   (ticket: {
+  //     id: string;
+  //     title: string;
+  //     description: string;
+  //     status: string;
+  //     priority: string;
+  //   }) => {
+  //     if (allTickets) {
+  //       return ticket.status === `closed`;
+  //     }
+  //   }
+  // );
 
   const menuData: MenuCategory[] = [
     {
@@ -191,12 +191,12 @@ const MainSidebar: React.FC<SidebarProps> = () => {
           to: "/resolved-tickets",
           number: resolvedItems?.length,
         },
-        {
-          icon: <MdOutlineTag />,
-          text: "Closed Tickets",
-          to: "/closed-tickets",
-          number: closedItems?.length,
-        },
+        // {
+        //   icon: <MdOutlineTag />,
+        //   text: "Closed Tickets",
+        //   to: "/closed-tickets",
+        //   number: closedItems?.length,
+        // },
       ],
     },
 

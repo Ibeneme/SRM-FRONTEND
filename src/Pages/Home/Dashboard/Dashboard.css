@@ -267,14 +267,18 @@
 .margin-fixes-h3 {
   display: none;
 }
-
+.bottom-navbar {
+  display: hidden;
+}
 @media (max-width: 700px) {
   .margin-fixes {
     margin: -12px;
     margin-top: -94px;
     border-radius: 48px;
   }
-
+  .bottom-navbar {
+    display: block;
+  }
   .margin-fixes-h3 {
     display: block;
     margin: 12px;

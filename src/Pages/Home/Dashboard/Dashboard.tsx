@@ -30,6 +30,7 @@ import NotificationListComponent from "./Components/Notifications/NotificationsL
 import { IoTicket } from "react-icons/io5";
 import TicketComponentDashboard from "../Tickets/TicketComponent";
 import { getAllTickets } from "../../../../Redux/Tickets/Tickets";
+import { useNavigate } from "react-router-dom";
 //import TicketComponentDashboard from "../Tickets/TicketComponent";
 // import NoTickets from "../../../assets/Dashboard/NoTickets.png";
 // import NoTicketsMessage from "./Components/NoTickets";
@@ -94,7 +95,6 @@ const Dashboard: React.FC = () => {
         console.log("ttt");
         break;
       case true:
-   
         openModal();
         break;
       default:
@@ -413,22 +413,32 @@ const Dashboard: React.FC = () => {
       image: Overdue,
       number: overdueItems?.length,
       color: "#FD1E10",
+      navigate: "overdue-tickets",
     },
     {
       title: "Due Tickets",
       image: Due,
       color: "#FDBA10",
       number: dueItems?.length,
+      navigate: "due-tickets",
     },
     {
       title: "Resolved Tickets",
       image: Recent,
       number: resolvedItems?.length,
       color: "#0FC136",
+      navigate: "resolved-tickets",
     },
   ];
 
   console.log(userProfile, "userProfile");
+  const navigate = useNavigate();
+
+  const handleNavigate = (path: string) => {
+    navigate(`/${path}`);
+  };
+
+  
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -456,7 +466,11 @@ const Dashboard: React.FC = () => {
 
               <div className="div-split-tickets">
                 {dashboardData.map((item, index) => (
-                  <div key={index} className="div-dashboard-overdue">
+                  <div
+                    key={index}
+                    className="div-dashboard-overdue"
+                    onClick={() => handleNavigate(item.navigate)}
+                  >
                     <div className="div-overdue-icons">
                       <div
                         style={{
@@ -477,7 +491,7 @@ const Dashboard: React.FC = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            color: "#Fff",
+                            color: "#FFF",
                           }}
                         >
                           <IoTicket />
