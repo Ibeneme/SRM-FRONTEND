@@ -1,4 +1,4 @@
-.bottom-nav .bottom-nav-icons {
+.bottom-nav{
   display: none;
 }
 @media (max-width: 590px) {

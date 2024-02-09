@@ -6,9 +6,7 @@ import Overdue from "../../../assets/Dashboard/NewOverDue.png";
 import Due from "../../../assets/Dashboard/NewDue.png";
 import Recent from "../../../assets/Dashboard/NewRecent.png";
 import {
-  //TbBell,
   TbTicket,
-  //TbSearch
 } from "react-icons/tb";
 import image from "../../../assets/Landingpage/SectionA/memoji/nastyatoki.png";
 import { ThunkDispatch } from "redux-thunk";
@@ -31,9 +29,6 @@ import { IoTicket } from "react-icons/io5";
 import TicketComponentDashboard from "../Tickets/TicketComponent";
 import { getAllTickets } from "../../../../Redux/Tickets/Tickets";
 import { useNavigate } from "react-router-dom";
-//import TicketComponentDashboard from "../Tickets/TicketComponent";
-// import NoTickets from "../../../assets/Dashboard/NoTickets.png";
-// import NoTicketsMessage from "./Components/NoTickets";
 
 const notificationsData = [
   {
