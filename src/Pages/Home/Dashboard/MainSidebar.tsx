@@ -19,6 +19,7 @@ import {
   // TbMessage,
   TbUserEdit,
   TbUsers,
+  TbForms,
 } from "react-icons/tb";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../../Redux/Store";
@@ -131,14 +132,10 @@ const MainSidebar: React.FC<SidebarProps> = () => {
 
   const menuData: MenuCategory[] = [
     {
-      title: "Tickets",
+      title: "Home",
       items: [
         { icon: <TbTicket />, text: "All Tickets", to: "/tickets" },
-        // {
-        //   icon: <TbTicket />,
-        //   text: "Tickets by Prority",
-        //   to: "/ticket-by-prority",
-        // },
+        { icon: <TbForms />, text: "Feedback Forms", to: "/feedback-forms" },
       ],
     },
 
@@ -165,7 +162,7 @@ const MainSidebar: React.FC<SidebarProps> = () => {
     // },
 
     {
-      title: "Tickets by Prority",
+      title: "Tickets by Status",
       items: [
         {
           icon: <MdOutlineLabelImportant />,
@@ -273,7 +270,7 @@ const MainSidebar: React.FC<SidebarProps> = () => {
   return (
     <div className="sidebar-main" onClick={() => setLoading(true)}>
       <div>
-        <div className="sidebar-title-div">
+        <div className="sidebar-title-div" onClick={() => navigate("/")}>
           <h2 className="sidebar-title">SRM</h2>
         </div>
         <br /> <br /> <br /> <br />

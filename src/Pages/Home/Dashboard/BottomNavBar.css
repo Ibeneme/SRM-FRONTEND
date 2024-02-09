@@ -1,7 +1,7 @@
 .bottom-nav .bottom-nav-icons {
   display: none;
 }
-@media (max-width: 700px) {
+@media (max-width: 590px) {
   .bottom-nav {
     position: fixed;
     bottom: 0;
